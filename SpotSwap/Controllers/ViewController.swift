@@ -12,6 +12,9 @@ class ViewController: UIViewController {
     var allCarMakes = [CarMake](){
         didSet{
             print(allCarMakes[0].makeName)
+            CarModelsAPIClient.manager.getCarModels(carMakeID: allCarMakes[0].makeID, completion: { (carModels) in
+                carModels.forEach{print($0.modelName)}
+            }, errorHandler: {print($0)})
         }
     }
     func loadAllCarMakes() {

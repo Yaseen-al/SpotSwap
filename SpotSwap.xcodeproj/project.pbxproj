@@ -11,6 +11,7 @@
 		1F467B0C20597E6000598418 /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B0B20597E6000598418 /* CarModel.swift */; };
 		1F467B1020597F6C00598418 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B0F20597F6C00598418 /* NetworkHelper.swift */; };
 		1F467B142059831000598418 /* CarMakeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B132059831000598418 /* CarMakeAPIClient.swift */; };
+		1F467B182059896F00598418 /* CareModelsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B172059896F00598418 /* CareModelsAPIClient.swift */; };
 		1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31942059665D00A25693 /* AppDelegate.swift */; };
 		1F7A31972059665D00A25693 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31962059665D00A25693 /* ViewController.swift */; };
 		1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A319B2059665D00A25693 /* SpotSwap.xcdatamodeld */; };
@@ -48,6 +49,7 @@
 		1F467B0B20597E6000598418 /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
 		1F467B0F20597F6C00598418 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		1F467B132059831000598418 /* CarMakeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMakeAPIClient.swift; sourceTree = "<group>"; };
+		1F467B172059896F00598418 /* CareModelsAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareModelsAPIClient.swift; sourceTree = "<group>"; };
 		1F7A31912059665D00A25693 /* SpotSwap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotSwap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F7A31942059665D00A25693 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F7A31962059665D00A25693 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 			children = (
 				1F467B0F20597F6C00598418 /* NetworkHelper.swift */,
 				1F467B132059831000598418 /* CarMakeAPIClient.swift */,
+				1F467B172059896F00598418 /* CareModelsAPIClient.swift */,
 				1F467B0D20597F3900598418 /* FireBase Services */,
 			);
 			path = Services;
@@ -567,6 +570,7 @@
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
 				1F467B0C20597E6000598418 /* CarModel.swift in Sources */,
 				1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */,
+				1F467B182059896F00598418 /* CareModelsAPIClient.swift in Sources */,
 				1F7A31D320597CB100A25693 /* CarMake.swift in Sources */,
 				1F467B142059831000598418 /* CarMakeAPIClient.swift in Sources */,
 				1F7A31D12059747900A25693 /* EndUser.swift in Sources */,

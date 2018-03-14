@@ -7,10 +7,15 @@
 //
 
 import Foundation
+struct CarModelDataResponse: Codable {
+    let Count: Int
+    let Message: String
+    let Results: [CarModel]
+}
 struct CarModel: Codable {
-    let makeID: String
+    let makeID: Int
     let makeName: String
-    let modelID: String
+    let modelID: Int
     let modelName: String
     enum CodingKeys: String, CodingKey{
         case makeID = "Make_ID"

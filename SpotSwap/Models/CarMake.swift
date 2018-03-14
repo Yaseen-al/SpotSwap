@@ -15,8 +15,10 @@ struct CarMakeDataResponse: Codable {
 struct CarMake: Codable {
     let makeID: Int
     let makeName: String
+    let carModels: [CarModel]?
     enum CodingKeys: String, CodingKey {
         case makeID = "Make_ID"
         case makeName = "Make_Name"
+        case carModels
     }
 }
