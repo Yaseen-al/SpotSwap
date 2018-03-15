@@ -10,8 +10,9 @@ import Foundation
 class CarModelsAPIClient {
     private init(){}
     static let manager = CarModelsAPIClient()
-    func getCarModels(carMakeID: Int, completion: @escaping ([CarModel])->Void, errorHandler: @escaping (Error)->Void) {
-        let urlStr = "https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/\(carMakeID)?format=json"
+    func getCarModels(carMake: String, completion: @escaping ([CarModel])->Void, errorHandler: @escaping (Error)->Void) {
+        let carMakeadjusted = carMake.addingPercentEncoding(withAllowedCharacters: .urlHostAllowed)!
+        let urlStr = "https://vpic.nhtsa.dot.gov/api/vehicles/getmodelsformake/\(carMakeadjusted)?format=json"
         guard let url = URL(string: urlStr) else{
             errorHandler(AppError.badURL)
             return

@@ -8,7 +8,13 @@
 
 import Foundation
 
-struct EndUser {
+struct EndUser:Codable {
     let userName: String
     let userImage: String?
+    let userUID: String
+    let car: Car
+    func toJSON() -> Any {
+        let jsonData = try! JSONEncoder().encode(self)
+        return try! JSONSerialization.jsonObject(with: jsonData, options: [])
+    }
 }

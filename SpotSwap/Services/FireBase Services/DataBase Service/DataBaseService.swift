@@ -21,5 +21,5 @@ class DataBaseService {
     }
     func getDataBaseRef()->DatabaseReference{return dataBaseRef}
     func getUserRef()->DatabaseReference{return userRef}
-    func getCarMakes()->DatabaseReference{return carMakes}
+    func getCarMakesRef()->DatabaseReference{return carMakes}
 }

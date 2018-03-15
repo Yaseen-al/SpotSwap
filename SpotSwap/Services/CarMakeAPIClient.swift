@@ -11,7 +11,7 @@ class CarMakeAPIClient{
     private init() {}
     static let manager = CarMakeAPIClient()
     func getAllCarMakes(completion: @escaping ([CarMake])->Void, errorHandler: @escaping (Error)->Void){
-        let urlStr = "https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMakeId/440?format=json"
+        let urlStr = "https://vpic.nhtsa.dot.gov/api/vehicles/getallmakes?format=json"
         guard let url = URL(string: urlStr) else{
             errorHandler(AppError.badURL)
             return
