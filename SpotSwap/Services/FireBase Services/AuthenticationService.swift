@@ -58,6 +58,7 @@ class AuthenticationService {
             }
         }
     }
+    
     //this function will sign the user out
     func signOut(errorHandler: @escaping(Error)->Void) {
         do {

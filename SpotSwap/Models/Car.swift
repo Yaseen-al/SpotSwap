@@ -11,6 +11,7 @@ struct Car: Codable{
     let carMake: String
     let carModel: String
     let carYear: String
+    let carImageId: String?
     func toJSON() -> Any {
         let jsonData = try! JSONEncoder().encode(self)
         return try! JSONSerialization.jsonObject(with: jsonData, options: [])
