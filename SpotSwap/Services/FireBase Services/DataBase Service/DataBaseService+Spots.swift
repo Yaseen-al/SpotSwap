@@ -14,7 +14,7 @@ enum SpotsDataBaseErrors: Error{
     case spotsNodeHasNoChildren
 }
 extension DataBaseService{
-    //this function will read all the spots from the dataBase
+    //This function will read all the spots from the dataBase
     func retrieveAllSpots(completion: @escaping([Spot])->Void, errorHandler: @escaping(Error)->Void){
         let spotsRef = self.getSpotsRef()
         spotsRef.observe(.value) { (snapShot) in
@@ -42,13 +42,16 @@ extension DataBaseService{
         }
         
     }
-    //this function will add a new spot to the dataBase
+    //This function will add a new spot to the dataBase
     func addSpot(spot: Spot){
         let child  = self.getSpotsRef().childByAutoId()
         spot.spotUID = child.key
         child.setValue(spot.toJSON())
     }
-    //this function will remove a spot from the dataBase
-    
+    //This function will remove a spot from the dataBase
+    func removeSpot(spotId: String){
+        let spotRef = self.getSpotsRef().child(spotId)
+        spotRef.removeValue()
+    }
     
 }

@@ -19,9 +19,9 @@ extension DataBaseService{
         let child = self.getCarOwnerRef().child(user.uid)
         child.setValue(vehicleOwner.toJSON())
     }
-    //this function will retrieve the vehicleOwner from the data base
+    //This function will retrieve the vehicleOwner from the data base
     func retrieveCurrentVehicleOwner(completion: @escaping(VehicleOwner)->Void, errorHandler: @escaping(Error)->Void) {
-        // this will make sure that you have signed up user
+        // This will make sure that you have signed up user
         guard let user = AuthenticationService.manager.getCurrentUser() else{
             errorHandler(UserDataBaseErrors.noSignedUser)
             return
@@ -41,7 +41,7 @@ extension DataBaseService{
             }
         }
     }
-    // this function will retrieve a vehicleOwner using user UID
+    // This function will retrieve a vehicleOwner using user UID
     func retrieveVehicleOwner(vehicleOwner: String, completion: @escaping(VehicleOwner)->Void, errorHandler: @escaping(Error)->Void) {
         let vehicleOwnerRef = self.getCarOwnerRef().child(vehicleOwner)
         vehicleOwnerRef.observe(.value) { (snapShot) in
@@ -58,7 +58,7 @@ extension DataBaseService{
             }
         }
     }
-    //this function will update vehiclOwner on the dataBase
+    //This function will update vehiclOwner on the dataBase
     func updateVehicleOwner(vehicleOwner: VehicleOwner, errorHandler: @escaping (Error)->Void){
         let vehicleOwnerRef = self.getCarOwnerRef().child(vehicleOwner.userUID)
         
@@ -71,7 +71,7 @@ extension DataBaseService{
             print("Dev: this is the refrence key for the updated vehicle owner", dataBaseRef.key)
         }
     }
-    // this function will updated a certain user 'A' with a connected user 'B' who is looking for a spot as well as update user 'B' with user 'A'
+    // This function will updated a certain user 'A' with a connected user 'B' who is looking for a spot as well as update user 'B' with user 'A'
     func connectCarOwnersAfterReservation(spot: Spot, completion:(Bool)->Void, erroHandler:@escaping (Error)->Void) {
         guard let currentUser = AuthenticationService.manager.getCurrentUser() else{
             erroHandler(AuthenticationServiceErrors.noSignedInUser)
