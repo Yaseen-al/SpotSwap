@@ -38,6 +38,7 @@
 		C4F8A4AA205C3D1B001A746A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4A9205C3D1B001A746A /* MapView.swift */; };
 		C4F8A4AC205C3D6C001A746A /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4AB205C3D6B001A746A /* LocationServices.swift */; };
 		C4F8A4AE205C3D85001A746A /* Coord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4AD205C3D85001A746A /* Coord.swift */; };
+		C4F8A4B0205C4C3B001A746A /* DateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4AF205C4C3B001A746A /* DateProvider.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +100,7 @@
 		C4F8A4A9205C3D1B001A746A /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C4F8A4AB205C3D6B001A746A /* LocationServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServices.swift; sourceTree = "<group>"; };
 		C4F8A4AD205C3D85001A746A /* Coord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coord.swift; sourceTree = "<group>"; };
+		C4F8A4AF205C4C3B001A746A /* DateProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateProvider.swift; sourceTree = "<group>"; };
 		DDEF2630DEE7DF0F6896641B /* Pods-SpotSwap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwap/Pods-SpotSwap.debug.xcconfig"; sourceTree = "<group>"; };
 		E25FC7A56F7BE78F688A0528 /* Pods_SpotSwapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -256,6 +258,7 @@
 			isa = PBXGroup;
 			children = (
 				C4F8A4AB205C3D6B001A746A /* LocationServices.swift */,
+				C4F8A4AF205C4C3B001A746A /* DateProvider.swift */,
 				1F467B0F20597F6C00598418 /* NetworkHelper.swift */,
 				1F467B132059831000598418 /* CarMakeAPIClient.swift */,
 				1F467B172059896F00598418 /* CareModelsAPIClient.swift */,
@@ -608,6 +611,7 @@
 				C4F8A4AC205C3D6C001A746A /* LocationServices.swift in Sources */,
 				1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */,
 				1F467B1020597F6C00598418 /* NetworkHelper.swift in Sources */,
+				C4F8A4B0205C4C3B001A746A /* DateProvider.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
 				C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */,
 				C4C29B53205C3C4700C25344 /* UIColor+Hex.swift in Sources */,
