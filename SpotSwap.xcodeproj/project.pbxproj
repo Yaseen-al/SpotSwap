@@ -8,6 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		1A1E1AA05677AD173E5220C9 /* Pods_SpotSwapUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3E83A19C74BF6B852D22407 /* Pods_SpotSwapUITests.framework */; };
+		1F467B0C20597E6000598418 /* CarModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B0B20597E6000598418 /* CarModel.swift */; };
+		1F467B1020597F6C00598418 /* NetworkHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B0F20597F6C00598418 /* NetworkHelper.swift */; };
+		1F467B142059831000598418 /* CarMakeAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B132059831000598418 /* CarMakeAPIClient.swift */; };
+		1F467B182059896F00598418 /* CareModelsAPIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B172059896F00598418 /* CareModelsAPIClient.swift */; };
+		1F467B1A20598D4E00598418 /* Car.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B1920598D4E00598418 /* Car.swift */; };
+		1F467B1C20599BA900598418 /* DataBaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B1B20599BA900598418 /* DataBaseService.swift */; };
+		1F467B1E20599FE100598418 /* DataBaseService+VehicleOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B1D20599FE100598418 /* DataBaseService+VehicleOwner.swift */; };
+		1F467B202059AD2800598418 /* DataBaseService+CarMakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B1F2059AD2800598418 /* DataBaseService+CarMakes.swift */; };
+		1F467B22205AE02800598418 /* Spot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B21205AE02800598418 /* Spot.swift */; };
+		1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B23205AE11900598418 /* DataBaseService+Spots.swift */; };
 		1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31942059665D00A25693 /* AppDelegate.swift */; };
 		1F7A31972059665D00A25693 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31962059665D00A25693 /* ViewController.swift */; };
 		1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A319B2059665D00A25693 /* SpotSwap.xcdatamodeld */; };
@@ -16,6 +26,9 @@
 		1F7A31AD2059665D00A25693 /* SpotSwapTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31AC2059665D00A25693 /* SpotSwapTests.swift */; };
 		1F7A31B82059665D00A25693 /* SpotSwapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31B72059665D00A25693 /* SpotSwapUITests.swift */; };
 		1F7A31CD20596C4100A25693 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F7A31CC20596C4100A25693 /* GoogleService-Info.plist */; };
+		1F7A31CF2059706400A25693 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31CE2059706400A25693 /* AuthenticationService.swift */; };
+		1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D02059747900A25693 /* VehicleOwner.swift */; };
+		1F7A31D320597CB100A25693 /* CarMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D220597CB100A25693 /* CarMake.swift */; };
 		AFD22630B5F3FC1365C1952A /* Pods_SpotSwapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25FC7A56F7BE78F688A0528 /* Pods_SpotSwapTests.framework */; };
 		B8D36D34BB4BF91D17C40F17 /* Pods_SpotSwap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */; };
 /* End PBXBuildFile section */
@@ -39,6 +52,16 @@
 
 /* Begin PBXFileReference section */
 		14EAC68485269372D3FDFB01 /* Pods-SpotSwap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwap.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwap/Pods-SpotSwap.release.xcconfig"; sourceTree = "<group>"; };
+		1F467B0B20597E6000598418 /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
+		1F467B0F20597F6C00598418 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
+		1F467B132059831000598418 /* CarMakeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMakeAPIClient.swift; sourceTree = "<group>"; };
+		1F467B172059896F00598418 /* CareModelsAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CareModelsAPIClient.swift; sourceTree = "<group>"; };
+		1F467B1920598D4E00598418 /* Car.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Car.swift; sourceTree = "<group>"; };
+		1F467B1B20599BA900598418 /* DataBaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataBaseService.swift; sourceTree = "<group>"; };
+		1F467B1D20599FE100598418 /* DataBaseService+VehicleOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+VehicleOwner.swift"; sourceTree = "<group>"; };
+		1F467B1F2059AD2800598418 /* DataBaseService+CarMakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+CarMakes.swift"; sourceTree = "<group>"; };
+		1F467B21205AE02800598418 /* Spot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spot.swift; sourceTree = "<group>"; };
+		1F467B23205AE11900598418 /* DataBaseService+Spots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+Spots.swift"; sourceTree = "<group>"; };
 		1F7A31912059665D00A25693 /* SpotSwap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotSwap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F7A31942059665D00A25693 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F7A31962059665D00A25693 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -53,6 +76,9 @@
 		1F7A31B72059665D00A25693 /* SpotSwapUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpotSwapUITests.swift; sourceTree = "<group>"; };
 		1F7A31B92059665D00A25693 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1F7A31CC20596C4100A25693 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
+		1F7A31CE2059706400A25693 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
+		1F7A31D02059747900A25693 /* VehicleOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleOwner.swift; sourceTree = "<group>"; };
+		1F7A31D220597CB100A25693 /* CarMake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMake.swift; sourceTree = "<group>"; };
 		373747897C07028A9FFDE640 /* Pods-SpotSwapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapTests/Pods-SpotSwapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A4CF3009A658F8DCB5DD695 /* Pods-SpotSwapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapTests/Pods-SpotSwapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6DE1AB7B687F8DBB5BC9F18E /* Pods-SpotSwapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -91,6 +117,26 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1F467B0D20597F3900598418 /* FireBase Services */ = {
+			isa = PBXGroup;
+			children = (
+				1F7A31CE2059706400A25693 /* AuthenticationService.swift */,
+				1F467B0E20597F4900598418 /* DataBase Service */,
+			);
+			path = "FireBase Services";
+			sourceTree = "<group>";
+		};
+		1F467B0E20597F4900598418 /* DataBase Service */ = {
+			isa = PBXGroup;
+			children = (
+				1F467B1B20599BA900598418 /* DataBaseService.swift */,
+				1F467B1D20599FE100598418 /* DataBaseService+VehicleOwner.swift */,
+				1F467B1F2059AD2800598418 /* DataBaseService+CarMakes.swift */,
+				1F467B23205AE11900598418 /* DataBaseService+Spots.swift */,
+			);
+			path = "DataBase Service";
+			sourceTree = "<group>";
+		};
 		1F7A31882059665D00A25693 = {
 			isa = PBXGroup;
 			children = (
@@ -190,6 +236,10 @@
 		1F7A31CA2059669D00A25693 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1F467B0F20597F6C00598418 /* NetworkHelper.swift */,
+				1F467B132059831000598418 /* CarMakeAPIClient.swift */,
+				1F467B172059896F00598418 /* CareModelsAPIClient.swift */,
+				1F467B0D20597F3900598418 /* FireBase Services */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -197,6 +247,11 @@
 		1F7A31CB2059670F00A25693 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1F7A31D02059747900A25693 /* VehicleOwner.swift */,
+				1F7A31D220597CB100A25693 /* CarMake.swift */,
+				1F467B0B20597E6000598418 /* CarModel.swift */,
+				1F467B1920598D4E00598418 /* Car.swift */,
+				1F467B21205AE02800598418 /* Spot.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -529,9 +584,22 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */,
+				1F467B1020597F6C00598418 /* NetworkHelper.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
+				1F467B1C20599BA900598418 /* DataBaseService.swift in Sources */,
+				1F467B202059AD2800598418 /* DataBaseService+CarMakes.swift in Sources */,
+				1F467B0C20597E6000598418 /* CarModel.swift in Sources */,
 				1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */,
+				1F467B182059896F00598418 /* CareModelsAPIClient.swift in Sources */,
+				1F467B22205AE02800598418 /* Spot.swift in Sources */,
+				1F7A31D320597CB100A25693 /* CarMake.swift in Sources */,
+				1F467B1E20599FE100598418 /* DataBaseService+VehicleOwner.swift in Sources */,
+				1F467B142059831000598418 /* CarMakeAPIClient.swift in Sources */,
+				1F467B1A20598D4E00598418 /* Car.swift in Sources */,
+				1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */,
 				1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */,
+				1F7A31CF2059706400A25693 /* AuthenticationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
