@@ -14,6 +14,7 @@ class MapViewController: UIViewController {
         prepareNavBar()
         prepareContentView()
         LocationService.manager.setDelegate(viewController: self)
+        testCreateAccount()
     }
 
     // MARK: - Setup - View/Data
@@ -29,6 +30,22 @@ class MapViewController: UIViewController {
             make.edges.equalTo(view.snp.edges)
         }
     }
+    
+    func testCreateAccount(){
+            let userEmail = "Sai@gmail.com"
+            let userPassword = "newPassword135"
+            AuthenticationService.manager.createUser(email: userEmail, password: userPassword, completion: { (user) in
+                let myCar = Car(carMake: "Rimac Automobili", carModel: "Concept One", carYear: "2018", carImageId: nil)
+                let vehicleOwner = VehicleOwner(userName: "AlD", userImage: nil, userUID: user.uid, car: myCar, rewardPoints: 100, swapUserUID: nil)
+                DataBaseService.manager.addNewVehicleOwner(vehicleOwner: vehicleOwner, user: user, completion: {
+                    print("dev: added vehicle owner to the dataBase")
+                }, errorHandler: { (error) in
+                    print("error in adding a vehicle owner to the data base")
+                })
+            }) { (error) in
+                print(error)
+            }
+        }
 
 }
 
@@ -68,6 +85,17 @@ extension MapViewController: MKMapViewDelegate {
                 annotationView?.markerTintColor = Stylesheet.Colors.OrangeMain
             }
 
+            annotationView?.annotation = annotation
+            annotationView?.canShowCallout = true
+            annotationView?.detailCalloutAccessoryView = detailView
+        case is Spot:
+            // TODO: - Create custom detail view, inject it with `annotation` for data.
+            let detailView = UILabel()
+            let lat = String(annotation.coordinate.latitude).prefix(5)
+            let long = String(annotation.coordinate.longitude).prefix(5)
+            detailView.text = "LAT: \(lat), LONG: \(long)"
+            
+            annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
             annotationView?.annotation = annotation
             annotationView?.canShowCallout = true
             annotationView?.detailCalloutAccessoryView = detailView

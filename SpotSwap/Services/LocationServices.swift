@@ -20,7 +20,7 @@ class LocationService: NSObject {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.distanceFilter = 10
         checkForLocationServices()
     }
     
