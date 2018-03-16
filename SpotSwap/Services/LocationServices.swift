@@ -19,7 +19,7 @@ class LocationService: NSObject {
         super.init()
         locationManager = CLLocationManager()
         locationManager.delegate = self
-        locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+        locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.distanceFilter = 10
         checkForLocationServices()
     }
