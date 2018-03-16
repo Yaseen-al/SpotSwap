@@ -1,11 +1,3 @@
-//
-//  MapView.swift
-//  SpotSwap
-//
-//  Created by Masai Young on 3/15/18.
-//  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
-//
-
 import UIKit
 import MapKit
 import SnapKit

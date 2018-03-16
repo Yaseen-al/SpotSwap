@@ -1,10 +1,3 @@
-//
-//  LocationServices.swift
-//  SpotSwap
-//
-//  Created by Masai Young on 3/15/18.
-//  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
-
 import Foundation
 import MapKit
 import CoreLocation
@@ -24,7 +17,7 @@ class LocationService: NSObject {
         locationManager = CLLocationManager()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
-        locationManager.distanceFilter = 100
+        locationManager.distanceFilter = kCLDistanceFilterNone
     }
     
     func setDelegate(viewController: LocationServiceDelegate) {

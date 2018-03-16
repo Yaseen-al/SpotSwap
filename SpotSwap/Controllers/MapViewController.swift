@@ -1,11 +1,3 @@
-//
-//  MapViewController.swift
-//  SpotSwap
-//
-//  Created by Masai Young on 3/15/18.
-//  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
-//
-
 import UIKit
 import MapKit
 import CoreLocation
@@ -27,6 +19,7 @@ class Coord: NSObject, MKAnnotation {
         self.type = Coord.randomTypeOfCoordinate()
     }
 
+    // Temporary functions for testing
     private static func randomTimeForSpot(_ upperlimit: Int = 5) -> String {
         let seconds = ["05", "15", "30", "45"]
         let randomIndex = Int(arc4random_uniform(4))
@@ -49,6 +42,7 @@ class MapViewController: UIViewController {
 
     // MARK: - Properties
     var contentView: MapView!
+    private var initialLaunch = true
 
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -130,8 +124,12 @@ extension MapViewController: LocationServiceDelegate {
 // MARK: - Map helper functions
 private extension MapViewController {
     func setMapRegion(around location: CLLocation) {
-        let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-        let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01))
-        contentView.mapView.setRegion(region, animated: true)
+        if initialLaunch == true {
+            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+            contentView.mapView.setRegion(region, animated: true)
+            
+            initialLaunch = false
+        }
     }
 }
