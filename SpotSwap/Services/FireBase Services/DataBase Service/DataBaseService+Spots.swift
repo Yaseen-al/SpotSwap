@@ -8,15 +8,16 @@
 
 import Foundation
 extension DataBaseService{
-    //TODO read spots
-    // reserve spots
-    //
+    //TODO
+    //    read spots functions
     
+    // reserve spots
     func addSpot(spot: Spot){
         let child  = self.getSpotsRef().childByAutoId()
         spot.spotUID = child.key
         child.setValue(spot.toJSON())
     }
+    //this function will remove a spot from the dataBase
     
     
 }

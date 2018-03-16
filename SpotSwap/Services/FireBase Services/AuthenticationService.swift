@@ -24,6 +24,7 @@ class AuthenticationService {
     }
     //This function will create a new user
     func createUser(email: String, password: String, completion: @escaping (User)->Void, errorHandler: @escaping (Error)->Void){
+
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if let error = error{
                 //TODO  handle the error

@@ -1,5 +1,5 @@
 //
-//  EndUser.swift
+//  CarOwners.swift
 //  SpotSwap
 //
 //  Created by Yaseen Al Dallash on 3/14/18.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct EndUser: Codable {
+struct VehicleOwner: Codable {
     let userName: String
     let userImage: String?
     let userUID: String
