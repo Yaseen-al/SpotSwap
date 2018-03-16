@@ -14,7 +14,7 @@ struct VehicleOwner: Codable {
     let userUID: String
     let car: Car
     let rewardPoints: Int
-    var swapUserUID: String?
+    var swapUserUID: String? //this is the uid of the user that they are swapping with 
     func toJSON() -> Any {
         let jsonData = try! JSONEncoder().encode(self)
         return try! JSONSerialization.jsonObject(with: jsonData, options: [])
