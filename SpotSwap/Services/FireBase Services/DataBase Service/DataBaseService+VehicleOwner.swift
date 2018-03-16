@@ -39,7 +39,6 @@ extension DataBaseService{
                 }
             }
         }
-        
     }
     // this function will updated a certain user 'A' with a connected user 'B' who is looking for a spot as well as update user 'B' with user 'A'
     
