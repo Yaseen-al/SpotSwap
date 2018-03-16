@@ -92,5 +92,7 @@ private extension MapView {
         let coordinate = Coord(coordinate: touchMapCoordinate)
         mapView.addAnnotation(coordinate)
     }
+    
+    
 }
 

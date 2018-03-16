@@ -12,11 +12,22 @@ import CoreLocation
 
 class Coord: NSObject, MKAnnotation {
     var coordinate: CLLocationCoordinate2D
-    let title: String? = "Title"
-//    let subtitle: String? = "Subtitle"
+    var title: String? = "Title"
     
     init(coordinate: CLLocationCoordinate2D) {
         self.coordinate = coordinate
+        self.title = Coord.generateRandomTimeForSpot()
+    }
+    
+    static func generateRandomTimeForSpot(_ upperlimit: Int = 5) -> String {
+        let minutes = [00, 15, 30, 45]
+        let randomIndex = Int(arc4random_uniform(4))
+        
+        let randomHour = arc4random_uniform(4) + 1
+        let randomMinutes = minutes[randomIndex]
+        
+        let time = "\(randomHour):\(randomMinutes)"
+        return time
     }
 }
 
@@ -61,6 +72,8 @@ class MapViewController: UIViewController {
         }
 
         let detailView = UILabel()
+        let lat = annotation.coordinate.latitude
+        let long = annotation.coordinate.longitude
         detailView.text = "Test details" 
         
         annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
