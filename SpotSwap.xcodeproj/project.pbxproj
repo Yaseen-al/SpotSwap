@@ -18,7 +18,7 @@
 		1F7A31CD20596C4100A25693 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 1F7A31CC20596C4100A25693 /* GoogleService-Info.plist */; };
 		AFD22630B5F3FC1365C1952A /* Pods_SpotSwapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25FC7A56F7BE78F688A0528 /* Pods_SpotSwapTests.framework */; };
 		B8D36D34BB4BF91D17C40F17 /* Pods_SpotSwap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */; };
-		C45AB19F205AEDE800FC7743 /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C45AB19E205AEDE800FC7743 /* LocationServices.swift */; };
+		C4627FEA205B71680076E71F /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4627FE9205B71680076E71F /* LocationServices.swift */; };
 		C49E8086205AC87200D0B94D /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E8085205AC87200D0B94D /* MapViewController.swift */; };
 		C49E808E205AC99900D0B94D /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E808D205AC99900D0B94D /* MapView.swift */; };
 		C49E8092205ACD1900D0B94D /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C49E808F205ACD1900D0B94D /* Stylesheet.swift */; };
@@ -65,7 +65,7 @@
 		847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932881718AB9CF961F1DB7E9 /* Pods-SpotSwapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B3E83A19C74BF6B852D22407 /* Pods_SpotSwapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C45AB19E205AEDE800FC7743 /* LocationServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = LocationServices.swift; path = ../../../../../../Documents/LocationServices.swift; sourceTree = "<group>"; };
+		C4627FE9205B71680076E71F /* LocationServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServices.swift; sourceTree = "<group>"; };
 		C49E8085205AC87200D0B94D /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C49E808D205AC99900D0B94D /* MapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C49E808F205ACD1900D0B94D /* Stylesheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
@@ -224,7 +224,7 @@
 		C45AB19D205AEDC200FC7743 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				C45AB19E205AEDE800FC7743 /* LocationServices.swift */,
+				C4627FE9205B71680076E71F /* LocationServices.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -548,13 +548,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				C49E8093205ACD1900D0B94D /* UIColor+Hex.swift in Sources */,
-				C45AB19F205AEDE800FC7743 /* LocationServices.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
 				C49E8094205ACD1900D0B94D /* UIViewController+Nav.swift in Sources */,
 				1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */,
 				C49E808E205AC99900D0B94D /* MapView.swift in Sources */,
 				1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */,
 				C49E8086205AC87200D0B94D /* MapViewController.swift in Sources */,
+				C4627FEA205B71680076E71F /* LocationServices.swift in Sources */,
 				C49E8092205ACD1900D0B94D /* Stylesheet.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
