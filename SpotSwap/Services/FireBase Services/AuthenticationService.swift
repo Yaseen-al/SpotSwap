@@ -14,6 +14,7 @@ enum AuthenticationServiceErrors: Error{
     case invalidEmail
     case weakPassword
     case signOutError
+    case noSignedInUser
 }
 class AuthenticationService {
     private init(){}
