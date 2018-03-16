@@ -2,42 +2,6 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class Coord: NSObject, MKAnnotation {
-    enum CoordType {
-        case availableSpot
-        case spotReservedForUser
-        case locationOfVehicle
-    }
-
-    var coordinate: CLLocationCoordinate2D
-    var title: String? = "Title"
-    var type: CoordType
-
-    init(coordinate: CLLocationCoordinate2D) {
-        self.coordinate = coordinate
-        self.title = Coord.randomTimeForSpot()
-        self.type = Coord.randomTypeOfCoordinate()
-    }
-
-    // Temporary functions for testing
-    private static func randomTimeForSpot(_ upperlimit: Int = 5) -> String {
-        let seconds = ["05", "15", "30", "45"]
-        let randomIndex = Int(arc4random_uniform(4))
-
-        let randomMinute = arc4random_uniform(4) + 1
-        let randomSeconds = seconds[randomIndex]
-
-        let time = "\(randomMinute):\(randomSeconds)"
-        return time
-    }
-
-    private static func randomTypeOfCoordinate() -> CoordType {
-        let randomIndex = Int(arc4random_uniform(3))
-        let randomTypes: [CoordType] = [.availableSpot, .spotReservedForUser, .locationOfVehicle]
-        return randomTypes[randomIndex]
-    }
-}
-
 class MapViewController: UIViewController {
 
     // MARK: - Properties
@@ -124,8 +88,8 @@ extension MapViewController: LocationServiceDelegate {
 // MARK: - Map helper functions
 private extension MapViewController {
     func setMapRegion(around location: CLLocation) {
-        if initialLaunch == true {
-            let regionArea = 0.01 // smaller is more zoomed in
+        if initialLaunch {
+            let regionArea = 0.02 // smaller is more zoomed in
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: regionArea, longitudeDelta: regionArea))
             contentView.mapView.setRegion(region, animated: true)

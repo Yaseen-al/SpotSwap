@@ -59,7 +59,7 @@ class MapView: UIView {
 
 }
 
-// MARK: - Private helper functions for handling long presses on map
+// MARK: - Long Press on Map Methods
 private extension MapView {
     func prepareMapToHandleLongPresses(_ map: MKMapView) {
         let longPressRecogniser = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))

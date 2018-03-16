@@ -36,6 +36,8 @@
 		C4C29B54205C3C4700C25344 /* UIViewController+Nav.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */; };
 		C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B55205C3C4F00C25344 /* MapViewController.swift */; };
 		C4F8A4AA205C3D1B001A746A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4A9205C3D1B001A746A /* MapView.swift */; };
+		C4F8A4AC205C3D6C001A746A /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4AB205C3D6B001A746A /* LocationServices.swift */; };
+		C4F8A4AE205C3D85001A746A /* Coord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4AD205C3D85001A746A /* Coord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,6 +97,8 @@
 		C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Nav.swift"; sourceTree = "<group>"; };
 		C4C29B55205C3C4F00C25344 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		C4F8A4A9205C3D1B001A746A /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
+		C4F8A4AB205C3D6B001A746A /* LocationServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServices.swift; sourceTree = "<group>"; };
+		C4F8A4AD205C3D85001A746A /* Coord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coord.swift; sourceTree = "<group>"; };
 		DDEF2630DEE7DF0F6896641B /* Pods-SpotSwap.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwap.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwap/Pods-SpotSwap.debug.xcconfig"; sourceTree = "<group>"; };
 		E25FC7A56F7BE78F688A0528 /* Pods_SpotSwapTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwapTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -251,6 +255,7 @@
 		1F7A31CA2059669D00A25693 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				C4F8A4AB205C3D6B001A746A /* LocationServices.swift */,
 				1F467B0F20597F6C00598418 /* NetworkHelper.swift */,
 				1F467B132059831000598418 /* CarMakeAPIClient.swift */,
 				1F467B172059896F00598418 /* CareModelsAPIClient.swift */,
@@ -267,6 +272,7 @@
 				1F467B0B20597E6000598418 /* CarModel.swift */,
 				1F467B1920598D4E00598418 /* Car.swift */,
 				1F467B21205AE02800598418 /* Spot.swift */,
+				C4F8A4AD205C3D85001A746A /* Coord.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -599,6 +605,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C4F8A4AC205C3D6C001A746A /* LocationServices.swift in Sources */,
 				1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */,
 				1F467B1020597F6C00598418 /* NetworkHelper.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
@@ -616,6 +623,7 @@
 				1F467B1E20599FE100598418 /* DataBaseService+VehicleOwner.swift in Sources */,
 				1F467B142059831000598418 /* CarMakeAPIClient.swift in Sources */,
 				1F467B1A20598D4E00598418 /* Car.swift in Sources */,
+				C4F8A4AE205C3D85001A746A /* Coord.swift in Sources */,
 				1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */,
 				C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */,
 				1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */,
