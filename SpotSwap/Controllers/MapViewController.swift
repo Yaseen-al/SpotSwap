@@ -125,8 +125,9 @@ extension MapViewController: LocationServiceDelegate {
 private extension MapViewController {
     func setMapRegion(around location: CLLocation) {
         if initialLaunch == true {
+            let regionArea = 0.01 // smaller is more zoomed in
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1))
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: regionArea, longitudeDelta: regionArea))
             contentView.mapView.setRegion(region, animated: true)
             
             initialLaunch = false
