@@ -50,13 +50,6 @@ class MapViewController: UIViewController {
 }
 
 extension MapViewController: MKMapViewDelegate {
-
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        let markerView = view as! MKMarkerAnnotationView
-        // Testing reserving a spot
-        // let coord = Coord(coordinate: view.annotation!.coordinate)
-        markerView.markerTintColor = Stylesheet.Colors.PinkMain
-    }
     
     // Create the pins and the detail view when the pin is tapped
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
@@ -75,14 +68,23 @@ extension MapViewController: MKMapViewDelegate {
         // Handle if the annotation comes from an open spot, my vehicle location or a spot the user reserved
         switch annotation {
         case is Spot:
+            let spot = annotation as! Spot
             // TODO: - Create custom detail view, inject it with `annotation` for data.
             let detailView = UILabel()
             let lat = String(annotation.coordinate.latitude).prefix(5)
             let long = String(annotation.coordinate.longitude).prefix(5)
-            detailView.text = "LAT: \(lat), LONG: \(long)"
+            
+            
+            if spot.reservation == nil {
+                annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
+                detailView.text = "LAT: \(lat), LONG: \(long)"
+            } else {
+                annotationView?.markerTintColor = Stylesheet.Colors.PinkMain
+                detailView.text = "You have \(spot.duration) minutes!"
+            }
+            
             
             annotationView?.annotation = annotation
-            annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
             annotationView?.canShowCallout = true
             annotationView?.detailCalloutAccessoryView = detailView
             
@@ -94,16 +96,31 @@ extension MapViewController: MKMapViewDelegate {
 
         return annotationView
     }
+    
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let markerView = view as! MKMarkerAnnotationView
+        // Testing reserving a spot
+        // let coord = Coord(coordinate: view.annotation!.coordinate)
+        if let spot = view.annotation as? Spot {
+            dump(spot)
+            contentView.mapView.removeAnnotation(spot)
+            DataBaseService.manager.removeSpot(spotId: spot.spotUID)
+            
+            spot.reservation = Reservation(userUID: AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn")
+            DataBaseService.manager.addSpot(spot: spot)
+        }
+    }
 
 }
 
 extension MapViewController: LocationServiceDelegate {
-    
     func userLocationDidUpdate(_ userLocation: CLLocation) {
         setMapRegion(around: userLocation)
     }
     
     func spotsUpdatedFromFirebase(_ spots: [Spot]) {
+        // TODO: - Refactor. Should add and remove individual annotation
+        contentView.mapView.removeAnnotations(contentView.mapView.annotations)
         contentView.mapView.addAnnotations(spots)
     }
     
@@ -117,7 +134,6 @@ private extension MapViewController {
             let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
             let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: regionArea, longitudeDelta: regionArea))
             contentView.mapView.setRegion(region, animated: true)
-            
             initialLaunch = false
         }
     }
