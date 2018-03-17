@@ -2,8 +2,14 @@ import Foundation
 import CoreLocation
 import MapKit
 
-struct Reservation: Codable {
-    let userUID: String
+class Reservation: Codable {
+    let spotOwner: VehicleOwner
+    let spotTaker: VehicleOwner
+    
+    init(spotOwner: VehicleOwner, spotTaker: VehicleOwner) {
+        self.spotOwner = spotOwner
+        self.spotTaker = spotTaker
+    }
 }
 
 class Spot: NSObject, Codable {
@@ -14,6 +20,7 @@ class Spot: NSObject, Codable {
     let latitude: Double
     let timeStamp: String
     let duration: String
+    let owner: VehicleOwner
     func toJSON() -> Any {
         let jsonData = try! JSONEncoder().encode(self)
         return try! JSONSerialization.jsonObject(with: jsonData, options: [])
@@ -27,6 +34,7 @@ class Spot: NSObject, Codable {
         self.duration = DateProvider.manager.randomTimeForSpot()
         self.timeStamp = DateProvider.manager.currentTime()
         self.userUID = AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn"
+        self.owner = VehicleOwnerServices.manager.getVehicleOwner()
     }
 }
 

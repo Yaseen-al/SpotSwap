@@ -28,6 +28,7 @@ extension DataBaseService{
         }
         let vehicleOwnerRef = self.getCarOwnerRef().child(user.uid)
         vehicleOwnerRef.observe(.value) { (snapShot) in
+            print(snapShot)
             if let json = snapShot.value{
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])

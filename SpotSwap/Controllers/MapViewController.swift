@@ -2,6 +2,30 @@ import UIKit
 import MapKit
 import CoreLocation
 
+class VehicleOwnerServices {
+    private var vehicleOwner: VehicleOwner!
+    
+    
+    static let manager = VehicleOwnerServices()
+    private init() {}
+    
+    public func getVehicleOwner() -> VehicleOwner {
+        return vehicleOwner // app should crash if we dont have a vehicle owner
+    }
+    
+    public func startSingleton() {
+        DataBaseService.manager.retrieveCurrentVehicleOwner(completion: { vehicleOwner in
+            self.vehicleOwner = vehicleOwner
+        }) { error in
+            print(#function, error)
+        }
+    }
+    
+    public func hasReservation() -> Bool {
+        return vehicleOwner.reservation != nil
+    }
+}
+
 class MapViewController: UIViewController {
 
     // MARK: - Properties
@@ -15,6 +39,7 @@ class MapViewController: UIViewController {
         prepareContentView()
         LocationService.manager.setDelegate(viewController: self)
         testCreateAccount()
+        VehicleOwnerServices.manager.startSingleton()
     }
 
     // MARK: - Setup - View/Data
@@ -32,11 +57,11 @@ class MapViewController: UIViewController {
     }
     
     func testCreateAccount(){
-            let userEmail = "Sai@gmail.com"
+            let userEmail = "JazzMorphin@gmail.com"
             let userPassword = "newPassword135"
             AuthenticationService.manager.createUser(email: userEmail, password: userPassword, completion: { (user) in
-                let myCar = Car(carMake: "Rimac Automobili", carModel: "Concept One", carYear: "2018", carImageId: nil)
-                let vehicleOwner = VehicleOwner(userName: "AlD", userImage: nil, userUID: user.uid, car: myCar, rewardPoints: 100, swapUserUID: nil)
+                let myCar = Car(carMake: "BMW", carModel: "E30", carYear: "1988", carImageId: nil)
+                let vehicleOwner = VehicleOwner(user: user, car: myCar, userName: userEmail)
                 DataBaseService.manager.addNewVehicleOwner(vehicleOwner: vehicleOwner, user: user, completion: {
                     print("dev: added vehicle owner to the dataBase")
                 }, errorHandler: { (error) in
@@ -103,10 +128,11 @@ extension MapViewController: MKMapViewDelegate {
         // let coord = Coord(coordinate: view.annotation!.coordinate)
         if let spot = view.annotation as? Spot {
             dump(spot)
+            let currentUserReservingASpot = VehicleOwnerServices.manager.getVehicleOwner()
             contentView.mapView.removeAnnotation(spot)
             DataBaseService.manager.removeSpot(spotId: spot.spotUID)
             
-            spot.reservation = Reservation(userUID: AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn")
+            spot.reservation = Reservation(spotOwner: spot.owner, spotTaker: currentUserReservingASpot)
             DataBaseService.manager.addSpot(spot: spot)
         }
     }

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 struct VehicleOwner: Codable {
     let userName: String
@@ -14,9 +15,22 @@ struct VehicleOwner: Codable {
     let userUID: String
     let car: Car
     let rewardPoints: Int
-    var swapUserUID: String? //this is the uid of the user that they are swapping with 
+    var swapUserUID: String? //this is the uid of the user that they are swapping with
+    var reservation: Reservation?
     func toJSON() -> Any {
         let jsonData = try! JSONEncoder().encode(self)
         return try! JSONSerialization.jsonObject(with: jsonData, options: [])
     }
+    
+    init(user: User, car: Car, userName: String) {
+        self.userName = userName
+        self.userImage = nil
+        self.userUID = user.uid
+        self.car = car
+        self.rewardPoints = 100
+        self.swapUserUID = nil
+        self.reservation = nil
+    }
 }
+
+
