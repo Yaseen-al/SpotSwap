@@ -4,6 +4,7 @@ import CoreLocation
 
 protocol LocationServiceDelegate: class {
     func userLocationDidUpdate(_ userLocation: CLLocation)
+    func spotsUpdatedFromFirebase(_ spots: [Spot])
 }
 
 class LocationService: NSObject {
@@ -22,6 +23,7 @@ class LocationService: NSObject {
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.distanceFilter = 10
         checkForLocationServices()
+        addSpotsFromFirebaseToMap()
     }
     
     // MARK: - Public Methods
@@ -47,6 +49,14 @@ class LocationService: NSObject {
             default:
                 break
             }
+        }
+    }
+    
+    private func addSpotsFromFirebaseToMap() {
+        DataBaseService.manager.retrieveAllSpots(completion: { [weak self] spots in
+            self?.locationServiceDelegate.spotsUpdatedFromFirebase(spots)
+        }) { error in
+            print(error)
         }
     }
     

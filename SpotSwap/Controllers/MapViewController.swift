@@ -98,9 +98,15 @@ extension MapViewController: MKMapViewDelegate {
 }
 
 extension MapViewController: LocationServiceDelegate {
+    
     func userLocationDidUpdate(_ userLocation: CLLocation) {
         setMapRegion(around: userLocation)
     }
+    
+    func spotsUpdatedFromFirebase(_ spots: [Spot]) {
+        contentView.mapView.addAnnotations(spots)
+    }
+    
 }
 
 // MARK: - Map helper functions
