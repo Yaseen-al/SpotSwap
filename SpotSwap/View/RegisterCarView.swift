@@ -10,6 +10,12 @@ import UIKit
 import SnapKit
 
 class RegisterCarView: UIView {
+    
+    lazy var cameraButton: UIButton = {
+        var button = UIButton()
+        button.contentMode = .scaleAspectFit
+       return button
+    }()
 
     lazy var carImageView: UIImageView = {
         let imageView = UIImageView()
@@ -78,9 +84,76 @@ class RegisterCarView: UIView {
         // here you get the actual frame size of the elements before getting
         // laid out on screen
         super.layoutSubviews()
+        carImageView.layer.cornerRadius = carImageView.bounds.width/2.0
+        carImageView.layer.masksToBounds = true
+        carImageView.layer.borderColor = UIColor.white.cgColor
+        carImageView.layer.borderWidth = 4
     }
     
     private func setupViews() {
+        setupCarImage()
+        setupCameraButton()
+        setupMakeLabel()
+        setupMakeTF()
+        setupModelLabel()
+        setupModelTF()
+    }
+    
+    private func setupCarImage() {
+        addSubview(carImageView)
+        carImageView.snp.makeConstraints { (make) in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(30)
+            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.40)
+            make.height.equalTo(carImageView.snp.width)
+        }
+    }
+    
+    private func setupCameraButton() {
+        addSubview(cameraButton)
+        cameraButton.snp.makeConstraints { (make) in
+            make.top.equalTo(carImageView.snp.top)
+            make.centerX.equalTo(carImageView.snp.centerX)
+            make.width.equalTo(carImageView.snp.width)
+            make.height.equalTo(carImageView.snp.width)
+        }
+        
+    }
+    
+    private func setupMakeLabel() {
+        addSubview(makeLabel)
+        makeLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(carImageView.snp.bottom).offset(20)
+            make.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(40)
+        }
+    }
+    
+    private func setupMakeTF() {
+        addSubview(carMakeTextField)
+        carMakeTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(makeLabel.snp.bottom).offset(5)
+            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
+            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
+        }
+    }
+    
+    private func setupModelLabel() {
+        addSubview(modelLabel)
+        modelLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(carMakeTextField.snp.bottom).offset(10)
+            make.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(40)
+        }
+    }
+    
+    private func setupModelTF() {
+        addSubview(carModelTextField)
+        carModelTextField.snp.makeConstraints { (make) in
+            make.top.equalTo(modelLabel.snp.bottom).offset(5)
+            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
+            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
+            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
+        }
     }
     
 }
