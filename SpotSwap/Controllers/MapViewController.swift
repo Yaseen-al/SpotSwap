@@ -51,6 +51,13 @@ class MapViewController: UIViewController {
 
 extension MapViewController: MKMapViewDelegate {
 
+    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
+        let markerView = view as! MKMarkerAnnotationView
+        // Testing reserving a spot
+        // let coord = Coord(coordinate: view.annotation!.coordinate)
+        markerView.markerTintColor = Stylesheet.Colors.PinkMain
+    }
+    
     // Create the pins and the detail view when the pin is tapped
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
 
@@ -67,27 +74,6 @@ extension MapViewController: MKMapViewDelegate {
 
         // Handle if the annotation comes from an open spot, my vehicle location or a spot the user reserved
         switch annotation {
-        case is Coord:
-            // TODO: - Create custom detail view, inject it with `annotation` for data.
-            let detailView = UILabel()
-            let lat = String(annotation.coordinate.latitude).prefix(5)
-            let long = String(annotation.coordinate.longitude).prefix(5)
-            detailView.text = "LAT: \(lat), LONG: \(long)"
-
-            // Testing
-            let coordAnnotation = annotation as! Coord
-            switch coordAnnotation.type {
-            case .availableSpot:
-                annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
-            case .spotReservedForUser:
-                annotationView?.markerTintColor = Stylesheet.Colors.PinkMain
-            case .locationOfVehicle:
-                annotationView?.markerTintColor = Stylesheet.Colors.OrangeMain
-            }
-
-            annotationView?.annotation = annotation
-            annotationView?.canShowCallout = true
-            annotationView?.detailCalloutAccessoryView = detailView
         case is Spot:
             // TODO: - Create custom detail view, inject it with `annotation` for data.
             let detailView = UILabel()
@@ -95,16 +81,20 @@ extension MapViewController: MKMapViewDelegate {
             let long = String(annotation.coordinate.longitude).prefix(5)
             detailView.text = "LAT: \(lat), LONG: \(long)"
             
-            annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
             annotationView?.annotation = annotation
+            annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
             annotationView?.canShowCallout = true
             annotationView?.detailCalloutAccessoryView = detailView
+            
+            let button = UIButton(type: .detailDisclosure)
+            annotationView?.rightCalloutAccessoryView = button
         default:
             break
         }
 
         return annotationView
     }
+
 }
 
 extension MapViewController: LocationServiceDelegate {

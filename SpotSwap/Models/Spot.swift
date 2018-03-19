@@ -4,21 +4,23 @@ import MapKit
 
 class Spot: NSObject, Codable {
     var spotUID: String
+    var userUID: String //this is the user who created the spot
     let longitude: Double
     let latitude: Double
     let timeStamp: String
-    var userUID: String //this is the user who created the spot
+    let duration: String
     func toJSON() -> Any {
         let jsonData = try! JSONEncoder().encode(self)
         return try! JSONSerialization.jsonObject(with: jsonData, options: [])
     }
     
-    init(location: CLLocationCoordinate2D,  userUID: String) {
+    init(location: CLLocationCoordinate2D) {
         self.spotUID = ""
         self.longitude = location.longitude
         self.latitude = location.latitude
-        self.timeStamp = DateProvider.manager.randomTimeForSpot()
-        self.userUID = userUID
+        self.duration = DateProvider.manager.randomTimeForSpot()
+        self.timeStamp = DateProvider.manager.currentTime()
+        self.userUID = AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn"
     }
 }
 
@@ -30,18 +32,7 @@ extension Spot: MKAnnotation {
     }
     
     var title: String? {
-        return timeStamp
-    }
-    
-    private func randomTimeForSpot(_ upperlimit: Int = 5) -> String {
-        let seconds = ["05", "15", "30", "45"]
-        let randomIndex = Int(arc4random_uniform(4))
-        
-        let randomMinute = arc4random_uniform(4) + 1
-        let randomSeconds = seconds[randomIndex]
-        
-        let time = "\(randomMinute):\(randomSeconds)"
-        return time
+        return self.duration.description
     }
     
 }

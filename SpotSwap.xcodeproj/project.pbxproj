@@ -33,6 +33,10 @@
 		81BFAE79205F6C1700E27389 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE78205F6C1700E27389 /* LaunchView.swift */; };
 		81BFAE7B205F6C6200E27389 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */; };
 		81BFAE7D205F6C8200E27389 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7C205F6C8200E27389 /* LoginViewController.swift */; };
+		81AEA971205C724E0081FD81 /* RegisterCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA970205C724E0081FD81 /* RegisterCarView.swift */; };
+		81AEA973205C72A60081FD81 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA972205C72A60081FD81 /* SignUpView.swift */; };
+		81AEA975205FBE870081FD81 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA974205FBE870081FD81 /* SignUpViewController.swift */; };
+		81AEA977205FFC430081FD81 /* RegisterCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */; };
 		AFD22630B5F3FC1365C1952A /* Pods_SpotSwapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25FC7A56F7BE78F688A0528 /* Pods_SpotSwapTests.framework */; };
 		B8D36D34BB4BF91D17C40F17 /* Pods_SpotSwap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */; };
 		C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B4F205C3C4600C25344 /* Stylesheet.swift */; };
@@ -98,6 +102,10 @@
 		81BFAE78205F6C1700E27389 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		81BFAE7C205F6C8200E27389 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		81AEA970205C724E0081FD81 /* RegisterCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCarView.swift; sourceTree = "<group>"; };
+		81AEA972205C72A60081FD81 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		81AEA974205FBE870081FD81 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCarViewController.swift; sourceTree = "<group>"; };
 		847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932881718AB9CF961F1DB7E9 /* Pods-SpotSwapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B3E83A19C74BF6B852D22407 /* Pods_SpotSwapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -224,6 +232,8 @@
 				81BFAE7C205F6C8200E27389 /* LoginViewController.swift */,
 				C4C29B55205C3C4F00C25344 /* MapViewController.swift */,
 				1F7A31962059665D00A25693 /* ViewController.swift */,
+				81AEA974205FBE870081FD81 /* SignUpViewController.swift */,
+				81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -254,6 +264,8 @@
 				81BFAE78205F6C1700E27389 /* LaunchView.swift */,
 				81BFAE76205F6B2200E27389 /* LoginView.swift */,
 				C4F8A4A9205C3D1B001A746A /* MapView.swift */,
+				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
+				81AEA972205C72A60081FD81 /* SignUpView.swift */,
 				1F7A31C92059669600A25693 /* Cells */,
 			);
 			path = View;
@@ -628,8 +640,11 @@
 				C4F8A4B0205C4C3B001A746A /* DateProvider.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
 				C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */,
+				81AEA975205FBE870081FD81 /* SignUpViewController.swift in Sources */,
 				C4C29B53205C3C4700C25344 /* UIColor+Hex.swift in Sources */,
+				81AEA977205FFC430081FD81 /* RegisterCarViewController.swift in Sources */,
 				1F467B1C20599BA900598418 /* DataBaseService.swift in Sources */,
+				81AEA973205C72A60081FD81 /* SignUpView.swift in Sources */,
 				1F467B202059AD2800598418 /* DataBaseService+CarMakes.swift in Sources */,
 				81BFAE77205F6B2200E27389 /* LoginView.swift in Sources */,
 				C4F8A4AA205C3D1B001A746A /* MapView.swift in Sources */,
@@ -644,6 +659,7 @@
 				1F467B1A20598D4E00598418 /* Car.swift in Sources */,
 				C4F8A4AE205C3D85001A746A /* Coord.swift in Sources */,
 				1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */,
+				81AEA971205C724E0081FD81 /* RegisterCarView.swift in Sources */,
 				C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */,
 				1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */,
 				81BFAE7B205F6C6200E27389 /* LaunchViewController.swift in Sources */,

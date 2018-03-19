@@ -88,9 +88,13 @@ extension DataBaseService{
             erroHandler(error)
             return
         }
+        //this will retrieve the vehicle owner that posted the spot and updated it's swapUserUID
         self.retrieveVehicleOwner(vehicleOwner: spot.userUID, completion: { (vehicleOwner) in
             var connectedVehicleOwner = vehicleOwner
             connectedVehicleOwner.swapUserUID = currentUser.uid
+            self.updateVehicleOwner(vehicleOwner: connectedVehicleOwner, errorHandler: { (error) in
+                erroHandler(error)
+            })
         }) { (error) in
             erroHandler(error)
         }

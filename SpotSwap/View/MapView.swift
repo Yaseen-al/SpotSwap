@@ -72,7 +72,7 @@ private extension MapView {
         let touchPoint = gestureRecognizer.location(in: mapView)
         let touchMapCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
 
-        let coordinate = Spot(location: touchMapCoordinate, userUID: "TestUserID")
+        let coordinate = Spot(location: touchMapCoordinate)
         mapView.addAnnotation(coordinate)
         DataBaseService.manager.addSpot(spot: coordinate)
     }
