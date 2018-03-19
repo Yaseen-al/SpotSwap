@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import ImagePicker
 
-class RegisterCarViewController: UIViewController {
+class RegisterCarViewController: UIViewController, UIImagePickerControllerDelegate {
     
     let registerCarView = RegisterCarView()
-
+    
     private var tapGesture: UITapGestureRecognizer!
     
+    var images = [UIImage]() {
+        didSet {
+            registerCarView.carImageView.image = images.first
+        }
+    }
+    
+    var imagePickerController: ImagePickerController!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,6 +30,11 @@ class RegisterCarViewController: UIViewController {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
         setupNavBar()
+        registerCarView.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
+        imagePickerController = ImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.imageLimit = 1
+        
     }
     
     @objc private func dismissKeyboard() {
@@ -34,4 +47,32 @@ class RegisterCarViewController: UIViewController {
     
     @objc private func goToMapViewController() {
     }
+    
+    @objc func cameraButtonPressed() {
+        //        open up camera and photo gallery
+        self.images = []
+        present(imagePickerController, animated: true, completion: {
+            self.imagePickerController.collapseGalleryView({
+            })
+        })
+    }
+    private let imagePickerViewController = UIImagePickerController()
 }
+
+extension RegisterCarViewController: ImagePickerDelegate{
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        self.images = images
+        dismiss(animated: true, completion: nil)
+        return
+    }
+    
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        imagePicker.resetAssets()
+        return
+    }
+}
+
