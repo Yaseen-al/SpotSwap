@@ -8,21 +8,32 @@
 
 import Foundation
 import FirebaseDatabase
+// MARK: - DataBaseReference Errors
+enum DataBaseReferenceErrors: Error{
+    case noSignedUser
+    case errorDecodingVehicleOwner
+    case failedToUpdateVehicleOwner
+    case errorDecodingSpot
+    case errorGettingSpotsJSON
+    case spotsNodeHasNoChildren
+}
 class DataBaseService {
     static let manager = DataBaseService()
     var dataBaseRef: DatabaseReference
     var carOwnerRef: DatabaseReference
     var carMakes: DatabaseReference
     var spotRef: DatabaseReference
+    // MARK: - Inits
     private init(){
-        // this will intialize the reference of the data base to the root of the FireBase dataBase
+        // This will intialize the reference of the data base to the root of the FireBase dataBase
         self.dataBaseRef = Database.database().reference()
         self.carOwnerRef = dataBaseRef.child("carOwners")
         self.carMakes = dataBaseRef.child("carMakes")
         self.spotRef = dataBaseRef.child("spots")
     }
-    func getDataBaseRef()->DatabaseReference{return dataBaseRef}
-    func getCarOwnerRef()->DatabaseReference{return carOwnerRef}
-    func getCarMakesRef()->DatabaseReference{return carMakes}
-    func getSpotsRef() -> DatabaseReference {return spotRef}
+    // MARK: - Public Functions
+    public func getDataBaseRef()->DatabaseReference{return dataBaseRef}
+    public func getCarOwnerRef()->DatabaseReference{return carOwnerRef}
+    public func getCarMakesRef()->DatabaseReference{return carMakes}
+    public func getSpotsRef() -> DatabaseReference {return spotRef}
 }
