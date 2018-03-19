@@ -89,7 +89,7 @@
             return
         }
         retrieveCurrentVehicleOwner(completion: { (vehicleOwner) in
-            var currentVehicleOwner = vehicleOwner
+            let currentVehicleOwner = vehicleOwner
             currentVehicleOwner.swapUserUID = spot.userUID
             self.updateVehicleOwner(vehicleOwner: currentVehicleOwner, errorHandler: { (error) in
                 erroHandler(error)
@@ -100,7 +100,7 @@
             return
         }
         self.retrieveVehicleOwner(vehicleOwner: spot.userUID, completion: { (vehicleOwner) in
-            var connectedVehicleOwner = vehicleOwner
+            let connectedVehicleOwner = vehicleOwner
             connectedVehicleOwner.swapUserUID = currentUser.uid
         }) { (error) in
             erroHandler(error)

@@ -16,10 +16,7 @@ class VehicleOwnerServices {
         }
     }
     
-    weak var delegate: VehicleOwnerServiceDelegate!
-    
-//    static let manager = VehicleOwnerServices()
-//    private init() {}
+    private weak var delegate: VehicleOwnerServiceDelegate!
     
     init(_ viewController: VehicleOwnerServiceDelegate) {
         DataBaseService.manager.retrieveCurrentVehicleOwner(completion: { vehicleOwner in
@@ -44,5 +41,18 @@ class VehicleOwnerServices {
     
     public func hasReservation() -> Bool {
         return vehicleOwner.reservationUID != nil
+    }
+    
+    public func reserveSpot(_ spot: Spot) {
+        let currentUserReservingASpot = getVehicleOwner()
+        let reservation = Reservation(makeFrom: spot, reservedBy: currentUserReservingASpot)
+        
+        //        contentView.mapView.removeAnnotation(spot)
+        DataBaseService.manager.removeSpot(spotId: spot.spotUID)
+        
+        spot.reservationUID = spot.spotUID
+        DataBaseService.manager.addSpot(spot: spot)
+        DataBaseService.manager.addReservation(reservation: reservation, to: currentUserReservingASpot)
+        DataBaseService.manager.addNewVehicleOwner(vehicleOwner: currentUserReservingASpot, userID: currentUserReservingASpot.userUID)
     }
 }

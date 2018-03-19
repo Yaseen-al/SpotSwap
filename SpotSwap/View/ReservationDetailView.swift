@@ -3,9 +3,12 @@ import SnapKit
 
 class ReservationDetailView: UIView {
     
+    // MARK: - Properties
     lazy var imageView: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .green
+        iv.layer.cornerRadius = 10
+        iv.layer.masksToBounds = true
         return iv
     }()
     
@@ -16,10 +19,11 @@ class ReservationDetailView: UIView {
     
     lazy var timer: UIButton = {
         let bttn = UIButton()
-        bttn.backgroundColor = Stylesheet.Colors.BlueMain
+        bttn.layer.cornerRadius = 5
+        bttn.layer.masksToBounds = true
+        bttn.backgroundColor = Stylesheet.Colors.PinkMain
         return bttn
     }()
-    
     
     // MARK: - Inits
     init(viewController: UIViewController, name: String, time: String) {
@@ -27,7 +31,7 @@ class ReservationDetailView: UIView {
         userNameLabel.text = name
         timer.setTitle(time, for: .normal)
         prepareViews()
-        self.backgroundColor = .gray
+        self.backgroundColor = Stylesheet.Colors.OrangeMain
     }
     
     override init(frame: CGRect) {
@@ -46,11 +50,10 @@ class ReservationDetailView: UIView {
         prepareTimer()
     }
     
-    
     private func prepareImageView() {
         addSubview(imageView)
         imageView.snp.makeConstraints { make in
-            make.left.equalTo(snp.left).offset(20)
+            make.left.equalTo(snp.left).offset(10)
             make.center.equalTo(snp.center)
             make.size.equalTo(snp.height).multipliedBy(0.7)
         }
@@ -59,7 +62,7 @@ class ReservationDetailView: UIView {
     private func prepareNameLabel() {
         addSubview(userNameLabel)
         userNameLabel.snp.makeConstraints { make in
-            make.left.equalTo(imageView.snp.right).offset(10)
+            make.left.equalTo(imageView.snp.right).offset(11)
             make.centerY.equalTo(snp.centerY)
         }
     }
@@ -67,9 +70,10 @@ class ReservationDetailView: UIView {
     private func prepareTimer() {
         addSubview(timer)
         timer.snp.makeConstraints { make in
-            make.right.equalTo(snp.right).offset(-20)
+            make.right.equalTo(snp.right).offset(-10)
             make.centerY.equalTo(snp.centerY)
-            make.size.equalTo(90)
+            make.height.equalTo(imageView.snp.height).dividedBy(2)
+            make.width.equalTo(imageView.snp.width)
         }
     }
     

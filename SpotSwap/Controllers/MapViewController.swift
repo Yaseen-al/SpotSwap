@@ -3,14 +3,15 @@ import MapKit
 import CoreLocation
 
 class MapViewController: UIViewController {
-
+    
     // MARK: - Properties
     var contentView: MapView!
     var reservationDetailView: ReservationDetailView!
+    
     var vehicleOwnerService: VehicleOwnerServices!
     
     private var initialLaunch = true
-
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,17 +19,24 @@ class MapViewController: UIViewController {
         prepareContentView()
         prepareReservationDetailView()
         LocationService.manager.setDelegate(viewController: self)
-        testCreateAccount()
-        view.addSubview(reservationDetailView)
         vehicleOwnerService = VehicleOwnerServices(self)
+        
+        testCreateAccount()
     }
     
     // MARK: - Setup - View/Data
     private func prepareNavBar() {
         navigationItem.title = "SpotSwap"
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
+        
+        // Removes the gloss that makes the nav bar a different shade of the UIColor assigned to it
+        navigationController?.navigationBar.isTranslucent = false
+        
+        // Removes 1px border line at the bottom of the nav bar
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
-
+    
     private func prepareContentView() {
         contentView = MapView(viewController: self)
         view.addSubview(contentView)
@@ -43,52 +51,54 @@ class MapViewController: UIViewController {
         reservationDetailView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.width.equalTo(view.snp.width)
-            make.height.equalTo(view.snp.height).dividedBy(8)
+            make.height.equalTo(view.snp.height).dividedBy(10)
         }
     }
     
+    // TESTING - REMOVE
     func testCreateAccount(){
-            let userEmail = "SaiTesting20@gmail.com"
-            let userPassword = "newPassword135"
-            AuthenticationService.manager.createUser(email: userEmail, password: userPassword, completion: { [weak self] (user) in
-                
-                let myCar = Car(carMake: "BMW", carModel: "E30", carYear: "1988", carImageId: nil)
-                let vehicleOwner = VehicleOwner(user: user, car: myCar, userName: userEmail)
-                DataBaseService.manager.addNewVehicleOwner(vehicleOwner: vehicleOwner, user: user, completion: {
-                    print(#function, "added vehicle owner to the dataBase \(vehicleOwner.userName)")
-                    self?.vehicleOwnerService.fetchVehicleOwnerFromFirebase()
-                }, errorHandler: { (error) in
-                    print("error in adding a vehicle owner to the data base")
-                })
-            }) { [weak self] (error) in
-                print(#function, error)
+        let userEmail = "SaiTesting20@gmail.com"
+        let userPassword = "newPassword135"
+        AuthenticationService.manager.createUser(email: userEmail, password: userPassword, completion: { [weak self] (user) in
+            
+            let myCar = Car(carMake: "BMW", carModel: "E30", carYear: "1988", carImageId: nil)
+            let vehicleOwner = VehicleOwner(user: user, car: myCar, userName: userEmail)
+            DataBaseService.manager.addNewVehicleOwner(vehicleOwner: vehicleOwner, user: user, completion: {
+                print(#function, "added vehicle owner to the dataBase \(vehicleOwner.userName)")
                 self?.vehicleOwnerService.fetchVehicleOwnerFromFirebase()
-            }
+            }, errorHandler: { (error) in
+                print("error in adding a vehicle owner to the data base")
+            })
+        }) { [weak self] (error) in
+            print(#function, error)
+            self?.vehicleOwnerService.fetchVehicleOwnerFromFirebase()
         }
-
+    }
+    
 }
 
+// MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
     
     // Create the pins and the detail view when the pin is tapped
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-
+        
         // Show blue dot for user's current location
         if annotation is MKUserLocation {
             return nil
         }
-
+        
         // Get instance of annotationView so we can modify color
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "myAnnotation") as? MKMarkerAnnotationView
         if annotationView == nil {
             annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotation")
         }
-
+        
         // Handle if the annotation comes from an open spot, my vehicle location or a spot the user reserved
         switch annotation {
         case is Spot:
             let spot = annotation as! Spot
-            // TODO: - Create custom detail view, inject it with `annotation` for data.
+            // Create custom detail view, inject it with `annotation` for data.
             let detailView = UILabel()
             let lat = String(annotation.coordinate.latitude).prefix(5)
             let long = String(annotation.coordinate.longitude).prefix(5)
@@ -97,9 +107,9 @@ extension MapViewController: MKMapViewDelegate {
             if let reservationID = spot.reservationUID {
                 annotationView?.markerTintColor = Stylesheet.Colors.PinkMain
                 detailView.text = """
-                                Reserved by \(reservationID.prefix(5)) 💩
-                                You have \(spot.duration) minutes!
-                                """
+                Reserved by \(reservationID.prefix(5)) 💩
+                You have \(spot.duration) minutes!
+                """
             } else {
                 annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
                 detailView.text = "LAT: \(lat), LONG: \(long)"
@@ -115,47 +125,35 @@ extension MapViewController: MKMapViewDelegate {
         default:
             break
         }
-
+        
         return annotationView
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        // Testing reserving a spot
-        // let coord = Coord(coordinate: view.annotation!.coordinate)
-        let userHasNoCurrentReservation = !vehicleOwnerService.hasReservation()
+        // TESTING - enable this line to simulate real use case of only being able to reserve a single spot at a time
+        // let userHasNoCurrentReservation = !vehicleOwnerService.hasReservation()
         if let spot = view.annotation as? Spot {
-            reserveSpot(spot)
+            vehicleOwnerService.reserveSpot(spot)
         }
     }
     
-    private func reserveSpot(_ spot: Spot) {
-        let currentUserReservingASpot = vehicleOwnerService.getVehicleOwner()
-        let reservation = Reservation(makeFrom: spot, reservedBy: currentUserReservingASpot)
-        
-        contentView.mapView.removeAnnotation(spot)
-        DataBaseService.manager.removeSpot(spotId: spot.spotUID)
-        
-        spot.reservationUID = spot.spotUID
-        DataBaseService.manager.addSpot(spot: spot)
-        DataBaseService.manager.addReservation(reservation: reservation, to: currentUserReservingASpot)
-        DataBaseService.manager.addNewVehicleOwner(vehicleOwner: currentUserReservingASpot, userID: currentUserReservingASpot.userUID)
-    }
-
 }
 
+// MARK: - LocationServiceDelegate
 extension MapViewController: LocationServiceDelegate {
     func userLocationDidUpdate(_ userLocation: CLLocation) {
         setMapRegion(around: userLocation)
     }
     
     func spotsUpdatedFromFirebase(_ spots: [Spot]) {
-        // TODO: - Refactor. Should add and remove individual annotation
+        // Refactor. Should add and remove individual annotation
         contentView.mapView.removeAnnotations(contentView.mapView.annotations)
         contentView.mapView.addAnnotations(spots)
     }
     
 }
 
+// MARK: - MapViewGestureDelegate
 extension MapViewController: MapViewGestureDelegate {
     func mapViewWasLongPressed(at location: CLLocationCoordinate2D) {
         let newSpot = Spot(location: location)
@@ -163,12 +161,12 @@ extension MapViewController: MapViewGestureDelegate {
     }
 }
 
+// MARK: - VehicleOwnerServiceDelegate
 extension MapViewController: VehicleOwnerServiceDelegate {
-    
     func retrieveReservations(reservationID: String, completion: @escaping (Reservation)->Void , errorHandler: @escaping (Error)->Void) {
         let reservationRef = DataBaseService.manager.getReservationsRef().child(reservationID)
         reservationRef.observe(.value) { (snapShot) in
-            if let json = snapShot.value {
+            if let json = snapShot.value as? NSDictionary {
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
                     let reservation = try JSONDecoder().decode(Reservation.self, from: jsonData)
@@ -184,7 +182,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     
     func vehicleOwnerReservationDidUpdate(_ reservation: String) {
         retrieveReservations(reservationID: reservation, completion: { [weak self] reservation in
-            self?.reservationDetailView.userNameLabel.text = reservation.takerUID
+            self?.reservationDetailView.userNameLabel.text = reservation.takerUID.prefix(6).description
             self?.reservationDetailView.timer.setTitle(reservation.duration, for: .normal)
         }) { (error) in
             print(error)
@@ -192,7 +190,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     }
 }
 
-// MARK: - Map helper functions
+// MARK: - Map Helper Functions
 private extension MapViewController {
     func setMapRegion(around location: CLLocation) {
         if initialLaunch {
