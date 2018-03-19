@@ -35,6 +35,8 @@
 		C4C29B53205C3C4700C25344 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */; };
 		C4C29B54205C3C4700C25344 /* UIViewController+Nav.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */; };
 		C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B55205C3C4F00C25344 /* MapViewController.swift */; };
+		C4F30A8820600428008B0156 /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F30A8720600428008B0156 /* Reservation.swift */; };
+		C4F30A8A20600459008B0156 /* VehicleOwnerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F30A8920600459008B0156 /* VehicleOwnerServices.swift */; };
 		C4F8A4AA205C3D1B001A746A /* MapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4A9205C3D1B001A746A /* MapView.swift */; };
 		C4F8A4AC205C3D6C001A746A /* LocationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4AB205C3D6B001A746A /* LocationServices.swift */; };
 		C4F8A4AE205C3D85001A746A /* Coord.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F8A4AD205C3D85001A746A /* Coord.swift */; };
@@ -97,6 +99,8 @@
 		C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Nav.swift"; sourceTree = "<group>"; };
 		C4C29B55205C3C4F00C25344 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		C4F30A8720600428008B0156 /* Reservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reservation.swift; sourceTree = "<group>"; };
+		C4F30A8920600459008B0156 /* VehicleOwnerServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleOwnerServices.swift; sourceTree = "<group>"; };
 		C4F8A4A9205C3D1B001A746A /* MapView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapView.swift; sourceTree = "<group>"; };
 		C4F8A4AB205C3D6B001A746A /* LocationServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationServices.swift; sourceTree = "<group>"; };
 		C4F8A4AD205C3D85001A746A /* Coord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coord.swift; sourceTree = "<group>"; };
@@ -261,6 +265,7 @@
 				C4F8A4AF205C4C3B001A746A /* DateProvider.swift */,
 				1F467B0F20597F6C00598418 /* NetworkHelper.swift */,
 				1F467B132059831000598418 /* CarMakeAPIClient.swift */,
+				C4F30A8920600459008B0156 /* VehicleOwnerServices.swift */,
 				1F467B172059896F00598418 /* CareModelsAPIClient.swift */,
 				1F467B0D20597F3900598418 /* FireBase Services */,
 			);
@@ -272,6 +277,7 @@
 			children = (
 				1F7A31D02059747900A25693 /* VehicleOwner.swift */,
 				1F7A31D220597CB100A25693 /* CarMake.swift */,
+				C4F30A8720600428008B0156 /* Reservation.swift */,
 				1F467B0B20597E6000598418 /* CarModel.swift */,
 				1F467B1920598D4E00598418 /* Car.swift */,
 				1F467B21205AE02800598418 /* Spot.swift */,
@@ -624,12 +630,14 @@
 				1F467B182059896F00598418 /* CareModelsAPIClient.swift in Sources */,
 				1F467B22205AE02800598418 /* Spot.swift in Sources */,
 				1F7A31D320597CB100A25693 /* CarMake.swift in Sources */,
+				C4F30A8A20600459008B0156 /* VehicleOwnerServices.swift in Sources */,
 				1F467B1E20599FE100598418 /* DataBaseService+VehicleOwner.swift in Sources */,
 				1F467B142059831000598418 /* CarMakeAPIClient.swift in Sources */,
 				1F467B1A20598D4E00598418 /* Car.swift in Sources */,
 				C4F8A4AE205C3D85001A746A /* Coord.swift in Sources */,
 				1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */,
 				C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */,
+				C4F30A8820600428008B0156 /* Reservation.swift in Sources */,
 				1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */,
 				1F7A31CF2059706400A25693 /* AuthenticationService.swift in Sources */,
 			);

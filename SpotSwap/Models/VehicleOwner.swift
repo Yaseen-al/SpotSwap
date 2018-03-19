@@ -1,22 +1,14 @@
-//
-//  CarOwners.swift
-//  SpotSwap
-//
-//  Created by Yaseen Al Dallash on 3/14/18.
-//  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
-//
-
 import Foundation
 import FirebaseAuth
 
-struct VehicleOwner: Codable {
+class VehicleOwner: Codable {
     let userName: String
     let userImage: String?
     let userUID: String
     let car: Car
     let rewardPoints: Int
     var swapUserUID: String? //this is the uid of the user that they are swapping with
-    var reservation: Reservation?
+    var reservationUID: String?
     func toJSON() -> Any {
         let jsonData = try! JSONEncoder().encode(self)
         return try! JSONSerialization.jsonObject(with: jsonData, options: [])
@@ -29,7 +21,7 @@ struct VehicleOwner: Codable {
         self.car = car
         self.rewardPoints = 100
         self.swapUserUID = nil
-        self.reservation = nil
+        self.reservationUID = nil
     }
 }
 

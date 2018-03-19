@@ -2,8 +2,14 @@ import UIKit
 import MapKit
 import SnapKit
 
+protocol MapViewGestureDelegate: class {
+    func mapViewWasLongPressed(at location: CLLocationCoordinate2D)
+}
+
 class MapView: UIView {
 
+    weak var gestureDelegate: MapViewGestureDelegate!
+    
     // MARK: - Properties
     lazy var mapView: MKMapView = {
         let map = MKMapView()
@@ -22,8 +28,9 @@ class MapView: UIView {
     // MARK: - Inits
     init(viewController: UIViewController) {
         self.init()
-        if let mapViewDelegate = viewController as? MKMapViewDelegate {
+        if let mapViewDelegate = viewController as? MKMapViewDelegate, let mapViewGestureDelegate = viewController as? MapViewGestureDelegate {
             mapView.delegate = mapViewDelegate
+            gestureDelegate = mapViewGestureDelegate
         }
     }
 
@@ -71,9 +78,7 @@ private extension MapView {
         if gestureRecognizer.state != .began { return }
         let touchPoint = gestureRecognizer.location(in: mapView)
         let touchMapCoordinate = mapView.convert(touchPoint, toCoordinateFrom: mapView)
-
-        let coordinate = Spot(location: touchMapCoordinate)
-        DataBaseService.manager.addSpot(spot: coordinate)
+        gestureDelegate.mapViewWasLongPressed(at: touchMapCoordinate)
     }
 
 }

@@ -1,22 +1,33 @@
-//
-//  DataBaseService+CarOwners.swift
-//  SpotSwap
-//
-//  Created by Yaseen Al Dallash on 3/14/18.
-//  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
-//
-
-import Foundation
-import Firebase
-enum UserDataBaseErrors: Error{
+ //
+ //  DataBaseService+CarOwners.swift
+ //  SpotSwap
+ //
+ //  Created by Yaseen Al Dallash on 3/14/18.
+ //  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
+ //
+ 
+ import Foundation
+ import Firebase
+ enum UserDataBaseErrors: Error{
     case noSignedUser
     case errorDecodingVehicleOwner
     case failedToUpdateVehicleOwner
-}
-extension DataBaseService{
+ }
+ extension DataBaseService{
     //This will add a new vehicleOwner to the dataBase using the user UID
-    func addNewVehicleOwner(vehicleOwner: VehicleOwner, user: User, completion: ()->Void, errorHandler: (Error)->Void){
+    func addNewVehicleOwner(vehicleOwner: VehicleOwner, user: User, completion: @escaping ()->Void, errorHandler: @escaping (Error)->Void){
         let child = self.getCarOwnerRef().child(user.uid)
+        child.setValue(vehicleOwner.toJSON()) { (error, databaseRef) in
+            if let error = error  {
+                errorHandler(error)
+            } else {
+                completion()
+            }
+        }
+    }
+    
+    func addNewVehicleOwner(vehicleOwner: VehicleOwner, userID: String) {
+        let child = self.getCarOwnerRef().child(userID)
         child.setValue(vehicleOwner.toJSON())
     }
     //This function will retrieve the vehicleOwner from the data base
@@ -28,15 +39,14 @@ extension DataBaseService{
         }
         let vehicleOwnerRef = self.getCarOwnerRef().child(user.uid)
         vehicleOwnerRef.observe(.value) { (snapShot) in
-            print(snapShot)
-            if let json = snapShot.value{
+            if let json = snapShot.value as? NSDictionary {
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
                     let vehicleOwner = try JSONDecoder().decode(VehicleOwner.self, from: jsonData)
                     completion(vehicleOwner)
                 }
                 catch{
-                    print("Dev", error)
+                    print(#function, error)
                     errorHandler(UserDataBaseErrors.errorDecodingVehicleOwner)
                 }
             }
@@ -97,4 +107,4 @@ extension DataBaseService{
         }
     }
     
-}
+ }

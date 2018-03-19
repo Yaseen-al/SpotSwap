@@ -29,7 +29,7 @@ class AuthenticationService {
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if let error = error{
                 //TODO  handle the error
-                print("Dev: ",error)
+                print(#function, error)
                 if let errCode = AuthErrorCode(rawValue: error._code) {
                     switch errCode {
                     case .emailAlreadyInUse:
