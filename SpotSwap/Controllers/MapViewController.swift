@@ -6,7 +6,8 @@ class MapViewController: UIViewController {
 
     // MARK: - Properties
     var contentView: MapView!
-    let vehicleOwnerService = VehicleOwnerServices()
+    var reservationDetailView: ReservationDetailView!
+    var vehicleOwnerService: VehicleOwnerServices!
     
     private var initialLaunch = true
 
@@ -15,8 +16,11 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         prepareNavBar()
         prepareContentView()
+        prepareReservationDetailView()
         LocationService.manager.setDelegate(viewController: self)
         testCreateAccount()
+        view.addSubview(reservationDetailView)
+        vehicleOwnerService = VehicleOwnerServices(self)
     }
     
     // MARK: - Setup - View/Data
@@ -30,6 +34,16 @@ class MapViewController: UIViewController {
         view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
             make.edges.equalTo(view.snp.edges)
+        }
+    }
+    
+    private func prepareReservationDetailView() {
+        reservationDetailView = ReservationDetailView(viewController: self, name: "Sai", time: "6.00")
+        view.addSubview(reservationDetailView)
+        reservationDetailView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.width.equalTo(view.snp.width)
+            make.height.equalTo(view.snp.height).dividedBy(8)
         }
     }
     
@@ -146,6 +160,35 @@ extension MapViewController: MapViewGestureDelegate {
     func mapViewWasLongPressed(at location: CLLocationCoordinate2D) {
         let newSpot = Spot(location: location)
         DataBaseService.manager.addSpot(spot: newSpot)
+    }
+}
+
+extension MapViewController: VehicleOwnerServiceDelegate {
+    
+    func retrieveReservations(reservationID: String, completion: @escaping (Reservation)->Void , errorHandler: @escaping (Error)->Void) {
+        let reservationRef = DataBaseService.manager.getReservationsRef().child(reservationID)
+        reservationRef.observe(.value) { (snapShot) in
+            if let json = snapShot.value {
+                do{
+                    let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
+                    let reservation = try JSONDecoder().decode(Reservation.self, from: jsonData)
+                    completion(reservation)
+                }
+                catch{
+                    print(#function, error)
+                    errorHandler(UserDataBaseErrors.errorDecodingVehicleOwner)
+                }
+            }
+        }
+    }
+    
+    func vehicleOwnerReservationDidUpdate(_ reservation: String) {
+        retrieveReservations(reservationID: reservation, completion: { [weak self] reservation in
+            self?.reservationDetailView.userNameLabel.text = reservation.takerUID
+            self?.reservationDetailView.timer.setTitle(reservation.duration, for: .normal)
+        }) { (error) in
+            print(error)
+        }
     }
 }
 

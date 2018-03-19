@@ -1,5 +1,9 @@
 import Foundation
 
+protocol VehicleOwnerServiceDelegate: class {
+    func vehicleOwnerReservationDidUpdate(_ reservation: String)
+}
+
 class VehicleOwnerServices {
     private var vehicleOwner: VehicleOwner! {
         didSet {
@@ -8,18 +12,22 @@ class VehicleOwnerServices {
 //            }
 //            previousReservationID = oldValue?.reservationUID
             print("Vehicle owner updated. Reservation \(vehicleOwner.reservationUID ?? "No reservation made yet.")")
+            delegate.vehicleOwnerReservationDidUpdate(vehicleOwner.reservationUID ?? "No reservation made yet.")
         }
     }
+    
+    weak var delegate: VehicleOwnerServiceDelegate!
     
 //    static let manager = VehicleOwnerServices()
 //    private init() {}
     
-    init() {
+    init(_ viewController: VehicleOwnerServiceDelegate) {
         DataBaseService.manager.retrieveCurrentVehicleOwner(completion: { vehicleOwner in
             self.vehicleOwner = vehicleOwner
         }) { error in
             print(#function, error)
         }
+        delegate = viewController
     }
     
     public func fetchVehicleOwnerFromFirebase() {
