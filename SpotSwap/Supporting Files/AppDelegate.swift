@@ -19,10 +19,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         
         //setup Window
-        let root = MapViewController().inNavController()
+        //let root = MapViewController().inNavController()
+        
+        let launchVC = LaunchViewController() // For testing
+        let navigationController = UINavigationController(rootViewController: launchVC)
+        
+        
         
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = root
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
     }
