@@ -29,6 +29,10 @@
 		1F7A31CF2059706400A25693 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31CE2059706400A25693 /* AuthenticationService.swift */; };
 		1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D02059747900A25693 /* VehicleOwner.swift */; };
 		1F7A31D320597CB100A25693 /* CarMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D220597CB100A25693 /* CarMake.swift */; };
+		81BFAE77205F6B2200E27389 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE76205F6B2200E27389 /* LoginView.swift */; };
+		81BFAE79205F6C1700E27389 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE78205F6C1700E27389 /* LaunchView.swift */; };
+		81BFAE7B205F6C6200E27389 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */; };
+		81BFAE7D205F6C8200E27389 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7C205F6C8200E27389 /* LoginViewController.swift */; };
 		81AEA971205C724E0081FD81 /* RegisterCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA970205C724E0081FD81 /* RegisterCarView.swift */; };
 		81AEA973205C72A60081FD81 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA972205C72A60081FD81 /* SignUpView.swift */; };
 		81AEA975205FBE870081FD81 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA974205FBE870081FD81 /* SignUpViewController.swift */; };
@@ -97,6 +101,10 @@
 		373747897C07028A9FFDE640 /* Pods-SpotSwapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapTests/Pods-SpotSwapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A4CF3009A658F8DCB5DD695 /* Pods-SpotSwapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapTests/Pods-SpotSwapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6DE1AB7B687F8DBB5BC9F18E /* Pods-SpotSwapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		81BFAE76205F6B2200E27389 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		81BFAE78205F6C1700E27389 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
+		81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		81BFAE7C205F6C8200E27389 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81AEA970205C724E0081FD81 /* RegisterCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCarView.swift; sourceTree = "<group>"; };
 		81AEA972205C72A60081FD81 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		81AEA974205FBE870081FD81 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -226,6 +234,8 @@
 		1F7A31C52059666C00A25693 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */,
+				81BFAE7C205F6C8200E27389 /* LoginViewController.swift */,
 				C4C29B55205C3C4F00C25344 /* MapViewController.swift */,
 				1F7A31962059665D00A25693 /* ViewController.swift */,
 				81AEA974205FBE870081FD81 /* SignUpViewController.swift */,
@@ -257,6 +267,8 @@
 		1F7A31C82059669100A25693 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81BFAE78205F6C1700E27389 /* LaunchView.swift */,
+				81BFAE76205F6B2200E27389 /* LoginView.swift */,
 				C4F8A4A9205C3D1B001A746A /* MapView.swift */,
 				C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */,
 				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
@@ -629,9 +641,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				81BFAE7D205F6C8200E27389 /* LoginViewController.swift in Sources */,
 				C4F8A4AC205C3D6C001A746A /* LocationServices.swift in Sources */,
 				1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */,
 				1F467B1020597F6C00598418 /* NetworkHelper.swift in Sources */,
+				81BFAE79205F6C1700E27389 /* LaunchView.swift in Sources */,
 				C4F8A4B0205C4C3B001A746A /* DateProvider.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
 				C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */,
@@ -641,6 +655,7 @@
 				1F467B1C20599BA900598418 /* DataBaseService.swift in Sources */,
 				81AEA973205C72A60081FD81 /* SignUpView.swift in Sources */,
 				1F467B202059AD2800598418 /* DataBaseService+CarMakes.swift in Sources */,
+				81BFAE77205F6B2200E27389 /* LoginView.swift in Sources */,
 				C4F8A4AA205C3D1B001A746A /* MapView.swift in Sources */,
 				1F467B0C20597E6000598418 /* CarModel.swift in Sources */,
 				C4C29B54205C3C4700C25344 /* UIViewController+Nav.swift in Sources */,
@@ -659,6 +674,7 @@
 				C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */,
 				C4F30A8820600428008B0156 /* Reservation.swift in Sources */,
 				1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */,
+				81BFAE7B205F6C6200E27389 /* LaunchViewController.swift in Sources */,
 				1F7A31CF2059706400A25693 /* AuthenticationService.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -819,8 +835,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RBE99A2Y96;
+				DEVELOPMENT_TEAM = PNZ44GM75Q;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -835,8 +852,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RBE99A2Y96;
+				DEVELOPMENT_TEAM = PNZ44GM75Q;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = AlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
