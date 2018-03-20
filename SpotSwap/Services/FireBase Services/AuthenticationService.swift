@@ -65,7 +65,7 @@ class AuthenticationService {
         }
     }
     
-    //this function will sign the user out
+    //This function will sign the user out
     public func signOut(errorHandler: @escaping(Error)->Void) {
         do {
             try Auth.auth().signOut()

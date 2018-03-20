@@ -163,25 +163,8 @@ extension MapViewController: MapViewGestureDelegate {
 
 // MARK: - VehicleOwnerServiceDelegate
 extension MapViewController: VehicleOwnerServiceDelegate {
-    func retrieveReservations(reservationID: String, completion: @escaping (Reservation)->Void , errorHandler: @escaping (Error)->Void) {
-        let reservationRef = DataBaseService.manager.getReservationsRef().child(reservationID)
-        reservationRef.observe(.value) { (snapShot) in
-            if let json = snapShot.value as? NSDictionary {
-                do{
-                    let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
-                    let reservation = try JSONDecoder().decode(Reservation.self, from: jsonData)
-                    completion(reservation)
-                }
-                catch{
-                    print(#function, error)
-                    errorHandler(DataBaseReferenceErrors.errorDecodingVehicleOwner)
-                }
-            }
-        }
-    }
-    
     func vehicleOwnerReservationDidUpdate(_ reservation: String) {
-        retrieveReservations(reservationID: reservation, completion: { [weak self] reservation in
+        DataBaseService.manager.retrieveReservations(reservationID: reservation, completion: { [weak self] reservation in
             self?.reservationDetailView.userNameLabel.text = reservation.takerUID.prefix(6).description
             self?.reservationDetailView.timer.setTitle(reservation.duration, for: .normal)
         }) { (error) in

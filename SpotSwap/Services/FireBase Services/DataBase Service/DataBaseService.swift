@@ -20,6 +20,8 @@ enum DataBaseReferenceErrors: Error{
 }
 
 class DataBaseService {
+    // MARK: - Properties
+    
     static let manager = DataBaseService()
     var dataBaseRef: DatabaseReference
     var carOwnerRef: DatabaseReference
@@ -27,6 +29,7 @@ class DataBaseService {
     var spotRef: DatabaseReference
     var reservationRef: DatabaseReference
     // MARK: - Inits
+    
     private init(){
         // This will intialize the reference of the data base to the root of the FireBase dataBase
         self.dataBaseRef = Database.database().reference()
@@ -36,6 +39,7 @@ class DataBaseService {
         self.reservationRef = dataBaseRef.child("reservations")
     }
     // MARK: - Public Functions
+    
     public func getDataBaseRef()->DatabaseReference{return dataBaseRef}
     public func getCarOwnerRef()->DatabaseReference{return carOwnerRef}
     public func getCarMakesRef()->DatabaseReference{return carMakes}

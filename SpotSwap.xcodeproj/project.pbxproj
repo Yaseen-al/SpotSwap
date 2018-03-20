@@ -18,6 +18,7 @@
 		1F467B202059AD2800598418 /* DataBaseService+CarMakes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B1F2059AD2800598418 /* DataBaseService+CarMakes.swift */; };
 		1F467B22205AE02800598418 /* Spot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B21205AE02800598418 /* Spot.swift */; };
 		1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B23205AE11900598418 /* DataBaseService+Spots.swift */; };
+		1F674F6920615EFA00E16D0A /* DataBaseService+Reservations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F674F6820615EFA00E16D0A /* DataBaseService+Reservations.swift */; };
 		1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31942059665D00A25693 /* AppDelegate.swift */; };
 		1F7A31972059665D00A25693 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31962059665D00A25693 /* ViewController.swift */; };
 		1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A319B2059665D00A25693 /* SpotSwap.xcdatamodeld */; };
@@ -81,6 +82,7 @@
 		1F467B1F2059AD2800598418 /* DataBaseService+CarMakes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+CarMakes.swift"; sourceTree = "<group>"; };
 		1F467B21205AE02800598418 /* Spot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spot.swift; sourceTree = "<group>"; };
 		1F467B23205AE11900598418 /* DataBaseService+Spots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+Spots.swift"; sourceTree = "<group>"; };
+		1F674F6820615EFA00E16D0A /* DataBaseService+Reservations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+Reservations.swift"; sourceTree = "<group>"; };
 		1F7A31912059665D00A25693 /* SpotSwap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotSwap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F7A31942059665D00A25693 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F7A31962059665D00A25693 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -171,6 +173,7 @@
 				1F467B1D20599FE100598418 /* DataBaseService+VehicleOwner.swift */,
 				1F467B1F2059AD2800598418 /* DataBaseService+CarMakes.swift */,
 				1F467B23205AE11900598418 /* DataBaseService+Spots.swift */,
+				1F674F6820615EFA00E16D0A /* DataBaseService+Reservations.swift */,
 			);
 			path = "DataBase Service";
 			sourceTree = "<group>";
@@ -654,6 +657,7 @@
 				81AEA975205FBE870081FD81 /* SignUpViewController.swift in Sources */,
 				C4C29B53205C3C4700C25344 /* UIColor+Hex.swift in Sources */,
 				81AEA977205FFC430081FD81 /* RegisterCarViewController.swift in Sources */,
+				1F674F6920615EFA00E16D0A /* DataBaseService+Reservations.swift in Sources */,
 				1F467B1C20599BA900598418 /* DataBaseService.swift in Sources */,
 				81AEA973205C72A60081FD81 /* SignUpView.swift in Sources */,
 				1F467B202059AD2800598418 /* DataBaseService+CarMakes.swift in Sources */,
