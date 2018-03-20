@@ -7,7 +7,7 @@ class MapViewController: UIViewController {
     // MARK: - Properties
     var contentView: MapView!
     var reservationDetailView: ReservationDetailView!
-    
+    var menuView = MenuView()
     var vehicleOwnerService: VehicleOwnerServices!
     
     private var initialLaunch = true
@@ -17,24 +17,38 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         prepareNavBar()
         prepareContentView()
-        prepareReservationDetailView()
+        setupMenuView()
+//        prepareReservationDetailView()
         LocationService.manager.setDelegate(viewController: self)
         vehicleOwnerService = VehicleOwnerServices(self)
+        self.view.backgroundColor = Stylesheet.Colors.GrayMain
         
-        testCreateAccount()
     }
-    
+
     // MARK: - Setup - View/Data
     private func prepareNavBar() {
         navigationItem.title = "SpotSwap"
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
-        
+        let listNavigationItem = UIBarButtonItem(image: #imageLiteral(resourceName: "listIcon"), style: .plain, target: self, action: #selector(handleMenu(_:)))
+        navigationItem.leftBarButtonItem = listNavigationItem
         // Removes the gloss that makes the nav bar a different shade of the UIColor assigned to it
         navigationController?.navigationBar.isTranslucent = false
         
         // Removes 1px border line at the bottom of the nav bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    //This will setup the menu view
+    private func setupMenuView(){
+        view.addSubview(menuView)
+        let menueViewWidth = UIScreen.main.bounds.width * 0.35
+        menuView.snp.makeConstraints { (constraint) in
+            constraint.width.equalTo(self.view.snp.width).multipliedBy(0.35)
+            constraint.leading.equalTo(self.view.snp.leading).offset(-menueViewWidth)
+            constraint.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            constraint.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            constraint.centerY.equalTo(self.view.snp.centerY)
+        }
     }
     
     private func prepareContentView() {
@@ -54,7 +68,10 @@ class MapViewController: UIViewController {
             make.height.equalTo(view.snp.height).dividedBy(10)
         }
     }
-    
+    //MARK: - Button actions
+    @objc private func handleMenu(_ sender: UIBarButtonItem){
+        menuView.handleMenu(contentView, sender: sender)
+    }
     // TESTING - REMOVE
     func testCreateAccount(){
         let userEmail = "SaiTesting20@gmail.com"

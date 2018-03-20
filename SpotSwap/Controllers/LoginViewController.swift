@@ -14,11 +14,10 @@ class LoginViewController: UIViewController {
         view.backgroundColor = .orange
         configureNavBar()
     }
-    
+ 
     func configureNavBar(){
         self.navigationController?.isNavigationBarHidden = false
     }
-    
     
     //MARK: - Setup Button Actions
     @objc func loginTapped(sender:UIButton!) {
