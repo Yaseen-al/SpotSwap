@@ -26,11 +26,18 @@ class LoginViewController: UIViewController {
         //TODO: Call firebase manager to authenticate the user and login
         AuthenticationService.manager.signIn(email: loginView.emailTextField.text!, password: loginView.passwordTextField.text!, completion: { (user) in
             //present alert
+            let alert = UIAlertController(title: "Login Successful!", message: "Finding nearby parking spots", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
+            
             //TODO: Send user to the map homepage
             let mapView = MapViewController()
             self.present(mapView, animated: true, completion: nil)
+            
         }) { (error) in
-            //alert
+            let alert = UIAlertController(title: "Login Error!", message: "\(error)", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            self.present(alert, animated: true)
         }
         
     }

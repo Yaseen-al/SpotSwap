@@ -69,7 +69,7 @@ class LoginView: UIView {
         setupEmailTextField()
         setupPasswordTextField()
         setupLoginButton()
-        setupLogoSubtitleLabel()
+        //setupLogoSubtitleLabel()
 
     }
     
