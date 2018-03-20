@@ -1,14 +1,17 @@
-//
-//  DataBaseService+Spots.swift
-//  SpotSwap
-//
-//  Created by Yaseen Al Dallash on 3/15/18.
-//  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
-//
-
 import Foundation
 import Firebase
+
+
 extension DataBaseService{
+    //This funciton will add a reservation for a vehicleOwner
+    func addReservation(reservation: Reservation, to vehicleOwner: VehicleOwner) {
+        let child  = self.getReservationsRef().childByAutoId()
+        reservation.reservationUID = child.key
+        child.setValue(reservation.toJSON())
+        
+        let currentUserReservingSpot = vehicleOwner
+        currentUserReservingSpot.reservationUID = child.key
+    }
     //This function will read all the spots from the dataBase
     func retrieveAllSpots(completion: @escaping([Spot])->Void, errorHandler: @escaping(Error)->Void){
         let spotsRef = self.getSpotsRef()

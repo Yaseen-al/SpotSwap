@@ -11,10 +11,20 @@ import Firebase
 
 extension DataBaseService{
     // MARK: - Public Functions
-    
     //This will add a new vehicleOwner to the dataBase using the user UID
-    public func addNewVehicleOwner(vehicleOwner: VehicleOwner, user: User, completion: ()->Void, errorHandler: (Error)->Void){
+    public func addNewVehicleOwner(vehicleOwner: VehicleOwner, user: User, completion: @escaping ()->Void, errorHandler: @escaping (Error)->Void){
         let child = self.getCarOwnerRef().child(user.uid)
+        child.setValue(vehicleOwner.toJSON()) { (error, databaseRef) in
+            if let error = error  {
+                errorHandler(error)
+            } else {
+                completion()
+            }
+        }
+    }
+    //This  will add new vehicle owner
+    public func addNewVehicleOwner(vehicleOwner: VehicleOwner, userID: String) {
+        let child = self.getCarOwnerRef().child(userID)
         child.setValue(vehicleOwner.toJSON())
     }
     //This function will retrieve the vehicleOwner from the data base
@@ -26,14 +36,15 @@ extension DataBaseService{
         }
         let vehicleOwnerRef = self.getCarOwnerRef().child(user.uid)
         vehicleOwnerRef.observe(.value) { (snapShot) in
-            if let json = snapShot.value{
+            if let json = snapShot.value as? NSDictionary {
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
                     let vehicleOwner = try JSONDecoder().decode(VehicleOwner.self, from: jsonData)
                     completion(vehicleOwner)
                 }
                 catch{
-                    print("Dev", error)
+                    
+                    print(#function, error)
                     errorHandler(DataBaseReferenceErrors.errorDecodingVehicleOwner)
                 }
             }
@@ -70,13 +81,14 @@ extension DataBaseService{
         }
     }
     // This function will updated a certain user 'A' with a connected user 'B' who is looking for a spot as well as update user 'B' with user 'A'
+
     public func connectCarOwnersAfterReservation(spot: Spot, completion:(Bool)->Void, erroHandler:@escaping (Error)->Void) {
         guard let currentUser = AuthenticationService.manager.getCurrentUser() else{
             erroHandler(AuthenticationServiceErrors.noSignedInUser)
             return
         }
         retrieveCurrentVehicleOwner(completion: { (vehicleOwner) in
-            var currentVehicleOwner = vehicleOwner
+            let currentVehicleOwner = vehicleOwner
             currentVehicleOwner.swapUserUID = spot.userUID
             self.updateVehicleOwner(vehicleOwner: currentVehicleOwner, errorHandler: { (error) in
                 erroHandler(error)
@@ -88,7 +100,7 @@ extension DataBaseService{
         }
         //this will retrieve the vehicle owner that posted the spot and updated it's swapUserUID
         self.retrieveVehicleOwner(vehicleOwnerId: spot.userUID, completion: { (vehicleOwner) in
-            var connectedVehicleOwner = vehicleOwner
+            let connectedVehicleOwner = vehicleOwner
             connectedVehicleOwner.swapUserUID = currentUser.uid
             self.updateVehicleOwner(vehicleOwner: connectedVehicleOwner, errorHandler: { (error) in
                 erroHandler(error)
@@ -99,3 +111,17 @@ extension DataBaseService{
     }
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
