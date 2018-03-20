@@ -5,17 +5,24 @@ import MapKit
 class Spot: NSObject, Codable {
     var spotUID: String
     var userUID: String //this is the user who created the spot
+    var reservationUID: String?
     let longitude: Double
     let latitude: Double
     let timeStamp: String
     let duration: String
     func toJSON() -> Any {
-        let jsonData = try! JSONEncoder().encode(self)
-        return try! JSONSerialization.jsonObject(with: jsonData, options: [])
+        do {
+            let jsonData = try JSONEncoder().encode(self)
+            return try JSONSerialization.jsonObject(with: jsonData, options: [])
+        } catch  {
+            print(error)
+            fatalError("Could not encode Spot")
+        }
     }
     
     init(location: CLLocationCoordinate2D) {
         self.spotUID = ""
+        self.reservationUID = nil
         self.longitude = location.longitude
         self.latitude = location.latitude
         self.duration = DateProvider.manager.randomTimeForSpot()

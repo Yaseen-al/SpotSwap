@@ -13,13 +13,13 @@ class RegisterCarView: UIView {
     
     lazy var cameraButton: UIButton = {
         var button = UIButton()
-        button.contentMode = .scaleAspectFit
-       return button
+        button.contentMode = .scaleAspectFill
+        return button
     }()
-
+    
     lazy var carImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         return imageView
     }()
     

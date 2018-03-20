@@ -18,7 +18,6 @@ class SignUpViewController: UIViewController {
         
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
         view.addSubview(signUpView)
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
@@ -31,10 +30,11 @@ class SignUpViewController: UIViewController {
     }
     
     private func setupNavBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .action, target: self, action: #selector(goToNextView))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(goToNextView))
     }
     
-     @objc private func goToNextView() {
+    @objc private func goToNextView() {
+        navigationController?.pushViewController(RegisterCarViewController(), animated: true)
     }
     
 }
