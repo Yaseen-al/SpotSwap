@@ -1,21 +1,6 @@
 import Foundation
 import Firebase
-enum SpotsDataBaseErrors: Error{
-    case errorDecodingSpot
-    case errorGettingSpotsJSON
-    case spotsNodeHasNoChildren
-}
 
-extension DataBaseService {
-    func addReservation(reservation: Reservation, to vehicleOwner: VehicleOwner) {
-        let child  = self.getReservationsRef().childByAutoId()
-        reservation.reservationUID = child.key
-        child.setValue(reservation.toJSON())
-        
-        let currentUserReservingSpot = vehicleOwner
-        currentUserReservingSpot.reservationUID = child.key
-    }
-}
 
 extension DataBaseService{
     //This function will read all the spots from the dataBase
@@ -23,13 +8,13 @@ extension DataBaseService{
         let spotsRef = self.getSpotsRef()
         spotsRef.observe(.value) { (snapShot) in
             guard let snapshots = snapShot.children.allObjects as? [DataSnapshot] else{
-                errorHandler(SpotsDataBaseErrors.spotsNodeHasNoChildren)
+                errorHandler(DataBaseReferenceErrors.spotsNodeHasNoChildren)
                 return
             }
             var allSpots = [Spot]()
             for snapShot in snapshots {
                 guard let json = snapShot.value else{
-                    errorHandler(SpotsDataBaseErrors.errorGettingSpotsJSON)
+                    errorHandler(DataBaseReferenceErrors.errorGettingSpotsJSON)
                     return
                 }
                 do{
@@ -39,7 +24,7 @@ extension DataBaseService{
                 }
                 catch{
                     print("Dev: \(error)")
-                    errorHandler(SpotsDataBaseErrors.errorDecodingSpot)
+                    errorHandler(DataBaseReferenceErrors.errorDecodingSpot)
                 }
             }
             completion(allSpots)

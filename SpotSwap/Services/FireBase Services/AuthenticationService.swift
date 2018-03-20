@@ -9,6 +9,7 @@
 import Foundation
 import FirebaseAuth
 
+// MARK: - AuthenticationService Errors
 enum AuthenticationServiceErrors: Error{
     case signInError
     case invalidEmail
@@ -16,16 +17,19 @@ enum AuthenticationServiceErrors: Error{
     case signOutError
     case noSignedInUser
 }
+
 class AuthenticationService {
-    private init(){}
-    //This function will get the current user
     static let manager = AuthenticationService()
-    func getCurrentUser() -> User? {
+    private init(){}
+    //MARK: - Public Functions
+    
+    //This function will get the current user
+    public func getCurrentUser() -> User? {
         return Auth.auth().currentUser
     }
     //This function will create a new user
-    func createUser(email: String, password: String, completion: @escaping (User)->Void, errorHandler: @escaping (Error)->Void){
-
+    public func createUser(email: String, password: String, completion: @escaping (User)->Void, errorHandler: @escaping (Error)->Void){
+        
         Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
             if let error = error{
                 //TODO  handle the error
@@ -50,7 +54,7 @@ class AuthenticationService {
         }
     }
     //This function will let you sign in
-    func signIn(email: String, password: String, completion: @escaping (User) -> Void, errorHandler: @escaping(Error)->Void) {
+   public func signIn(email: String, password: String, completion: @escaping (User) -> Void, errorHandler: @escaping(Error)->Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if let error = error {
                 print("Dev: \(error)")
@@ -61,8 +65,8 @@ class AuthenticationService {
         }
     }
     
-    //this function will sign the user out
-    func signOut(errorHandler: @escaping(Error)->Void) {
+    //This function will sign the user out
+    public func signOut(errorHandler: @escaping(Error)->Void) {
         do {
             try Auth.auth().signOut()
         } catch {
