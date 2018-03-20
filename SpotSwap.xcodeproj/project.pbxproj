@@ -29,14 +29,14 @@
 		1F7A31CF2059706400A25693 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31CE2059706400A25693 /* AuthenticationService.swift */; };
 		1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D02059747900A25693 /* VehicleOwner.swift */; };
 		1F7A31D320597CB100A25693 /* CarMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D220597CB100A25693 /* CarMake.swift */; };
-		81BFAE77205F6B2200E27389 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE76205F6B2200E27389 /* LoginView.swift */; };
-		81BFAE79205F6C1700E27389 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE78205F6C1700E27389 /* LaunchView.swift */; };
-		81BFAE7B205F6C6200E27389 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */; };
-		81BFAE7D205F6C8200E27389 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7C205F6C8200E27389 /* LoginViewController.swift */; };
 		81AEA971205C724E0081FD81 /* RegisterCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA970205C724E0081FD81 /* RegisterCarView.swift */; };
 		81AEA973205C72A60081FD81 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA972205C72A60081FD81 /* SignUpView.swift */; };
 		81AEA975205FBE870081FD81 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA974205FBE870081FD81 /* SignUpViewController.swift */; };
 		81AEA977205FFC430081FD81 /* RegisterCarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */; };
+		81BFAE77205F6B2200E27389 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE76205F6B2200E27389 /* LoginView.swift */; };
+		81BFAE79205F6C1700E27389 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE78205F6C1700E27389 /* LaunchView.swift */; };
+		81BFAE7B205F6C6200E27389 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */; };
+		81BFAE7D205F6C8200E27389 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7C205F6C8200E27389 /* LoginViewController.swift */; };
 		AFD22630B5F3FC1365C1952A /* Pods_SpotSwapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25FC7A56F7BE78F688A0528 /* Pods_SpotSwapTests.framework */; };
 		B8D36D34BB4BF91D17C40F17 /* Pods_SpotSwap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */; };
 		C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B4F205C3C4600C25344 /* Stylesheet.swift */; };
@@ -101,14 +101,14 @@
 		373747897C07028A9FFDE640 /* Pods-SpotSwapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapTests/Pods-SpotSwapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A4CF3009A658F8DCB5DD695 /* Pods-SpotSwapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapTests/Pods-SpotSwapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6DE1AB7B687F8DBB5BC9F18E /* Pods-SpotSwapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.debug.xcconfig"; sourceTree = "<group>"; };
-		81BFAE76205F6B2200E27389 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		81BFAE78205F6C1700E27389 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
-		81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
-		81BFAE7C205F6C8200E27389 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		81AEA970205C724E0081FD81 /* RegisterCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCarView.swift; sourceTree = "<group>"; };
 		81AEA972205C72A60081FD81 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		81AEA974205FBE870081FD81 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCarViewController.swift; sourceTree = "<group>"; };
+		81BFAE76205F6B2200E27389 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		81BFAE78205F6C1700E27389 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
+		81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
+		81BFAE7C205F6C8200E27389 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932881718AB9CF961F1DB7E9 /* Pods-SpotSwapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B3E83A19C74BF6B852D22407 /* Pods_SpotSwapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -236,9 +236,9 @@
 			children = (
 				81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */,
 				81BFAE7C205F6C8200E27389 /* LoginViewController.swift */,
+				81AEA974205FBE870081FD81 /* SignUpViewController.swift */,
 				C4C29B55205C3C4F00C25344 /* MapViewController.swift */,
 				1F7A31962059665D00A25693 /* ViewController.swift */,
-				81AEA974205FBE870081FD81 /* SignUpViewController.swift */,
 				81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */,
 			);
 			path = Controllers;
@@ -484,6 +484,7 @@
 				"${SRCROOT}/Pods/Target Support Files/Pods-SpotSwap/Pods-SpotSwap-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/ImagePicker/ImagePicker.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Toucan/Toucan.framework",
@@ -494,6 +495,7 @@
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ImagePicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toucan.framework",

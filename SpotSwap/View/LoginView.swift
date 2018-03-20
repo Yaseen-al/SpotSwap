@@ -41,13 +41,12 @@ class LoginView: UIView {
         textField.autocapitalizationType = .none
         textField.layer.shadowOpacity = 0.1
         textField.layer.shadowOffset = CGSize(width: 2, height: 2)
-//      textField.keyboardType = .
         return textField
     }()
     
     lazy var loginButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
-        button.backgroundColor = .blue
+        button.backgroundColor = Stylesheet.Colors.BlueMain
         button.setTitle("Login", for: .normal)
         return button
     }()
@@ -70,7 +69,20 @@ class LoginView: UIView {
         setupPasswordTextField()
         setupLoginButton()
         //setupLogoSubtitleLabel()
+        setupButtonDetails()
 
+    }
+    
+    //For login button - rounds the corners and gives it a shadow
+    func setupButtonDetails() {
+        //            button.titleLabel?.font = button.titleLabel?.font.withSize(12)
+                    loginButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+                    loginButton.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+                    loginButton.layer.shadowOpacity = 1.0
+                    loginButton.layer.shadowRadius = 0.0
+                    loginButton.clipsToBounds = false
+                    loginButton.layer.masksToBounds = false
+                    loginButton.layer.cornerRadius = 5//loginButton.frame.height / 2
     }
     
     private func setupLogoImage() {
@@ -114,9 +126,8 @@ class LoginView: UIView {
         loginButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
             make.bottom.equalTo(snp.bottom).offset(-50)
-            make.height.equalTo(20)
+            make.height.equalTo(22)
             make.width.equalTo(60)
-            
         }
     }
 

@@ -6,7 +6,8 @@ class LaunchView: UIView {
     // MARK: - Properties
     lazy var backgroundImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "test_background")
+        iv.image = #imageLiteral(resourceName: "launchImage ")
+        iv.contentMode = .scaleAspectFill
         return iv
     }()
     
@@ -30,7 +31,9 @@ class LaunchView: UIView {
     lazy var loginButton: UIButton = {
         let button = UIButton()
         //frame: CGRect(x: 100, y: 100, width: 100, height: 50)
-        button.backgroundColor = .green
+        button.backgroundColor = Stylesheet.Colors.OrangeMain
+        button.layer.borderWidth = 1
+        button.layer.borderColor = Stylesheet.Colors.GrayMain.cgColor
         button.setTitle("Login", for: .normal)
         return button
     }()
@@ -38,7 +41,9 @@ class LaunchView: UIView {
     lazy var signUpButton: UIButton = {
         let button = UIButton()
         //frame: CGRect(x: 100, y: 100, width: 100, height: 50)
-        button.backgroundColor = .yellow
+        button.backgroundColor = Stylesheet.Colors.OrangeMain
+        button.layer.borderWidth = 1
+        button.layer.borderColor = Stylesheet.Colors.GrayMain.cgColor
         button.setTitle("SignUp", for: .normal)
         return button
     }()

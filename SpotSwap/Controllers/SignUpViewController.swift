@@ -31,6 +31,7 @@ class SignUpViewController: UIViewController {
     
     private func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(goToNextView))
+        navigationController?.isNavigationBarHidden = false
     }
     
     @objc private func goToNextView() {

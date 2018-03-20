@@ -11,7 +11,7 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         view.addSubview(loginView)
         loginView.loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
-        view.backgroundColor = .orange
+        view.backgroundColor = Stylesheet.Colors.OrangeMain
         configureNavBar()
     }
     

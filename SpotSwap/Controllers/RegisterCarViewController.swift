@@ -46,6 +46,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @objc private func goToMapViewController() {
+        //TODO: got to the mapViewController
     }
     
     @objc func cameraButtonPressed() {
