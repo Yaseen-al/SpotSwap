@@ -241,9 +241,9 @@
 			children = (
 				81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */,
 				81BFAE7C205F6C8200E27389 /* LoginViewController.swift */,
+				81AEA974205FBE870081FD81 /* SignUpViewController.swift */,
 				C4C29B55205C3C4F00C25344 /* MapViewController.swift */,
 				1F7A31962059665D00A25693 /* ViewController.swift */,
-				81AEA974205FBE870081FD81 /* SignUpViewController.swift */,
 				81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */,
 			);
 			path = Controllers;
