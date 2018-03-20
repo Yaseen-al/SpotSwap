@@ -2,12 +2,20 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MenuDelegate {
+    func signOutButtonClicked(_ sender: MenuView) {
+        print("menue delegate fired up")
+        AuthenticationService.manager.signOut { (error) in
+            print(error)
+            return
+        }
+    }
+    
     
     // MARK: - Properties
     var contentView: MapView!
-    var reservationDetailView: ReservationDetailView!
-    
+//    var reservationDetailView: ReservationDetailView!
+    var menuView = MenuView()
     var vehicleOwnerService: VehicleOwnerServices!
     
     private var initialLaunch = true
@@ -17,24 +25,39 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         prepareNavBar()
         prepareContentView()
-        prepareReservationDetailView()
+        setupMenuView()
+        menuView.delegate = self
+//        prepareReservationDetailView()
         LocationService.manager.setDelegate(viewController: self)
         vehicleOwnerService = VehicleOwnerServices(self)
+        self.view.backgroundColor = Stylesheet.Colors.GrayMain
         
-        testCreateAccount()
     }
-    
+
     // MARK: - Setup - View/Data
     private func prepareNavBar() {
         navigationItem.title = "SpotSwap"
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
-        
+        let listNavigationItem = UIBarButtonItem(image: #imageLiteral(resourceName: "listIcon"), style: .plain, target: self, action: #selector(handleMenu(_:)))
+        navigationItem.leftBarButtonItem = listNavigationItem
         // Removes the gloss that makes the nav bar a different shade of the UIColor assigned to it
         navigationController?.navigationBar.isTranslucent = false
         
         // Removes 1px border line at the bottom of the nav bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    //This will setup the menu view
+    private func setupMenuView(){
+        view.addSubview(menuView)
+        let menueViewWidth = UIScreen.main.bounds.width * 0.35
+        menuView.snp.makeConstraints { (constraint) in
+            constraint.width.equalTo(self.view.snp.width).multipliedBy(0.35)
+            constraint.leading.equalTo(self.view.snp.leading).offset(-menueViewWidth)
+            constraint.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
+            constraint.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
+            constraint.centerY.equalTo(self.view.snp.centerY)
+        }
     }
     
     private func prepareContentView() {
@@ -45,16 +68,19 @@ class MapViewController: UIViewController {
         }
     }
     
-    private func prepareReservationDetailView() {
-        reservationDetailView = ReservationDetailView(viewController: self, name: "Sai", time: "6.00")
-        view.addSubview(reservationDetailView)
-        reservationDetailView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.width.equalTo(view.snp.width)
-            make.height.equalTo(view.snp.height).dividedBy(10)
-        }
+//    private func prepareReservationDetailView() {
+//        reservationDetailView = ReservationDetailView(viewController: self, name: "Sai", time: "6.00")
+//        view.addSubview(reservationDetailView)
+//        reservationDetailView.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+//            make.width.equalTo(view.snp.width)
+//            make.height.equalTo(view.snp.height).dividedBy(10)
+//        }
+//    }
+    //MARK: - Button actions
+    @objc private func handleMenu(_ sender: UIBarButtonItem){
+        menuView.handleMenu(contentView, sender: sender)
     }
-    
     // TESTING - REMOVE
     func testCreateAccount(){
         let userEmail = "SaiTesting20@gmail.com"
@@ -165,8 +191,8 @@ extension MapViewController: MapViewGestureDelegate {
 extension MapViewController: VehicleOwnerServiceDelegate {
     func vehicleOwnerReservationDidUpdate(_ reservation: String) {
         DataBaseService.manager.retrieveReservations(reservationID: reservation, completion: { [weak self] reservation in
-            self?.reservationDetailView.userNameLabel.text = reservation.takerUID.prefix(6).description
-            self?.reservationDetailView.timer.setTitle(reservation.duration, for: .normal)
+//            self?.reservationDetailView.userNameLabel.text = reservation.takerUID.prefix(6).description
+//            self?.reservationDetailView.timer.setTitle(reservation.duration, for: .normal)
         }) { (error) in
             print(error)
         }

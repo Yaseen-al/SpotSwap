@@ -24,7 +24,6 @@ class LoginView: UIView {
         textField.placeholder = "Enter your Email"
         textField.borderStyle = .roundedRect
         textField.autocorrectionType = .no
-        textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
         textField.layer.shadowOpacity = 0.1
         textField.layer.shadowOffset = CGSize(width: 2, height: 2)
