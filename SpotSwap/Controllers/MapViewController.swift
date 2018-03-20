@@ -2,11 +2,19 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController {
+class MapViewController: UIViewController, MenuDelegate {
+    func signOutButtonClicked(_ sender: MenuView) {
+        print("menue delegate fired up")
+        AuthenticationService.manager.signOut { (error) in
+            print(error)
+            return
+        }
+    }
+    
     
     // MARK: - Properties
     var contentView: MapView!
-    var reservationDetailView: ReservationDetailView!
+//    var reservationDetailView: ReservationDetailView!
     var menuView = MenuView()
     var vehicleOwnerService: VehicleOwnerServices!
     
@@ -18,6 +26,7 @@ class MapViewController: UIViewController {
         prepareNavBar()
         prepareContentView()
         setupMenuView()
+        menuView.delegate = self
 //        prepareReservationDetailView()
         LocationService.manager.setDelegate(viewController: self)
         vehicleOwnerService = VehicleOwnerServices(self)
@@ -59,15 +68,15 @@ class MapViewController: UIViewController {
         }
     }
     
-    private func prepareReservationDetailView() {
-        reservationDetailView = ReservationDetailView(viewController: self, name: "Sai", time: "6.00")
-        view.addSubview(reservationDetailView)
-        reservationDetailView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            make.width.equalTo(view.snp.width)
-            make.height.equalTo(view.snp.height).dividedBy(10)
-        }
-    }
+//    private func prepareReservationDetailView() {
+//        reservationDetailView = ReservationDetailView(viewController: self, name: "Sai", time: "6.00")
+//        view.addSubview(reservationDetailView)
+//        reservationDetailView.snp.makeConstraints { make in
+//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+//            make.width.equalTo(view.snp.width)
+//            make.height.equalTo(view.snp.height).dividedBy(10)
+//        }
+//    }
     //MARK: - Button actions
     @objc private func handleMenu(_ sender: UIBarButtonItem){
         menuView.handleMenu(contentView, sender: sender)
@@ -182,8 +191,8 @@ extension MapViewController: MapViewGestureDelegate {
 extension MapViewController: VehicleOwnerServiceDelegate {
     func vehicleOwnerReservationDidUpdate(_ reservation: String) {
         DataBaseService.manager.retrieveReservations(reservationID: reservation, completion: { [weak self] reservation in
-            self?.reservationDetailView.userNameLabel.text = reservation.takerUID.prefix(6).description
-            self?.reservationDetailView.timer.setTitle(reservation.duration, for: .normal)
+//            self?.reservationDetailView.userNameLabel.text = reservation.takerUID.prefix(6).description
+//            self?.reservationDetailView.timer.setTitle(reservation.duration, for: .normal)
         }) { (error) in
             print(error)
         }

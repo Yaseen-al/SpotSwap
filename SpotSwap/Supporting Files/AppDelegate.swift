@@ -16,16 +16,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        
         //setup Window
-        let root = MapViewController().inNavController()
-        
-        let launchVC = LaunchViewController() // For testing
-        let navigationController = UINavigationController(rootViewController: launchVC)
-        
 
+        if AuthenticationService.manager.getCurrentUser() != nil{
+            let mapRoot = MapViewController().inNavController()
+            window = UIWindow(frame: UIScreen.main.bounds)
+            window?.rootViewController = mapRoot
+            window?.makeKeyAndVisible()
+            return true
+
+        }
+        let root = LaunchViewController()
+        let navigationController = UINavigationController(rootViewController: root)
         window = UIWindow(frame: UIScreen.main.bounds)
-        window?.rootViewController = root
+        window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
     }
