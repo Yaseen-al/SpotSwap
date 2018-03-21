@@ -5,19 +5,29 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var enableAllOrientation = false
     
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if (enableAllOrientation == true){
+            return UIInterfaceOrientationMask.allButUpsideDown
+        }
+        return UIInterfaceOrientationMask.portrait
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        
         //setup Window
-        //let root = MapViewController().inNavController()
-        
-        let launchVC = LaunchViewController() // For testing
-        let navigationController = UINavigationController(rootViewController: launchVC)
-        
-        
-        
+
+        if AuthenticationService.manager.getCurrentUser() != nil{
+            let mapRoot = MapViewController().inNavController()
+            window = UIWindow(frame: UIScreen.main.bounds)
+            window?.rootViewController = mapRoot
+            window?.makeKeyAndVisible()
+            return true
+
+        }
+        let root = LaunchViewController()
+        let navigationController = UINavigationController(rootViewController: root)
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()

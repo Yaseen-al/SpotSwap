@@ -19,6 +19,7 @@
 		1F467B22205AE02800598418 /* Spot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B21205AE02800598418 /* Spot.swift */; };
 		1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B23205AE11900598418 /* DataBaseService+Spots.swift */; };
 		1F674F6920615EFA00E16D0A /* DataBaseService+Reservations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F674F6820615EFA00E16D0A /* DataBaseService+Reservations.swift */; };
+		1F674F6B206176E700E16D0A /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F674F6A206176E700E16D0A /* MenuView.swift */; };
 		1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31942059665D00A25693 /* AppDelegate.swift */; };
 		1F7A31972059665D00A25693 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31962059665D00A25693 /* ViewController.swift */; };
 		1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A319B2059665D00A25693 /* SpotSwap.xcdatamodeld */; };
@@ -83,6 +84,7 @@
 		1F467B21205AE02800598418 /* Spot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Spot.swift; sourceTree = "<group>"; };
 		1F467B23205AE11900598418 /* DataBaseService+Spots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+Spots.swift"; sourceTree = "<group>"; };
 		1F674F6820615EFA00E16D0A /* DataBaseService+Reservations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+Reservations.swift"; sourceTree = "<group>"; };
+		1F674F6A206176E700E16D0A /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
 		1F7A31912059665D00A25693 /* SpotSwap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotSwap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F7A31942059665D00A25693 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F7A31962059665D00A25693 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -276,6 +278,7 @@
 				C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */,
 				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
 				81AEA972205C72A60081FD81 /* SignUpView.swift */,
+				1F674F6A206176E700E16D0A /* MenuView.swift */,
 				1F7A31C92059669600A25693 /* Cells */,
 			);
 			path = View;
@@ -651,6 +654,7 @@
 				1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */,
 				1F467B1020597F6C00598418 /* NetworkHelper.swift in Sources */,
 				81BFAE79205F6C1700E27389 /* LaunchView.swift in Sources */,
+				1F674F6B206176E700E16D0A /* MenuView.swift in Sources */,
 				C4F8A4B0205C4C3B001A746A /* DateProvider.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
 				C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */,
@@ -841,7 +845,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PNZ44GM75Q;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -858,7 +862,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = PNZ44GM75Q;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
