@@ -3,7 +3,7 @@ import MapKit
 
 class Reservation: NSObject, Codable {
     var spotUID: String
-    var userUID: String //this is the user who created the spot
+    var userUID: String //This is the user who created the spot
     var takerUID: String
     var reservationUID: String?
     let longitude: Double

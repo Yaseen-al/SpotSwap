@@ -9,7 +9,6 @@
 import UIKit
 
 class ViewController: UIViewController {
-    let color = Stylesheet.Colors.BlueMain
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .yellow

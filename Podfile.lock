@@ -43,6 +43,7 @@ PODS:
     - GoogleToolboxForMac/NSString+URLArguments (= 2.1.3)
   - GoogleToolboxForMac/NSString+URLArguments (2.1.3)
   - GTMSessionFetcher/Core (1.1.13)
+  - ImagePicker (3.0.0)
   - Kingfisher (4.6.2)
   - leveldb-library (1.20)
   - nanopb (0.3.8):
@@ -58,6 +59,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - ImagePicker
   - Kingfisher
   - SnapKit
   - Toucan
@@ -72,12 +74,13 @@ SPEC CHECKSUMS:
   FirebaseStorage: 181bb543d39ee3c53e0558de7ba86b1286a0427f
   GoogleToolboxForMac: 2501e2ad72a52eb3dfe7bd9aee7dad11b858bd20
   GTMSessionFetcher: 5bb1eae636127de695590f50e7d248483eb891e6
+  ImagePicker: 973953c25960fe04729a7082a56194321c6762d2
   Kingfisher: 55b9c395bf8d3949676ad3861111923990ab68cf
   leveldb-library: 08cba283675b7ed2d99629a4bc5fd052cd2bb6a5
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
   Toucan: 61867fb10948c02e9804280a95eb183e98eac97a
 
-PODFILE CHECKSUM: 80c671085fb2e22cb56b8b892e6da132ca982328
+PODFILE CHECKSUM: b01f57ed4020c0cb798ed066db0d4b59563d3349
 
 COCOAPODS: 1.4.0
