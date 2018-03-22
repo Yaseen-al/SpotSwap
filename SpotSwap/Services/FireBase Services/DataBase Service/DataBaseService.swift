@@ -18,6 +18,11 @@ enum DataBaseReferenceErrors: Error{
     case errorGettingSpotsJSON
     case spotsNodeHasNoChildren
 }
+//MARK: - DataBaseObserveType
+enum DataBaseObserveType {
+    case singleEvent
+    case observing
+}
 
 class DataBaseService {
     // MARK: - Properties
@@ -46,3 +51,4 @@ class DataBaseService {
     public func getSpotsRef() -> DatabaseReference {return spotRef}
     public func getReservationsRef() -> DatabaseReference {return reservationRef}
 }
+
