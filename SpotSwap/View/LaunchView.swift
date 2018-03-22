@@ -14,7 +14,14 @@ class LaunchView: UIView {
     lazy var logoImage: UIImageView = {
         let logo = UIImageView()
         logo.contentMode = .scaleAspectFit
-        logo.image = #imageLiteral(resourceName: "SpotSwapLogo")
+        logo.image = UIImage(named: "43iosgroup6logo")
+        //style details
+        logo.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        logo.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        logo.layer.shadowOpacity = 1.0
+        logo.layer.shadowRadius = 0.0
+        logo.clipsToBounds = false
+        logo.layer.masksToBounds = false
         return logo
     }()
     
@@ -27,10 +34,8 @@ class LaunchView: UIView {
         return label
     }()
     
-    
     lazy var loginButton: UIButton = {
         let button = UIButton()
-        //frame: CGRect(x: 100, y: 100, width: 100, height: 50)
         button.backgroundColor = Stylesheet.Colors.OrangeMain
         button.layer.borderWidth = 1
         button.layer.borderColor = Stylesheet.Colors.GrayMain.cgColor
@@ -40,7 +45,6 @@ class LaunchView: UIView {
     
     lazy var signUpButton: UIButton = {
         let button = UIButton()
-        //frame: CGRect(x: 100, y: 100, width: 100, height: 50)
         button.backgroundColor = Stylesheet.Colors.OrangeMain
         button.layer.borderWidth = 1
         button.layer.borderColor = Stylesheet.Colors.GrayMain.cgColor
@@ -73,8 +77,8 @@ class LaunchView: UIView {
         self.addSubview(backgroundImageView)
         backgroundImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(snp.edges)
-            //            make.top.equalTo(safeAreaLayoutGuide.snp.top)
-            //            make.leading.trailing.bottom.equalTo(self)
+            //make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            //make.leading.trailing.bottom.equalTo(self)
         }
     }
     
@@ -118,23 +122,3 @@ class LaunchView: UIView {
     
 }
 
-
-//Segmented Control
-
-//    lazy var segmentedControl: UISegmentedControl = {
-//        let items = ["Login", "SignUp"]
-//        let sc = UISegmentedControl(items: items)
-//        sc.selectedSegmentIndex = 0
-//        sc.frame = CGRect(x: 0, y: 0, width: 200, height: 21)
-//        sc.layer.cornerRadius = 5.0  // Don't let background bleed
-//        sc.backgroundColor = .gray
-//        sc.tintColor = .white
-//        return sc
-//    }()
-//    private func setupSegmentedControl() {
-//        self.addSubview(segmentedControl)
-//        segmentedControl.snp.makeConstraints { (make) in
-//            make.height.equalTo(snp.height).multipliedBy(0.10)
-//            make.leading.bottom.trailing.equalTo(self)
-//        }
-//    }
