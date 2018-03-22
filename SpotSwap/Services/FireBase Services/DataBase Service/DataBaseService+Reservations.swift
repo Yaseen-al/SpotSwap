@@ -14,14 +14,31 @@ extension DataBaseService{
         let child  = self.getReservationsRef().childByAutoId()
         reservation.reservationUID = child.key
         child.setValue(reservation.toJSON())
-        
         let currentUserReservingSpot = vehicleOwner
-        currentUserReservingSpot.reservationUID = child.key
+        currentUserReservingSpot.reservationId = child.key
+        //This will update the currentUserReservingSpot aka vehicleOwner who reserved the spot
+        self.updateVehicleOwner(vehicleOwner: currentUserReservingSpot) { (error) in
+            print(#function,"error updating the currentUserReservingSpot")
+        }
     }
-    //This function will retrieve all reservations 
-    public func retrieveReservations(reservationID: String, completion: @escaping (Reservation)->Void , errorHandler: @escaping (Error)->Void) {
-        let reservationRef = self.getReservationsRef().child(reservationID)
-        reservationRef.observe(.value) { (snapShot) in
+    //This function will retrieve all reservations
+    
+    public func retrieveReservations(reservationId: String, completion: @escaping (Reservation)->Void , errorHandler: @escaping (Error)->Void) {
+        let reservationRef = self.getReservationsRef().child(reservationId)
+        //        reservationRef.observe(.value) { (snapShot) in
+        //            if let json = snapShot.value as? NSDictionary {
+        //                do{
+        //                    let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
+        //                    let reservation = try JSONDecoder().decode(Reservation.self, from: jsonData)
+        //                    completion(reservation)
+        //                }
+        //                catch{
+        //                    print(#function, error)
+        //                    errorHandler(DataBaseReferenceErrors.errorDecodingVehicleOwner)
+        //                }
+        //            }
+        //        }
+        reservationRef.observeSingleEvent(of: .value) { (snapShot) in
             if let json = snapShot.value as? NSDictionary {
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
@@ -34,6 +51,7 @@ extension DataBaseService{
                 }
             }
         }
-        
     }
+    
 }
+

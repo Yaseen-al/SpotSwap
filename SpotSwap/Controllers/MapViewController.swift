@@ -2,52 +2,41 @@ import UIKit
 import MapKit
 import CoreLocation
 
-class MapViewController: UIViewController, MenuDelegate {
-    func signOutButtonClicked(_ sender: MenuView) {
-        print("menue delegate fired up")
-        AuthenticationService.manager.signOut { (error) in
-            print(error)
-            return
-        }
-    }
-    
-    
+
+class MapViewController: UIViewController {
     // MARK: - Properties
-    var contentView: MapView!
-//    var reservationDetailView: ReservationDetailView!
-    var menuView = MenuView()
-    var vehicleOwnerService: VehicleOwnerServices!
-    
     private var initialLaunch = true
-    
+    private var contentView = MapView()
+    private var reservationDetailView: ReservationDetailView!
+    private var menuView = MenuView()
+    // This is basically an instance of the current vehicle owner in a class that have some functions that helps in controlling the flow of the vehicleOwner operations.
+    var vehicleOwnerService: VehicleOwnerService!
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        prepareNavBar()
-        prepareContentView()
+        setupNavigationBar()
+        setupContentView()
         setupMenuView()
         menuView.delegate = self
-//        prepareReservationDetailView()
         LocationService.manager.setDelegate(viewController: self)
-        vehicleOwnerService = VehicleOwnerServices(self)
+        vehicleOwnerService = VehicleOwnerService(self)
         self.view.backgroundColor = Stylesheet.Colors.GrayMain
-        
     }
-
-    // MARK: - Setup - View/Data
-    private func prepareNavBar() {
+    // MARK: - Setup NavigationBar
+    
+    private func setupNavigationBar() {
         navigationItem.title = "SpotSwap"
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
         let listNavigationItem = UIBarButtonItem(image: #imageLiteral(resourceName: "listIcon"), style: .plain, target: self, action: #selector(handleMenu(_:)))
         navigationItem.leftBarButtonItem = listNavigationItem
         // Removes the gloss that makes the nav bar a different shade of the UIColor assigned to it
         navigationController?.navigationBar.isTranslucent = false
-        
         // Removes 1px border line at the bottom of the nav bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
-    //This will setup the menu view
+    // MARK: - Setup Views
+    
     private func setupMenuView(){
         view.addSubview(menuView)
         let menueViewWidth = UIScreen.main.bounds.width * 0.35
@@ -59,8 +48,7 @@ class MapViewController: UIViewController, MenuDelegate {
             constraint.centerY.equalTo(self.view.snp.centerY)
         }
     }
-    
-    private func prepareContentView() {
+    private func setupContentView() {
         contentView = MapView(viewController: self)
         view.addSubview(contentView)
         contentView.snp.makeConstraints { make in
@@ -68,39 +56,17 @@ class MapViewController: UIViewController, MenuDelegate {
         }
     }
     
-//    private func prepareReservationDetailView() {
-//        reservationDetailView = ReservationDetailView(viewController: self, name: "Sai", time: "6.00")
-//        view.addSubview(reservationDetailView)
-//        reservationDetailView.snp.makeConstraints { make in
-//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-//            make.width.equalTo(view.snp.width)
-//            make.height.equalTo(view.snp.height).dividedBy(10)
-//        }
-//    }
-    //MARK: - Button actions
-    @objc private func handleMenu(_ sender: UIBarButtonItem){
-        menuView.handleMenu(contentView, sender: sender)
-    }
-    // TESTING - REMOVE
-    func testCreateAccount(){
-        let userEmail = "SaiTesting20@gmail.com"
-        let userPassword = "newPassword135"
-        AuthenticationService.manager.createUser(email: userEmail, password: userPassword, completion: { [weak self] (user) in
-            
-            let myCar = Car(carMake: "BMW", carModel: "E30", carYear: "1988", carImageId: nil)
-            let vehicleOwner = VehicleOwner(user: user, car: myCar, userName: userEmail)
-            DataBaseService.manager.addNewVehicleOwner(vehicleOwner: vehicleOwner, user: user, completion: {
-                print(#function, "added vehicle owner to the dataBase \(vehicleOwner.userName)")
-                self?.vehicleOwnerService.fetchVehicleOwnerFromFirebase()
-            }, errorHandler: { (error) in
-                print("error in adding a vehicle owner to the data base")
-            })
-        }) { [weak self] (error) in
-            print(#function, error)
-            self?.vehicleOwnerService.fetchVehicleOwnerFromFirebase()
+    private func setupReservationView(with vehicleOwner: VehicleOwner, reservation: Reservation) {
+        //this will make a reservation view with certain data ==> their should be a vehicle owner to get this data from
+        reservationDetailView = ReservationDetailView(viewController: self, name: vehicleOwner.userName, time: "6.00")
+        //        reservationDetailView.tag =
+        view.addSubview(reservationDetailView)
+        reservationDetailView.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            make.width.equalTo(view.snp.width)
+            make.height.equalTo(view.snp.height).dividedBy(10)
         }
     }
-    
 }
 
 // MARK: - MKMapViewDelegate
@@ -110,10 +76,7 @@ extension MapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         // Show blue dot for user's current location
-        if annotation is MKUserLocation {
-            return nil
-        }
-        
+        if annotation is MKUserLocation {return nil}
         // Get instance of annotationView so we can modify color
         var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "myAnnotation") as? MKMarkerAnnotationView
         if annotationView == nil {
@@ -125,36 +88,32 @@ extension MapViewController: MKMapViewDelegate {
         case is Spot:
             let spot = annotation as! Spot
             // Create custom detail view, inject it with `annotation` for data.
-            let detailView = UILabel()
+            let detailLatLongView = UILabel()
             let lat = String(annotation.coordinate.latitude).prefix(5)
             let long = String(annotation.coordinate.longitude).prefix(5)
             
-            
             if let reservationID = spot.reservationUID {
                 annotationView?.markerTintColor = Stylesheet.Colors.PinkMain
-                detailView.text = """
+                detailLatLongView.text = """
                 Reserved by \(reservationID.prefix(5)) 💩
                 You have \(spot.duration) minutes!
                 """
             } else {
+                //This will create an annotation for the spot
                 annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
-                detailView.text = "LAT: \(lat), LONG: \(long)"
+                detailLatLongView.text = "LAT: \(lat), LONG: \(long)"
             }
-            
-            
             annotationView?.annotation = annotation
             annotationView?.canShowCallout = true
-            annotationView?.detailCalloutAccessoryView = detailView
+            annotationView?.detailCalloutAccessoryView = detailLatLongView
             
             let button = UIButton(type: .detailDisclosure)
             annotationView?.rightCalloutAccessoryView = button
         default:
             break
         }
-        
         return annotationView
     }
-    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // TESTING - enable this line to simulate real use case of only being able to reserve a single spot at a time
         // let userHasNoCurrentReservation = !vehicleOwnerService.hasReservation()
@@ -189,10 +148,35 @@ extension MapViewController: MapViewGestureDelegate {
 
 // MARK: - VehicleOwnerServiceDelegate
 extension MapViewController: VehicleOwnerServiceDelegate {
-    func vehicleOwnerReservationDidUpdate(_ reservation: String) {
-        DataBaseService.manager.retrieveReservations(reservationID: reservation, completion: { [weak self] reservation in
-//            self?.reservationDetailView.userNameLabel.text = reservation.takerUID.prefix(6).description
-//            self?.reservationDetailView.timer.setTitle(reservation.duration, for: .normal)
+    
+    
+    func vehiclOwnerHasNoReservation() {
+        guard let _ = reservationDetailView else { return }
+        if reservationDetailView.isDescendant(of: view) {
+            reservationDetailView.removeFromSuperview()
+            //view.setNeedsLayout()
+        }
+        
+        //This will load all the spots and load the default map, may be we can a cool sppinner
+    }
+    
+    func vehiclOwnerRemoveReservation(_ reservationId: String) {
+        //To Do remove the reservationView if it is on the mainView and load all the spots back
+    }
+    func vehicleOwnerSpotReserved(_ reservationId: String) {
+        
+        DataBaseService.manager.retrieveReservations(reservationId: reservationId, completion: { reservation in
+            // Here we need to a. setup the reservationView b. clear all the map from anotation c. have a cancel button to cancel the whole reservation and retrieve back the normal map
+            DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerUID, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
+                
+                self.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
+            }, errorHandler: { (error) in
+                //this will give an alert to the user in case the taker data can't be retrieved
+                let alerViewController = UIAlertController(title: "There was an error retrieving your matched spot taker", message: nil, preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+                alerViewController.addAction(okAction)
+                self.present(alerViewController, animated: true, completion: nil)
+            })
         }) { (error) in
             print(error)
         }
@@ -211,3 +195,19 @@ private extension MapViewController {
         }
     }
 }
+
+//MARK: - Menu Delegates
+extension MapViewController: MenuDelegate{
+    // This will handle the signout from the menu
+    func signOutButtonClicked(_ sender: MenuView) {
+        AuthenticationService.manager.signOut { (error) in
+            print(error)
+            return
+        }
+    }
+    //MARK: - Menu Button actions
+    @objc private func handleMenu(_ sender: UIBarButtonItem){
+        menuView.handleMenu(contentView, sender: sender)
+    }
+}
+
