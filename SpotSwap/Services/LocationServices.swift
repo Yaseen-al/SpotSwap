@@ -64,7 +64,6 @@ class LocationService: NSObject {
 
 // MARK: - CLLocationManagerDelegate Methods
 extension LocationService: CLLocationManagerDelegate {
-    
     // This method is called once when app loads, responsible for `startUpdatingLocation`
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
@@ -83,7 +82,6 @@ extension LocationService: CLLocationManagerDelegate {
         locationServiceDelegate.userLocationDidUpdate(userLocation)
         print("Updated locations: \(locations)")
     }
-    
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Error \(error)")
     }
