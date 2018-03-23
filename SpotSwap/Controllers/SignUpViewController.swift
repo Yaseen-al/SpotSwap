@@ -33,6 +33,7 @@ class SignUpViewController: UIViewController {
     private func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(goToNextView))
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.isNavigationBarHidden = false
     }
     
