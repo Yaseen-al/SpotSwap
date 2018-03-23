@@ -10,9 +10,10 @@ import UIKit
 import ImagePicker
 
 class RegisterCarViewController: UIViewController, UIImagePickerControllerDelegate {
+
     
+    //Create an instance for the view
     let registerCarView = RegisterCarView()
-    
     
     var images = [UIImage]() {
         didSet {
@@ -21,9 +22,23 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     var imagePickerController: ImagePickerController!
+    
     private let imagePickerViewController = UIImagePickerController()
     
-    var carModelOptions = ["Hello", "Hola", "Bonjour", "Nihao"]
+    var carDict = [String:[String]]()
+    var carModelOptions = popularCarMakes
+    
+    //Dependency Injection to pass partial vehicleOwner from SignUpVC
+    var vehicleOwner: VehicleOwner!
+    
+    init(vehicleOwner: VehicleOwner) {
+        super.init(nibName: nil, bundle: nil)
+        self.vehicleOwner = vehicleOwner
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     
     override func viewDidLoad() {
@@ -31,14 +46,15 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         view.backgroundColor = .clear
         view.addSubview(registerCarView)
         setupNavBar()
-        registerCarView.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
         imagePickerController = ImagePickerController()
+        registerCarView.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
         imagePickerController.delegate = self
         imagePickerController.imageLimit = 1
         registerCarView.tableView.delegate = self
         registerCarView.tableView.dataSource = self
         registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
-        
+        registerCarView.carMakeTextField.delegate = self
+        configureSimpleInLineSearchTextField()
     }
     
     @objc private func dismissKeyboard() {
@@ -50,7 +66,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @objc private func goToMapViewController() {
-         navigationController?.pushViewController(MapViewController(), animated: true)
+        present(MapViewController(), animated: true, completion: nil)
     }
     
     @objc func cameraButtonPressed() {
@@ -89,9 +105,34 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         registerCarView.carMakeTextField.resignFirstResponder()
     }
+    
+    
+    // Configure a simple inline search text view
+    private func configureSimpleInLineSearchTextField() {
+        // Define the inline mode
+        registerCarView.carMakeTextField.inlineMode = true
+        
+        // Set data source
+        DataBaseService.manager.retrieveAllCarMakes(completion: { (carMakeDict:[String:[String]]) in
+            self.carDict = carMakeDict
+            var carMakeKey: [String] {
+                var arr: [String] = []
+                for (key, _) in carMakeDict {
+                    arr.append(key)
+                }
+               return arr
+            }
+            self.registerCarView.carMakeTextField.filterStrings(carMakeKey)
+        }, errorHandler: {(error: Error) in
+            
+        })
+        
+    }
+    
 }
 
 extension RegisterCarViewController: ImagePickerDelegate{
@@ -124,7 +165,7 @@ extension RegisterCarViewController: UITableViewDelegate, UITableViewDataSource 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell()
         let model = carModelOptions[indexPath.row]
-        cell.textLabel?.text = model
+        cell.textLabel?.text = String(describing: model)
         return cell
     }
     
@@ -144,3 +185,13 @@ extension RegisterCarViewController: UITableViewDelegate, UITableViewDataSource 
     
 }
 
+extension RegisterCarViewController: UITextFieldDelegate {
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        print("I worked")
+//        when you pass in the key it returns back all the values
+        carModelOptions = carDict[registerCarView.carMakeTextField.text!]!
+        registerCarView.tableView.reloadData()
+        
+        
+    }
+}

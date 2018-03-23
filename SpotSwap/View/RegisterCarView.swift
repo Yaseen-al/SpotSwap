@@ -34,8 +34,8 @@ class RegisterCarView: UIView {
         return label
     }()
     
-    lazy var carMakeTextField: UITextField = {
-        let textField = UITextField()
+    lazy var carMakeTextField: SearchTextField = {
+        let textField = SearchTextField()
         textField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         textField.placeholder = " Enter car make"
         //        textField.layer.cornerRadius = 5
@@ -100,7 +100,7 @@ class RegisterCarView: UIView {
     }
     
     private func commonInit() {
-        backgroundColor = Stylesheet.Colors.PinkMain
+        backgroundColor = Stylesheet.Colors.GrayMain
         setupViews()
     }
     
@@ -111,7 +111,7 @@ class RegisterCarView: UIView {
         super.layoutSubviews()
         carImageView.layer.cornerRadius = carImageView.bounds.width/2.0
         carImageView.layer.masksToBounds = true
-        carImageView.layer.borderColor = UIColor.white.cgColor
+        carImageView.layer.borderColor = Stylesheet.Colors.OrangeMain.cgColor
         carImageView.layer.borderWidth = 4
         dropDownButton.contentHorizontalAlignment = .left
         //        dropDownView.layer.cornerRadius = 10
@@ -135,7 +135,7 @@ class RegisterCarView: UIView {
         carImageView.snp.makeConstraints { (make) in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(30)
             make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.40)
+            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.50)
             make.height.equalTo(carImageView.snp.width)
         }
     }
