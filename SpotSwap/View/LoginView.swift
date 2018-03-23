@@ -6,7 +6,15 @@ class LoginView: UIView {
     // MARK: - Properties
     lazy var logoImage: UIImageView = {
         let logo = UIImageView()
-        logo.image = #imageLiteral(resourceName: "SpotSwapLogo")
+        logo.image = UIImage(named: "43iosgroup6logo")
+        logo.contentMode = .scaleAspectFit
+        //style details
+        logo.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        logo.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        logo.layer.shadowOpacity = 1.0
+        logo.layer.shadowRadius = 0.0
+        logo.clipsToBounds = false
+        logo.layer.masksToBounds = false
         return logo
     }()
     
@@ -74,14 +82,14 @@ class LoginView: UIView {
     
     //For login button - rounds the corners and gives it a shadow
     func setupButtonDetails() {
-        //            button.titleLabel?.font = button.titleLabel?.font.withSize(12)
-                    loginButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
-                    loginButton.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
-                    loginButton.layer.shadowOpacity = 1.0
-                    loginButton.layer.shadowRadius = 0.0
-                    loginButton.clipsToBounds = false
-                    loginButton.layer.masksToBounds = false
-                    loginButton.layer.cornerRadius = 5//loginButton.frame.height / 2
+        //button.titleLabel?.font = button.titleLabel?.font.withSize(12)
+        loginButton.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        loginButton.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        loginButton.layer.shadowOpacity = 1.0
+        loginButton.layer.shadowRadius = 0.0
+        loginButton.clipsToBounds = false
+        loginButton.layer.masksToBounds = false
+        loginButton.layer.cornerRadius = 5 //loginButton.frame.height / 2
     }
     
     private func setupLogoImage() {
