@@ -41,6 +41,7 @@
 		81BFAE79205F6C1700E27389 /* LaunchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE78205F6C1700E27389 /* LaunchView.swift */; };
 		81BFAE7B205F6C6200E27389 /* LaunchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */; };
 		81BFAE7D205F6C8200E27389 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81BFAE7C205F6C8200E27389 /* LoginViewController.swift */; };
+		81F9369B20645E8000BF5DA0 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9369A20645E8000BF5DA0 /* SearchTextField.swift */; };
 		AFD22630B5F3FC1365C1952A /* Pods_SpotSwapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25FC7A56F7BE78F688A0528 /* Pods_SpotSwapTests.framework */; };
 		B8D36D34BB4BF91D17C40F17 /* Pods_SpotSwap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */; };
 		C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B4F205C3C4600C25344 /* Stylesheet.swift */; };
@@ -117,6 +118,7 @@
 		81BFAE78205F6C1700E27389 /* LaunchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchView.swift; sourceTree = "<group>"; };
 		81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewController.swift; sourceTree = "<group>"; };
 		81BFAE7C205F6C8200E27389 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		81F9369A20645E8000BF5DA0 /* SearchTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932881718AB9CF961F1DB7E9 /* Pods-SpotSwapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B3E83A19C74BF6B852D22407 /* Pods_SpotSwapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -248,9 +250,9 @@
 				81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */,
 				81BFAE7C205F6C8200E27389 /* LoginViewController.swift */,
 				81AEA974205FBE870081FD81 /* SignUpViewController.swift */,
+				81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */,
 				C4C29B55205C3C4F00C25344 /* MapViewController.swift */,
 				1F7A31962059665D00A25693 /* ViewController.swift */,
-				81AEA976205FFC430081FD81 /* RegisterCarViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -258,6 +260,7 @@
 		1F7A31C62059667900A25693 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				81F9369A20645E8000BF5DA0 /* SearchTextField.swift */,
 				C4C29B4F205C3C4600C25344 /* Stylesheet.swift */,
 				C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */,
 				C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */,
@@ -677,6 +680,7 @@
 				C4F8A4AA205C3D1B001A746A /* MapView.swift in Sources */,
 				1F467B0C20597E6000598418 /* CarModel.swift in Sources */,
 				C4C29B54205C3C4700C25344 /* UIViewController+Nav.swift in Sources */,
+				81F9369B20645E8000BF5DA0 /* SearchTextField.swift in Sources */,
 				1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */,
 				1F467B182059896F00598418 /* CareModelsAPIClient.swift in Sources */,
 				1F467B22205AE02800598418 /* Spot.swift in Sources */,
@@ -855,7 +859,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J9A6F8G6MR;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DallashAlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -872,7 +876,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = J9A6F8G6MR;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = DallashAlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
