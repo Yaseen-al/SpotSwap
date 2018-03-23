@@ -28,7 +28,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     private let imagePickerViewController = UIImagePickerController()
     
     var carDict = [String:[String]]()
-    var carModelOptions = popularCarMakes
+    var carModelOptions = [String]()
     
 
     
@@ -225,7 +225,7 @@ extension RegisterCarViewController: UITextFieldDelegate {
             resignFirstResponder()
             return
         }
-        guard let carModelOptions = carDict[carMake.capitalized] else{
+        guard let carModelOptions = carDict[carMake] else{
             showAlert(title: "We are sorry this car make doesn't exist on our dataBase,", message: " we really appreciate you patience ")
             return
         }
