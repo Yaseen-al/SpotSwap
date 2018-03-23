@@ -152,7 +152,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
         DataBaseService.manager.retrieveReservations(reservationId: reservationId, completion: { reservation in
             //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
             if reservation.takerId == currentVehicleOwner.userUID{
-                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
+                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
                     
                     self.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
                 }, errorHandler: { (error) in
@@ -161,7 +161,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
                     return
                 })
             }else{
-                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(spotOwnerVehicleOwner) in
+                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerId, dataBaseObserveType: .singleEvent, completion: {(spotOwnerVehicleOwner) in
                     
                     self.setupReservationView(with: spotOwnerVehicleOwner, reservation: reservation)
                 }, errorHandler: { (error) in
