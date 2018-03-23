@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Firebase
 extension DataBaseService{
     //MARK: - Public Functions
     //This funciton will add a reservation for a vehicleOwner
@@ -23,22 +24,8 @@ extension DataBaseService{
     }
     //This function will retrieve all reservations
     
-    public func retrieveReservations(reservationId: String, completion: @escaping (Reservation)->Void , errorHandler: @escaping (Error)->Void) {
-        let reservationRef = self.getReservationsRef().child(reservationId)
-        //        reservationRef.observe(.value) { (snapShot) in
-        //            if let json = snapShot.value as? NSDictionary {
-        //                do{
-        //                    let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
-        //                    let reservation = try JSONDecoder().decode(Reservation.self, from: jsonData)
-        //                    completion(reservation)
-        //                }
-        //                catch{
-        //                    print(#function, error)
-        //                    errorHandler(DataBaseReferenceErrors.errorDecodingVehicleOwner)
-        //                }
-        //            }
-        //        }
-        reservationRef.observeSingleEvent(of: .value) { (snapShot) in
+    public func retrieveReservation(reservationId: String, dataBaseObserveType: DataBaseObserveType, completion: @escaping (Reservation)->Void , errorHandler: @escaping (Error)->Void) {
+        let reservationSnapShotClosure: (DataSnapshot)->Void = { (snapShot) in
             if let json = snapShot.value as? NSDictionary {
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
@@ -51,6 +38,19 @@ extension DataBaseService{
                 }
             }
         }
+        let reservationRef = self.getReservationsRef().child(reservationId)
+        switch dataBaseObserveType {
+        case .observing:
+            reservationRef.observe(.value, with: reservationSnapShotClosure)
+        case .singleEvent:
+            DispatchQueue.main.async {
+                reservationRef.observeSingleEvent(of: .value, with: reservationSnapShotClosure)
+            }
+        }
+    }
+    public func removeReservation(reservationId: String){
+        let child = getReservationsRef().child(reservationId)
+        child.removeValue()
     }
     
 }
