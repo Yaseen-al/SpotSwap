@@ -1,11 +1,3 @@
-//
-//  AppDelegate.swift
-//  SpotSwap
-//
-//  Created by Yaseen Al Dallash on 3/14/18.
-//  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
-//
-
 import UIKit
 import CoreData
 import Firebase
@@ -13,11 +5,32 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
+    var enableAllOrientation = false
     
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if (enableAllOrientation == true){
+            return UIInterfaceOrientationMask.allButUpsideDown
+        }
+        return UIInterfaceOrientationMask.portrait
+    }
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
         FirebaseApp.configure()
+        //setup Window
+
+        if AuthenticationService.manager.getCurrentUser() != nil{
+            let mapRoot = MapViewController().inNavController()
+            window = UIWindow(frame: UIScreen.main.bounds)
+            window?.rootViewController = mapRoot
+            window?.makeKeyAndVisible()
+            return true
+
+        }
+        let root = LaunchViewController()
+        let navigationController = UINavigationController(rootViewController: root)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
         return true
     }
     
