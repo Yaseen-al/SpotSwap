@@ -70,7 +70,9 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     private func setupNavBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(goToMapViewController))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
+            #selector(goToMapViewController))
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
     
     @objc private func goToMapViewController() {
@@ -219,10 +221,17 @@ extension RegisterCarViewController: UITableViewDelegate, UITableViewDataSource 
 
 extension RegisterCarViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
-        print("I worked")
-        //        when you pass in the key it returns back all the values
-        carModelOptions = carDict[registerCarView.carMakeTextField.text!]!
+        guard let carMake = textField.text else {
+            resignFirstResponder()
+            return
+        }
+        guard let carModelOptions = carDict[carMake.capitalized] else{
+            showAlert(title: "We are sorry this car make doesn't exist on our dataBase,", message: " we really appreciate you patience ")
+            return
+        }
+        self.carModelOptions = carModelOptions
         registerCarView.tableView.reloadData()
+           resignFirstResponder()
         
         
     }

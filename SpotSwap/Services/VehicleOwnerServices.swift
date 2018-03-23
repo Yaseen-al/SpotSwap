@@ -63,11 +63,12 @@ class VehicleOwnerService {
             spotOwnerVehicleOwner.reservationId = reservation.reservationId
             DataBaseService.manager.updateVehicleOwner(vehicleOwner: spotOwnerVehicleOwner, errorHandler: { (error) in
                 print("dev:\(error)", #function )
-                DataBaseService.manager.removeSpot(spotId: spot.spotUID)
+               
             })
         }) { (error) in
             print("dev:\(error)", #function )
         }
+        DataBaseService.manager.removeSpot(spotId: spot.spotUID)
     }
 }
 
