@@ -8,7 +8,7 @@ protocol VehicleOwnerServiceDelegate: class {
     //This function is used when there is a reservation updated on the vehicleOwner
     func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner)
     //This function is used when reservation is removed from a vehicle owner in case of cancellation or in case the user have arrived to the location of the spot
-    func vehiclOwnerRemoveReservation(_ reservationId: String)
+    func vehiclOwnerRemoveReservation(_ reservationId: Reservation)
     //This Function can be used to load the normal map with all the spots around the user
     func vehiclOwnerHasNoReservation()
 }
@@ -70,5 +70,27 @@ class VehicleOwnerService {
         }
         DataBaseService.manager.removeSpot(spotId: spot.spotUID)
     }
+    public func removeReservation(completion: @escaping(Reservation)-> Void){
+        guard let reservationId = vehicleOwner.reservationId else{
+            //TODO Handle the error
+            return
+        }
+        DataBaseService.manager.retrieveReservation(reservationId: reservationId, dataBaseObserveType: .singleEvent, completion: { (reservation) in
+            
+            //here we need to update both parties of the reservation taker and spotOwner
+            //For spot owner
+            DataBaseService.manager.getCarOwnerRef().child(reservation.spotOwnerId).child("reservationId").removeValue()
+            //For spot taker
+            DataBaseService.manager.getCarOwnerRef().child(reservation.takerId).child("reservationId").removeValue()
+            DataBaseService.manager.removeReservation(reservationId: reservationId)
+            completion(reservation)
+        }) { (error) in
+            // retrieve reservation error
+            print(#function,error)
+        }
+    }
+    
+    
+    
 }
 

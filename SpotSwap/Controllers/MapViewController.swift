@@ -36,7 +36,7 @@ class MapViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     // MARK: - Setup Views
-    
+
     private func setupMenuView(){
         view.addSubview(menuView)
         let menueViewWidth = UIScreen.main.bounds.width * 0.35
@@ -60,11 +60,12 @@ class MapViewController: UIViewController {
         //this will make a reservation view with certain data ==> their should be a vehicle owner to get this data from
         reservationDetailView = ReservationDetailView(viewController: self, name: vehicleOwner.userName, time: "6.00")
         //        reservationDetailView.tag =
+        self.reservationDetailView.delegate = self
         view.addSubview(reservationDetailView)
         reservationDetailView.snp.makeConstraints { make in
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.width.equalTo(view.snp.width)
-            make.height.equalTo(view.snp.height).dividedBy(10)
+            make.height.equalTo(view.snp.height)
         }
     }
 }
@@ -148,8 +149,12 @@ extension MapViewController: MapViewGestureDelegate {
 
 // MARK: - VehicleOwnerServiceDelegate
 extension MapViewController: VehicleOwnerServiceDelegate {
+    func vehiclOwnerRemoveReservation(_ reservationId: Reservation) {
+        //To Do remove the reservationView if it is on the mainView and load all the spots back
+    }
+    
     func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner) {
-        DataBaseService.manager.retrieveReservations(reservationId: reservationId, completion: { reservation in
+        DataBaseService.manager.retrieveReservation(reservationId: reservationId, dataBaseObserveType: .singleEvent, completion: { reservation in
             //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
             if reservation.takerId == currentVehicleOwner.userUID{
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
@@ -171,7 +176,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
                 })
             }
             // Here we need to a. setup the reservationView for the reserver and for the spot owner b. clear all the map from anotation c. have a cancel button to cancel the whole reservation and retrieve back the normal map
-  
+            
         }) { (error) in
             print(error)
         }
@@ -186,15 +191,11 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     func vehiclOwnerHasNoReservation() {
         guard let _ = reservationDetailView else { return }
         if reservationDetailView.isDescendant(of: view) {
+            alertWithOkButton(title: "Reservation was canceled or completed", message: nil)
             reservationDetailView.removeFromSuperview()
-            
         }
         
         //This will load all the spots and load the default map, may be we can a cool sppinner
-    }
-    
-    func vehiclOwnerRemoveReservation(_ reservationId: String) {
-        //To Do remove the reservationView if it is on the mainView and load all the spots back
     }
 }
 
@@ -209,6 +210,19 @@ private extension MapViewController {
             initialLaunch = false
         }
     }
+}
+
+//MARK: - DetailReservation Delegate
+extension MapViewController: ReserVationDetailViewDelegate{
+    func prepareReservationAction() {
+        //TODO remove the reservation and update both vehicle owners
+        vehicleOwnerService.removeReservation { (reservation) in
+            
+        }
+        reservationDetailView.removeFromSuperview()
+    }
+    
+    
 }
 
 //MARK: - Menu Delegates
