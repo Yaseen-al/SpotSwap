@@ -5,7 +5,7 @@ class VehicleOwner: Codable {
     let userName: String
     let userImage: String?
     let userUID: String
-    let car: Car
+    var car: Car
     let rewardPoints: Int
     var swapUserUID: String? //this is the uid of the user that they are swapping with
     var reservationId: String?

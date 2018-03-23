@@ -83,7 +83,7 @@ class SignUpView: UIView {
     }
     
     private func commonInit() {
-        backgroundColor = Stylesheet.Colors.PinkMain
+        backgroundColor = Stylesheet.Colors.OrangeMain
         setupViews()
     }
     

@@ -7,6 +7,7 @@ enum Stylesheet {
         static let OrangeMain = UIColor(hex: "#F5A623")
         static let GrayMain = UIColor(hex: "#465362")
         static let PinkMain = UIColor(hex: "#EF767A")
+        static let LightGray = UIColor(hex: "#c6c2c2")
         static let White = UIColor.white
     }
 
