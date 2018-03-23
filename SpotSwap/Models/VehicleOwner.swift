@@ -8,7 +8,7 @@ class VehicleOwner: Codable {
     let car: Car
     let rewardPoints: Int
     var swapUserUID: String? //this is the uid of the user that they are swapping with
-    var reservationUID: String?
+    var reservationId: String?
     func toJSON() -> Any {
         let jsonData = try! JSONEncoder().encode(self)
         return try! JSONSerialization.jsonObject(with: jsonData, options: [])
@@ -21,7 +21,7 @@ class VehicleOwner: Codable {
         self.car = car
         self.rewardPoints = 100
         self.swapUserUID = nil
-        self.reservationUID = nil
+        self.reservationId = nil
     }
 }
 

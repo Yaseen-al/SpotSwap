@@ -10,6 +10,7 @@ import Foundation
 import Firebase
 
 extension DataBaseService{
+    //MARK: - SnapShot Closures
     // MARK: - Public Functions
     //This will add a new vehicleOwner to the dataBase using the user UID
     public func addNewVehicleOwner(vehicleOwner: VehicleOwner, user: User, completion: @escaping ()->Void, errorHandler: @escaping (Error)->Void){
@@ -51,9 +52,9 @@ extension DataBaseService{
         }
     }
     // This function will retrieve a vehicleOwner using user UID
-    public func retrieveVehicleOwner(vehicleOwnerId: String, completion: @escaping(VehicleOwner)->Void, errorHandler: @escaping(Error)->Void) {
+    public func retrieveVehicleOwner(vehicleOwnerId: String, dataBaseObserveType: DataBaseObserveType, completion: @escaping(VehicleOwner)->Void, errorHandler: @escaping(Error)->Void) {
         let vehicleOwnerRef = self.getCarOwnerRef().child(vehicleOwnerId)
-        vehicleOwnerRef.observe(.value) { (snapShot) in
+        let vehicleOwnerDataSnapShootClosure: (DataSnapshot)->Void = { (snapShot) in
             if let json = snapShot.value{
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
@@ -65,6 +66,14 @@ extension DataBaseService{
                     errorHandler(DataBaseReferenceErrors.errorDecodingVehicleOwner)
                 }
             }
+        }
+        switch dataBaseObserveType {
+        case .observing:
+            vehicleOwnerRef.observe(.value, with: vehicleOwnerDataSnapShootClosure)
+        case .singleEvent:
+            vehicleOwnerRef.observeSingleEvent(of: .value, with: vehicleOwnerDataSnapShootClosure)
+            
+            
         }
     }
     //This function will update vehiclOwner on the dataBase
@@ -81,7 +90,7 @@ extension DataBaseService{
         }
     }
     // This function will updated a certain user 'A' with a connected user 'B' who is looking for a spot as well as update user 'B' with user 'A'
-
+    
     public func connectCarOwnersAfterReservation(spot: Spot, completion:(Bool)->Void, erroHandler:@escaping (Error)->Void) {
         guard let currentUser = AuthenticationService.manager.getCurrentUser() else{
             erroHandler(AuthenticationServiceErrors.noSignedInUser)
@@ -99,7 +108,7 @@ extension DataBaseService{
             return
         }
         //this will retrieve the vehicle owner that posted the spot and updated it's swapUserUID
-        self.retrieveVehicleOwner(vehicleOwnerId: spot.userUID, completion: { (vehicleOwner) in
+        self.retrieveVehicleOwner(vehicleOwnerId: spot.userUID, dataBaseObserveType: .singleEvent, completion: { (vehicleOwner) in
             let connectedVehicleOwner = vehicleOwner
             connectedVehicleOwner.swapUserUID = currentUser.uid
             self.updateVehicleOwner(vehicleOwner: connectedVehicleOwner, errorHandler: { (error) in
