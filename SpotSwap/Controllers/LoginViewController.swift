@@ -19,9 +19,13 @@ class LoginViewController: UIViewController {
     
     func configureNavBar(){
         self.navigationController?.isNavigationBarHidden = false
+        self.navigationController?.navigationBar.barTintColor = Stylesheet.Colors.OrangeMain
+        let barButton = UIBarButtonItem(customView: loginView.loginButton)
+        //assigns button to navigationbar
+        self.navigationItem.rightBarButtonItem = barButton
     }
     
-    //MARK: - Setup Button Actions
+    //MARK: - Setup Button Action
     @objc func loginTapped(sender:UIButton!) {
         guard let emailText = loginView.emailTextField.text, let passwordText = loginView.passwordTextField.text else{
             //TODO Kaniz handle the errors
@@ -46,6 +50,13 @@ class LoginViewController: UIViewController {
         }
         
     }
+    
+    //MARK: - Setup Keyboard Handling
+    func setupObserver() {
+        //TODO:Create notification center and add observers/selectors
+    }
+    
+    //TODO: Add observer functions
 }
 
 //MARK: - textFieldDelegate
