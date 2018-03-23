@@ -2,10 +2,10 @@ import Foundation
 import MapKit
 
 class Reservation: NSObject, Codable {
-    var spotUID: String
+    var spotOwnerId: String
     var userUID: String //This is the user who created the spot
-    var takerUID: String
-    var reservationUID: String?
+    var takerId: String
+    var reservationId: String?
     let longitude: Double
     let latitude: Double
     let timeStamp: String
@@ -22,9 +22,9 @@ class Reservation: NSObject, Codable {
     }
     
     init(makeFrom availableSpot: Spot, reservedBy: VehicleOwner) {
-        self.spotUID = availableSpot.spotUID
-        self.takerUID = reservedBy.userUID
-        self.reservationUID = ""
+        self.spotOwnerId = availableSpot.userUID
+        self.takerId = reservedBy.userUID
+        self.reservationId = ""
         self.userUID = reservedBy.userUID
         //        self.userUID = AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn"
         self.longitude = availableSpot.longitude

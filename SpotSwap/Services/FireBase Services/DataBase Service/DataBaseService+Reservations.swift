@@ -12,7 +12,7 @@ extension DataBaseService{
     //This funciton will add a reservation for a vehicleOwner
     func addReservation(reservation: Reservation, to vehicleOwner: VehicleOwner) {
         let child  = self.getReservationsRef().childByAutoId()
-        reservation.reservationUID = child.key
+        reservation.reservationId = child.key
         child.setValue(reservation.toJSON())
         let currentUserReservingSpot = vehicleOwner
         currentUserReservingSpot.reservationId = child.key
