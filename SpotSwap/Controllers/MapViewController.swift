@@ -210,4 +210,3 @@ extension MapViewController: MenuDelegate{
         menuView.handleMenu(contentView, sender: sender)
     }
 }
-
