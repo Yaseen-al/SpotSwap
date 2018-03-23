@@ -32,30 +32,29 @@ class SignUpViewController: UIViewController {
     
     private func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(goToNextView))
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.isNavigationBarHidden = false
     }
     
     @objc private func goToNextView() {
-        let username = signUpView.usernameTextField.text
-        let email = signUpView.emailTextField.text
-        let password = signUpView.passwordTextField.text
-        AuthenticationService.manager.createUser(email: email!, password: password!, completion: { (user) in
-                let myCar = Car(carMake: "Rimac Automobili", carModel: "Concept One", carYear: "2018", carImageId: nil)
-        
-            let vehicleOwner = VehicleOwner(user: user, car: myCar, userName: username!)
-                DataBaseService.manager.addNewVehicleOwner(vehicleOwner: vehicleOwner, user: user, completion: {
-                    let registerCarVC = RegisterCarViewController(vehicleOwner: vehicleOwner)
-                    self.navigationController?.pushViewController(registerCarVC, animated: true)
-                    print("dev: added vehicle owner to the dataBase")
-                }, errorHandler: { (error) in
-                    print("error in adding a vehicle owner to the data base")
-                })
-            }) { (error) in
-                print(error)
-            }
+        guard let username = signUpView.usernameTextField.text, let email = signUpView.emailTextField.text, let password = signUpView.passwordTextField.text else{
+            showAlert(title: "Please enter a valid email, username, and password", message: nil)
+            return
+        }
+        guard username != "", email != "",  password != "" else {
+            showAlert(title: "Please enter a valid email, username, and password", message: nil)
+            return
+        }
+        guard email.contains("@"), email.contains(".") else {
+            showAlert(title: "Please enter a valid email", message: nil)
+            return
+        }
+            let registerCarVC = RegisterCarViewController(userName: username, email: email, password: password)
+            self.navigationController?.pushViewController(registerCarVC, animated: true)
         
         
     }
+    
     
     
     private func showAlert(title: String, message: String?) {

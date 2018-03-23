@@ -4,13 +4,15 @@
 //
 //  Created by C4Q on 3/19/18.
 //  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
-//
-
 import UIKit
 import ImagePicker
 
 class RegisterCarViewController: UIViewController, UIImagePickerControllerDelegate {
-
+    //Dependency Injection to pass partial vehicleOwner from SignUpVC
+    var email: String
+    var password: String
+    var userName: String
+    var imagePickerController: ImagePickerController!
     
     //Create an instance for the view
     let registerCarView = RegisterCarView()
@@ -21,19 +23,21 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
-    var imagePickerController: ImagePickerController!
+
     
     private let imagePickerViewController = UIImagePickerController()
     
     var carDict = [String:[String]]()
     var carModelOptions = popularCarMakes
     
-    //Dependency Injection to pass partial vehicleOwner from SignUpVC
-    var vehicleOwner: VehicleOwner!
+
     
-    init(vehicleOwner: VehicleOwner) {
+    init(userName:String, email: String, password: String) {
+        self.email = email
+        self.password = password
+        self.userName = userName
         super.init(nibName: nil, bundle: nil)
-        self.vehicleOwner = vehicleOwner
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -46,15 +50,19 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         view.backgroundColor = .clear
         view.addSubview(registerCarView)
         setupNavBar()
+        setupImagePicker()
+        configureSimpleInLineSearchTextField()
+        registerCarView.tableView.delegate = self
+        registerCarView.tableView.dataSource = self
+        registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
+    }
+    
+    private func setupImagePicker() {
         imagePickerController = ImagePickerController()
         registerCarView.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
         imagePickerController.delegate = self
         imagePickerController.imageLimit = 1
-        registerCarView.tableView.delegate = self
-        registerCarView.tableView.dataSource = self
-        registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
         registerCarView.carMakeTextField.delegate = self
-        configureSimpleInLineSearchTextField()
     }
     
     @objc private func dismissKeyboard() {
@@ -66,9 +74,32 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     }
     
     @objc private func goToMapViewController() {
-        present(MapViewController(), animated: true, completion: nil)
+        guard let make = registerCarView.carMakeTextField.text, let model = registerCarView.dropDownButton.titleLabel?.text else {
+            showAlert(title: "Please enter a valid car make and model", message: nil)
+            return
+        }
+        guard make != "", model != "" else {
+            showAlert(title: "Please enter a valid car make and model", message: nil)
+            return
+        }
+        AuthenticationService.manager.createUser(email: email, password: password, completion: { (user) in
+            let newCar = Car(carMake: make, carModel: model, carYear: "2018", carImageId: nil)
+            let newVehicleOwner = VehicleOwner(user: user, car: newCar, userName: self.userName)
+            DataBaseService.manager.addNewVehicleOwner(vehicleOwner: newVehicleOwner, userID: user.uid)
+            let mapViewController = MapViewController()
+            let mapNavigationController = UINavigationController(rootViewController: mapViewController)
+            mapViewController.modalPresentationStyle = .pageSheet
+            self.present(mapNavigationController, animated: true, completion: nil)
+        }) { (error) in
+            //TODO Handle the errors
+        }
     }
-    
+    private func showAlert(title: String, message: String?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default) {alert in }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
     @objc func cameraButtonPressed() {
         //        open up camera and photo gallery
         self.images = []
@@ -105,7 +136,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
     
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         registerCarView.carMakeTextField.resignFirstResponder()
     }
@@ -124,7 +155,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
                 for (key, _) in carMakeDict {
                     arr.append(key)
                 }
-               return arr
+                return arr
             }
             self.registerCarView.carMakeTextField.filterStrings(carMakeKey)
         }, errorHandler: {(error: Error) in
@@ -166,6 +197,7 @@ extension RegisterCarViewController: UITableViewDelegate, UITableViewDataSource 
         let cell = UITableViewCell()
         let model = carModelOptions[indexPath.row]
         cell.textLabel?.text = String(describing: model)
+        cell.textLabel?.textColor = .black
         return cell
     }
     
@@ -188,7 +220,7 @@ extension RegisterCarViewController: UITableViewDelegate, UITableViewDataSource 
 extension RegisterCarViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
         print("I worked")
-//        when you pass in the key it returns back all the values
+        //        when you pass in the key it returns back all the values
         carModelOptions = carDict[registerCarView.carMakeTextField.text!]!
         registerCarView.tableView.reloadData()
         
