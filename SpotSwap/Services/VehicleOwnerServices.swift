@@ -6,7 +6,7 @@ import Foundation
 
 protocol VehicleOwnerServiceDelegate: class {
     //This function is used when there is a reservation updated on the vehicleOwner
-    func vehicleOwnerSpotReserved(_ reservationId: String)
+    func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner)
     //This function is used when reservation is removed from a vehicle owner in case of cancellation or in case the user have arrived to the location of the spot
     func vehiclOwnerRemoveReservation(_ reservationId: String)
     //This Function can be used to load the normal map with all the spots around the user
@@ -24,7 +24,7 @@ class VehicleOwnerService {
                 return
             }
             
-            delegate?.vehicleOwnerSpotReserved(reservationId)
+            delegate?.vehicleOwnerSpotReserved(reservationId: reservationId, currentVehicleOwner: vehicleOwner)
             print("Vehicle owner updated. Reservation \(reservationId)")
             
         }
@@ -57,8 +57,17 @@ class VehicleOwnerService {
         let currentUserReservingASpot = getVehicleOwner()
         let reservation = Reservation(makeFrom: spot, reservedBy: currentUserReservingASpot)
         //        contentView.mapView.removeAnnotation(spot)
-        DataBaseService.manager.removeSpot(spotId: spot.spotUID)
         DataBaseService.manager.addReservation(reservation: reservation, to: currentUserReservingASpot)
+        DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: spot.userUID, dataBaseObserveType: .singleEvent, completion: { (vehicleOwner) in // this is the spot owner
+            let spotOwnerVehicleOwner = vehicleOwner
+            spotOwnerVehicleOwner.reservationId = reservation.reservationId
+            DataBaseService.manager.updateVehicleOwner(vehicleOwner: spotOwnerVehicleOwner, errorHandler: { (error) in
+                print("dev:\(error)", #function )
+                DataBaseService.manager.removeSpot(spotId: spot.spotUID)
+            })
+        }) { (error) in
+            print("dev:\(error)", #function )
+        }
     }
 }
 

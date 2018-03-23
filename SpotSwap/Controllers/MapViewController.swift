@@ -148,13 +148,46 @@ extension MapViewController: MapViewGestureDelegate {
 
 // MARK: - VehicleOwnerServiceDelegate
 extension MapViewController: VehicleOwnerServiceDelegate {
-    
+    func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner) {
+        DataBaseService.manager.retrieveReservations(reservationId: reservationId, completion: { reservation in
+            //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
+            if reservation.takerId == currentVehicleOwner.userUID{
+                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
+                    
+                    self.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
+                }, errorHandler: { (error) in
+                    //this will give an alert to the user in case the taker data can't be retrieved
+                    self.alertWithOkButton(title: "there was an error retrieving your matched spot taker", message: nil)
+                    return
+                })
+            }else{
+                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(spotOwnerVehicleOwner) in
+                    
+                    self.setupReservationView(with: spotOwnerVehicleOwner, reservation: reservation)
+                }, errorHandler: { (error) in
+                    //this will give an alert to the user in case the taker data can't be retrieved
+                    self.alertWithOkButton(title: "there was an error retrieving your matched spot owner", message: nil)
+                    return
+                })
+            }
+            // Here we need to a. setup the reservationView for the reserver and for the spot owner b. clear all the map from anotation c. have a cancel button to cancel the whole reservation and retrieve back the normal map
+  
+        }) { (error) in
+            print(error)
+        }
+    }
+    private func alertWithOkButton(title: String, message: String?){
+        let alerViewController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
+        alerViewController.addAction(okAction)
+        self.present(alerViewController, animated: true, completion: nil)
+    }
     
     func vehiclOwnerHasNoReservation() {
         guard let _ = reservationDetailView else { return }
         if reservationDetailView.isDescendant(of: view) {
             reservationDetailView.removeFromSuperview()
-            //view.setNeedsLayout()
+            
         }
         
         //This will load all the spots and load the default map, may be we can a cool sppinner
@@ -162,24 +195,6 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     
     func vehiclOwnerRemoveReservation(_ reservationId: String) {
         //To Do remove the reservationView if it is on the mainView and load all the spots back
-    }
-    func vehicleOwnerSpotReserved(_ reservationId: String) {
-        
-        DataBaseService.manager.retrieveReservations(reservationId: reservationId, completion: { reservation in
-            // Here we need to a. setup the reservationView b. clear all the map from anotation c. have a cancel button to cancel the whole reservation and retrieve back the normal map
-            DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerUID, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
-                
-                self.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
-            }, errorHandler: { (error) in
-                //this will give an alert to the user in case the taker data can't be retrieved
-                let alerViewController = UIAlertController(title: "There was an error retrieving your matched spot taker", message: nil, preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
-                alerViewController.addAction(okAction)
-                self.present(alerViewController, animated: true, completion: nil)
-            })
-        }) { (error) in
-            print(error)
-        }
     }
 }
 
