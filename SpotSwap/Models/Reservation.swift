@@ -26,22 +26,12 @@ class Reservation: NSObject, Codable {
         self.takerId = reservedBy.userUID
         self.reservationId = ""
         self.userUID = reservedBy.userUID
-        //        self.userUID = AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn"
         self.longitude = availableSpot.longitude
         self.latitude = availableSpot.latitude
         self.timeStamp = availableSpot.timeStamp
         self.duration = availableSpot.duration
     }
-    
-    //    init(location: CLLocationCoordinate2D) {
-    //        self.spotUID = ""
-    //        self.reservationUID = nil
-    //        self.longitude = location.longitude
-    //        self.latitude = location.latitude
-    //        self.duration = DateProvider.manager.randomTimeForSpot()
-    //        self.timeStamp = DateProvider.manager.currentTime()
-    //        self.userUID = AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn"
-    //    }
+
 }
 
 extension Reservation: MKAnnotation {
