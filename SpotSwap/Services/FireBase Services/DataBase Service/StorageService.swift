@@ -15,12 +15,23 @@ enum ImageType {
     case vehicleImage
 }
 
-class FirebaseStorageManager {
-    static let shared = FirebaseStorageManager()
+enum FireBaseStorageErrors: Error {
+    case objectNotFound
+    case unauthorized
+    case processCanceled
+    case unknownError
+    case tryToUploadAgain
+}
+
+class StorageService {
+    //MARK: - Properties
+    
+    static let manager = StorageService()
     private var storage: Storage
     private var storageRef: StorageReference
     private var vehicleOwnerImageRef: StorageReference
     private var vehicleImageRef: StorageReference
+    //MARK: - Inits
     
     private init(){
         storage = Storage.storage()
@@ -28,16 +39,22 @@ class FirebaseStorageManager {
         vehicleOwnerImageRef = storageRef.child("vehiclOwnerImages")
         vehicleImageRef = storageRef.child("vehicleImages")
     }
-
-    
-    func storeImage(type: ImageType, uid: String, image: UIImage) {
+    //MARK: - Public functions
+    func storeImage(imageType: ImageType, uid: String, image: UIImage, errorHandler: @escaping (Error)->Void) {
         guard let data = UIImagePNGRepresentation(image) else { print("image is nil"); return }
         let metadata = StorageMetadata()
+        var storageRefrence: StorageReference
+        //switching on the type to change the reference respectively
+        switch imageType {
+        case .vehicleImage:
+            storageRefrence = vehicleImageRef
+        case .vehicleOwner:
+            storageRefrence = vehicleOwnerImageRef
+        }
         metadata.contentType = "image/png"
-        ///////////////TODO switch on the type and change the refrence respectively
-        let uploadTask = FirebaseStorageManager.shared.vehicleOwnerImageRef.child(uid).putData(data, metadata: metadata) { (storageMetadata, error) in
+        let uploadTask = storageRefrence.child(uid).putData(data, metadata: metadata) { (storageMetadata, error) in
             if let error = error {
-                print("uploadTask error: \(error)")
+               errorHandler(error)
             } else if let storageMetadata = storageMetadata {
                 print("storageMetadata: \(storageMetadata)")
             }
@@ -60,12 +77,9 @@ class FirebaseStorageManager {
         }
         
         uploadTask.observe(.success) { snapshot in
-            // Upload completed successfully
-            
-            // set  imageURL
+            // Upload completed successfully, set imageURL
             let imageURL = String(describing: snapshot.metadata!.downloadURL()!)
-            
-            switch type {
+            switch imageType {
             case .vehicleOwner:
                 DataBaseService.manager.getCarOwnerRef().child(uid).child("userImage").setValue(imageURL)
             case .vehicleImage:
@@ -79,21 +93,23 @@ class FirebaseStorageManager {
                 switch (StorageErrorCode(rawValue: error.code)!) {
                 case .objectNotFound:
                     // File doesn't exist
+                    errorHandler(FireBaseStorageErrors.objectNotFound)
                     break
                 case .unauthorized:
+                    errorHandler(FireBaseStorageErrors.unauthorized)
                     // User doesn't have permission to access file
                     break
                 case .cancelled:
                     // User canceled the upload
+                    errorHandler(FireBaseStorageErrors.processCanceled)
                     break
-                    
-                    /* ... */
-                    
                 case .unknown:
                     // Unknown error occurred, inspect the server response
+                    errorHandler(FireBaseStorageErrors.unknownError)
                     break
                 default:
                     // A separate error occurred. This is a good place to retry the upload.
+                    errorHandler(FireBaseStorageErrors.tryToUploadAgain)
                     break
                 }
             }
