@@ -55,7 +55,7 @@ extension DataBaseService{
     public func retrieveVehicleOwner(vehicleOwnerId: String, dataBaseObserveType: DataBaseObserveType, completion: @escaping(VehicleOwner)->Void, errorHandler: @escaping(Error)->Void) {
         let vehicleOwnerRef = self.getCarOwnerRef().child(vehicleOwnerId)
         let vehicleOwnerDataSnapShootClosure: (DataSnapshot)->Void = { (snapShot) in
-            if let json = snapShot.value{
+            if let json = snapShot.value as? NSDictionary r{
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
                     let vehicleOwner = try JSONDecoder().decode(VehicleOwner.self, from: jsonData)
