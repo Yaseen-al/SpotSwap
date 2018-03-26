@@ -4,9 +4,9 @@ import Firebase
 
 extension DataBaseService{
     //This function will read all the spots from the dataBase
-    func retrieveAllSpots(completion: @escaping([Spot])->Void, errorHandler: @escaping(Error)->Void){
+    func retrieveAllSpots(dataBaseObserveType: DataBaseObserveType, completion: @escaping([Spot])->Void, errorHandler: @escaping(Error)->Void){
         let spotsRef = self.getSpotsRef()
-        spotsRef.observe(.value) { (snapShot) in
+        let spotSnapShotClosure: (DataSnapshot)->Void = { (snapShot) in
             guard let snapshots = snapShot.children.allObjects as? [DataSnapshot] else{
                 errorHandler(DataBaseReferenceErrors.spotsNodeHasNoChildren)
                 return
@@ -28,6 +28,12 @@ extension DataBaseService{
                 }
             }
             completion(allSpots)
+        }
+        switch dataBaseObserveType {
+        case .observing:
+            spotsRef.observe(.value, with: spotSnapShotClosure)
+        case .singleEvent:
+            spotsRef.observeSingleEvent(of: .value, with: spotSnapShotClosure)
         }
         
     }
