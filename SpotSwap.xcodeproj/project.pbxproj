@@ -285,8 +285,8 @@
 				81BFAE76205F6B2200E27389 /* LoginView.swift */,
 				C4F8A4A9205C3D1B001A746A /* MapView.swift */,
 				C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */,
-				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
 				81AEA972205C72A60081FD81 /* SignUpView.swift */,
+				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
 				1F674F6A206176E700E16D0A /* MenuView.swift */,
 				1F7A31C92059669600A25693 /* Cells */,
 			);

@@ -18,7 +18,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         //setup Window
 
-        if AuthenticationService.manager.getCurrentUser() != nil{
+        if let _ = AuthenticationService.manager.getCurrentUser(){
             let mapRoot = MapViewController().inNavController()
             window = UIWindow(frame: UIScreen.main.bounds)
             window?.rootViewController = mapRoot
@@ -32,6 +32,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
+    }
+    func loadLaunchViewController()
+    {
+        let root = LaunchViewController()
+        let navigationController = UINavigationController(rootViewController: root)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

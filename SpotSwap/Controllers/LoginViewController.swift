@@ -19,7 +19,8 @@ class LoginViewController: UIViewController {
     
     func configureNavBar(){
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.barTintColor = Stylesheet.Colors.OrangeMain
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
         let barButton = UIBarButtonItem(customView: loginView.loginButton)
         //assigns button to navigationbar
         self.navigationItem.rightBarButtonItem = barButton

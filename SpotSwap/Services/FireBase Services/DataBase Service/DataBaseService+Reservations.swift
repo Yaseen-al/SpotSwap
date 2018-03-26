@@ -43,9 +43,7 @@ extension DataBaseService{
         case .observing:
             reservationRef.observe(.value, with: reservationSnapShotClosure)
         case .singleEvent:
-            DispatchQueue.main.async {
                 reservationRef.observeSingleEvent(of: .value, with: reservationSnapShotClosure)
-            }
         }
     }
     public func removeReservation(reservationId: String){
