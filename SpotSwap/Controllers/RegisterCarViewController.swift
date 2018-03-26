@@ -8,30 +8,23 @@ import UIKit
 import ImagePicker
 
 class RegisterCarViewController: UIViewController, UIImagePickerControllerDelegate {
-    //Dependency Injection to pass partial vehicleOwner from SignUpVC
-    var email: String
-    var password: String
-    var userName: String
-    var imagePickerController: ImagePickerController!
-    
-    //Create an instance for the view
-    let registerCarView = RegisterCarView()
-    
-    var images = [UIImage]() {
+    // MARK: - Properties
+    private var email: String
+    private var password: String
+    private var userName: String
+    private var imagePickerController: ImagePickerController!
+    private let registerCarView = RegisterCarView()
+    private let imagePickerViewController = UIImagePickerController()
+    private var carDict = [String:[String]]()
+    private  var carModelOptions = popularCarMakes
+    private var images = [UIImage]() {
         didSet {
             registerCarView.carImageView.image = images.first
         }
     }
-    
 
-    
-    private let imagePickerViewController = UIImagePickerController()
-    
-    var carDict = [String:[String]]()
-    var carModelOptions = popularCarMakes
-    
 
-    
+    //MARK: Inits
     init(userName:String, email: String, password: String) {
         self.email = email
         self.password = password
@@ -39,12 +32,12 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         super.init(nibName: nil, bundle: nil)
         
     }
-    
+    // MARK: - View Life Cycle
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
@@ -231,7 +224,7 @@ extension RegisterCarViewController: UITextFieldDelegate {
         }
         self.carModelOptions = carModelOptions
         registerCarView.tableView.reloadData()
-           resignFirstResponder()
+        resignFirstResponder()
         
         
     }
