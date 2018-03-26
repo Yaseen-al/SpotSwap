@@ -252,10 +252,13 @@ extension RegisterCarViewController: UITextFieldDelegate {
         resignFirstResponder()
     }
     
+    //MARK: - Setup Keyboard Handling
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
             if keyboardHeight == 0 {
                 keyboardHeight = keyboardSize.height
+            }else{
+                return
             }
             UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
                 self.view.frame.origin.y -= self.keyboardHeight
@@ -264,9 +267,12 @@ extension RegisterCarViewController: UITextFieldDelegate {
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
             self.view.frame = self.view.bounds
-        }, completion: nil)
+        }) { (animated) in
+            self.keyboardHeight = 0
+        }
     }
     
 
