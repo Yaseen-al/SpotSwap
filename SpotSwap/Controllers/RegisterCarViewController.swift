@@ -24,6 +24,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         }
     }
 
+    var keyboardHeight: CGFloat = 0
 
 
     //MARK: Inits
@@ -51,6 +52,10 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         registerCarView.tableView.dataSource = self
         registerCarView.carMakeTextField.delegate = self
         registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
     }
     // MARK: - Setup NavBar and Views
     private func setupNavBar() {
@@ -230,7 +235,25 @@ extension RegisterCarViewController: UITextFieldDelegate {
         self.carModelOptions = carModelOptions
         registerCarView.tableView.reloadData()
         resignFirstResponder()
-        
-        
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            if keyboardHeight == 0 {
+                keyboardHeight = keyboardSize.height
+            }
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                self.view.frame.origin.y -= self.keyboardHeight
+            }, completion: nil)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.view.frame = self.view.bounds
+        }, completion: nil)
+    }
+    
+
 }

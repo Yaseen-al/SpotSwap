@@ -13,6 +13,7 @@ import Firebase
 class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
     // MARK: - Properties
     private let signUpView = SignUpView()
+    var keyboardHeight: CGFloat = 0
     
     // MARK: - View Life Cycle
     override func viewDidLoad() {
@@ -21,6 +22,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
         self.signUpView.signUpViewDelegate = self
         setupNavBar()
         setupSignUpView()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+        
     }
     
     // MARK: - Setup NavigationBar
@@ -58,7 +63,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
         
         
     }
-    //MARK: Pirvate Functions
+    //MARK: Prvate Functions
     private func showAlert(title: String, message: String?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default) {alert in }
@@ -66,7 +71,29 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
         present(alertController, animated: true, completion: nil)
     }
     
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+
+            if keyboardHeight == 0 {
+                keyboardHeight = keyboardSize.height
+            }
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                self.view.frame.origin.y -= self.keyboardHeight
+             }, completion: nil)
+        }
+    }
+
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+             self.view.frame = self.view.bounds
+        }, completion: nil)
+    }
+    
+
+    
 }
+
 //MARK: SignUpViewDelegate
 extension SignUpViewController: SignUpViewDelegate{
     func profileImageTapGesture() {
@@ -76,7 +103,6 @@ extension SignUpViewController: SignUpViewDelegate{
         view.endEditing(true)
         print("it is working")
     }
-    
     
 }
 
