@@ -17,6 +17,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     private let imagePickerViewController = UIImagePickerController()
     private var carDict = [String:[String]]()
     private  var carModelOptions = popularCarMakes
+    private var isOpen = false // dropDownList is close
     private var images = [UIImage]() {
         didSet {
             registerCarView.carImageView.image = images.first
@@ -49,6 +50,12 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         registerCarView.tableView.dataSource = self
         registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
     }
+    // MARK: - Setup NavBar and Views
+    private func setupNavBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
+            #selector(goToMapViewController))
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+    }
     
     private func setupImagePicker() {
         imagePickerController = ImagePickerController()
@@ -58,16 +65,12 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         registerCarView.carMakeTextField.delegate = self
     }
     
+    // MARK: - Actions
     @objc private func dismissKeyboard() {
         view.endEditing(true)
     }
     
-    private func setupNavBar() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action:
-            #selector(goToMapViewController))
-        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
-    }
-    
+
     @objc private func goToMapViewController() {
         guard let make = registerCarView.carMakeTextField.text, let model = registerCarView.dropDownButton.titleLabel?.text else {
             showAlert(title: "Please enter a valid car make and model", message: nil)
@@ -89,12 +92,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             //TODO Handle the errors
         }
     }
-    private func showAlert(title: String, message: String?) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default) {alert in }
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
-    }
+
     @objc func cameraButtonPressed() {
         //        open up camera and photo gallery
         self.images = []
@@ -104,7 +102,6 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         })
     }
     
-    var isOpen = false // dropDownList is close
     @objc private func dropDownList() {
         if isOpen == false {
             
@@ -136,7 +133,12 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         registerCarView.carMakeTextField.resignFirstResponder()
     }
     
-    
+    private func showAlert(title: String, message: String?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default) {alert in }
+        alertController.addAction(okAction)
+        present(alertController, animated: true, completion: nil)
+    }
     // Configure a simple inline search text view
     private func configureSimpleInLineSearchTextField() {
         // Define the inline mode
@@ -160,7 +162,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     }
     
 }
-
+//MARK: - Image Picker Delegates
 extension RegisterCarViewController: ImagePickerDelegate{
     func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
         self.images = images
@@ -177,6 +179,7 @@ extension RegisterCarViewController: ImagePickerDelegate{
         return
     }
 }
+//MARK: - TableView Delegates
 
 extension RegisterCarViewController: UITableViewDelegate, UITableViewDataSource {
     
@@ -211,6 +214,7 @@ extension RegisterCarViewController: UITableViewDelegate, UITableViewDataSource 
     }
     
 }
+//MARK: - TextField Delegates
 
 extension RegisterCarViewController: UITextFieldDelegate {
     func textFieldDidEndEditing(_ textField: UITextField) {
