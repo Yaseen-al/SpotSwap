@@ -20,6 +20,8 @@ class RegisterCarView: UIView {
     
     lazy var carImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "defaultVehicleImage")
+        imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
