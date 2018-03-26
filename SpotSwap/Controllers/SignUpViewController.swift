@@ -7,36 +7,39 @@
 //
 
 import UIKit
+import ImagePicker
 import Firebase
 
-class SignUpViewController: UIViewController {
+class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
+    // MARK: - Properties
+    private let signUpView = SignUpView()
     
-    let signUpView = SignUpView()
-
-    private var tapGesture: UITapGestureRecognizer!
-    
-    
-    
+    // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(signUpView)
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
+        view.backgroundColor = Stylesheet.Colors.OrangeMain
+        self.signUpView.signUpViewDelegate = self
         setupNavBar()
-        
+        setupSignUpView()
     }
     
-    @objc private func dismissKeyboard() {
-        view.endEditing(true)
-    }
-    
+    // MARK: - Setup NavigationBar
     private func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(goToNextView))
+        navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
         navigationController?.isNavigationBarHidden = false
     }
+    private func setupSignUpView(){
+        view.addSubview(signUpView)
+        signUpView.snp.makeConstraints { (constraint) in
+            constraint.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
+        }
+    }
+
     
+    //MARK:  Acitons
     @objc private func goToNextView() {
         guard let username = signUpView.usernameTextField.text, let email = signUpView.emailTextField.text, let password = signUpView.passwordTextField.text else{
             showAlert(title: "Please enter a valid email, username, and password", message: nil)
@@ -50,14 +53,12 @@ class SignUpViewController: UIViewController {
             showAlert(title: "Please enter a valid email", message: nil)
             return
         }
-            let registerCarVC = RegisterCarViewController(userName: username, email: email, password: password)
-            self.navigationController?.pushViewController(registerCarVC, animated: true)
+        let registerCarVC = RegisterCarViewController(userName: username, email: email, password: password)
+        self.navigationController?.pushViewController(registerCarVC, animated: true)
         
         
     }
-    
-    
-    
+    //MARK: Pirvate Functions
     private func showAlert(title: String, message: String?) {
         let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default) {alert in }
@@ -65,11 +66,19 @@ class SignUpViewController: UIViewController {
         present(alertController, animated: true, completion: nil)
     }
     
-    
+}
+//MARK: SignUpViewDelegate
+extension SignUpViewController: SignUpViewDelegate{
+    func profileImageTapGesture() {
+        print("ProfileImage gesture fired")
+    }
+    func dismissKeyBoard() {
+        view.endEditing(true)
+        print("it is working")
+    }
     
     
 }
-
 
 
 
