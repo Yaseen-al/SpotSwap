@@ -6,32 +6,26 @@
 //  Copyright © 2018 Yaseen Al Dallash. All rights reserved.
 import UIKit
 import ImagePicker
-
+import Toucan
 class RegisterCarViewController: UIViewController, UIImagePickerControllerDelegate {
     // MARK: - Properties
     private var email: String
     private var password: String
     private var userName: String
+    private var profileImage: UIImage
     private var imagePickerController: ImagePickerController!
     private let registerCarView = RegisterCarView()
-    private let imagePickerViewController = UIImagePickerController()
     private var carDict = [String:[String]]()
     private  var carModelOptions = [String]()
     private var isOpen = false // dropDownList is close
-    private var images = [UIImage]() {
-        didSet {
-            registerCarView.carImageView.image = images.first
-        }
-    }
-
     var keyboardHeight: CGFloat = 0
 
-
     //MARK: Inits
-    init(userName:String, email: String, password: String) {
+    init(userName:String, email: String, password: String, profileImage: UIImage) {
         self.email = email
         self.password = password
         self.userName = userName
+        self.profileImage = profileImage
         super.init(nibName: nil, bundle: nil)
         
     }
@@ -40,7 +34,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         fatalError("init(coder:) has not been implemented")
     }
     
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .clear
@@ -76,7 +70,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         view.endEditing(true)
     }
     
-
+    
     @objc private func goToMapViewController() {
         guard let make = registerCarView.carMakeTextField.text, let model = registerCarView.dropDownButton.titleLabel?.text else {
             showAlert(title: "Please enter a valid car make and model", message: nil)
@@ -86,10 +80,32 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             showAlert(title: "Please enter a valid car make and model", message: nil)
             return
         }
+        guard let vehicleImage = registerCarView.carImageView.image else{
+            showAlert(title: "Please select a valid car image, so others will be able to swap easily with you", message: nil)
+            return
+        }
+        //Compress the images for the storage
+        let profileImageSize: CGSize = CGSize(width: 300, height: 300)
+        guard let toucanProfileImage = Toucan.Resize.resizeImage(self.profileImage, size: profileImageSize) else{
+            showAlert(title: "error uploading your image please try again", message: nil)
+            return
+        }
+        let vehicleImageSize: CGSize = CGSize(width: 300, height: 300)
+        guard let tocanVehicleImage = Toucan.Resize.resizeImage(vehicleImage, size: vehicleImageSize) else{
+            showAlert(title: "error uploading your image please try again", message: nil)
+            return
+        }
+        
         AuthenticationService.manager.createUser(email: email, password: password, completion: { (user) in
-            let newCar = Car(carMake: make, carModel: model, carYear: "2018", carImageId: nil)
+            let newCar = Car(carMake: make, carModel: model, carYear: "2018")
             let newVehicleOwner = VehicleOwner(user: user, car: newCar, userName: self.userName)
             DataBaseService.manager.addNewVehicleOwner(vehicleOwner: newVehicleOwner, userID: user.uid)
+            StorageService.manager.storeImage(imageType: .vehicleOwner, uid: user.uid, image: toucanProfileImage, errorHandler: { (error) in
+                print(error)
+            })
+            StorageService.manager.storeImage(imageType: .vehicleImage, uid: user.uid, image: tocanVehicleImage, errorHandler: { (error) in
+                print(error)
+            })
             let mapViewController = MapViewController()
             let mapNavigationController = UINavigationController(rootViewController: mapViewController)
             mapViewController.modalPresentationStyle = .pageSheet
@@ -98,10 +114,9 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             //TODO Handle the errors
         }
     }
-
+    
     @objc func cameraButtonPressed() {
         //        open up camera and photo gallery
-        self.images = []
         present(imagePickerController, animated: true, completion: {
             self.imagePickerController.collapseGalleryView({
             })
@@ -171,7 +186,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
 //MARK: - Image Picker Delegates
 extension RegisterCarViewController: ImagePickerDelegate{
     func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
-        self.images = images
+        registerCarView.carImageView.image = images.first
         dismiss(animated: true, completion: nil)
         return
     }
@@ -239,7 +254,6 @@ extension RegisterCarViewController: UITextFieldDelegate {
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            
             if keyboardHeight == 0 {
                 keyboardHeight = keyboardSize.height
             }

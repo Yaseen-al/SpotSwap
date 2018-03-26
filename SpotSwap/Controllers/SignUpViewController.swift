@@ -10,11 +10,11 @@ import UIKit
 import ImagePicker
 import Firebase
 
-class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
+class SignUpViewController: UIViewController{
     // MARK: - Properties
     private let signUpView = SignUpView()
     var keyboardHeight: CGFloat = 0
-    
+    private var imagePickerController: ImagePickerController!
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,10 +22,14 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
         self.signUpView.signUpViewDelegate = self
         setupNavBar()
         setupSignUpView()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
-        
+        setupImagePicker()
+    }
+    private func setupImagePicker() {
+        imagePickerController = ImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.imageLimit = 1
     }
     
     // MARK: - Setup NavigationBar
@@ -58,7 +62,11 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
             showAlert(title: "Please enter a valid email", message: nil)
             return
         }
-        let registerCarVC = RegisterCarViewController(userName: username, email: email, password: password)
+        guard let image = signUpView.profileImage.image else{
+            showAlert(title: "Please select a valid picture", message: nil)
+            return
+        }
+        let registerCarVC = RegisterCarViewController(userName: username, email: email, password: password, profileImage: image)
         self.navigationController?.pushViewController(registerCarVC, animated: true)
         
         
@@ -94,14 +102,38 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate{
     
 }
 
+//MARK: ImagePickerDelegate
+extension SignUpViewController: UIImagePickerControllerDelegate, ImagePickerDelegate{
+    func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        self.signUpView.profileImage.image = images.first
+        dismiss(animated: true, completion: nil)
+        return
+    }
+    
+    func cancelButtonDidPress(_ imagePicker: ImagePickerController) {
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func wrapperDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
+        imagePicker.resetAssets()
+        return
+    }
+    
+}
+
+
 //MARK: SignUpViewDelegate
 extension SignUpViewController: SignUpViewDelegate{
     func profileImageTapGesture() {
         print("ProfileImage gesture fired")
+        //        open up camera and photo gallery
+        present(imagePickerController, animated: true, completion: {
+            self.imagePickerController.collapseGalleryView({
+            })
+        })
     }
     func dismissKeyBoard() {
         view.endEditing(true)
-        print("it is working")
     }
     
 }
