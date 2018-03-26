@@ -16,13 +16,15 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     private let registerCarView = RegisterCarView()
     private let imagePickerViewController = UIImagePickerController()
     private var carDict = [String:[String]]()
-    private  var carModelOptions = popularCarMakes
+    private  var carModelOptions = [String]()
     private var isOpen = false // dropDownList is close
     private var images = [UIImage]() {
         didSet {
             registerCarView.carImageView.image = images.first
         }
     }
+
+    var keyboardHeight: CGFloat = 0
 
 
     //MARK: Inits
@@ -48,7 +50,12 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         configureSimpleInLineSearchTextField()
         registerCarView.tableView.delegate = self
         registerCarView.tableView.dataSource = self
+        registerCarView.carMakeTextField.delegate = self
         registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
     }
     // MARK: - Setup NavBar and Views
     private func setupNavBar() {
@@ -62,7 +69,6 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         registerCarView.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
         imagePickerController.delegate = self
         imagePickerController.imageLimit = 1
-        registerCarView.carMakeTextField.delegate = self
     }
     
     // MARK: - Actions
@@ -222,14 +228,32 @@ extension RegisterCarViewController: UITextFieldDelegate {
             resignFirstResponder()
             return
         }
-        guard let carModelOptions = carDict[carMake.capitalized] else{
+        guard let carModelOptions = carDict[carMake] else{
             showAlert(title: "We are sorry this car make doesn't exist on our dataBase,", message: " we really appreciate you patience ")
             return
         }
         self.carModelOptions = carModelOptions
         registerCarView.tableView.reloadData()
         resignFirstResponder()
-        
-        
     }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            
+            if keyboardHeight == 0 {
+                keyboardHeight = keyboardSize.height
+            }
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                self.view.frame.origin.y -= self.keyboardHeight
+            }, completion: nil)
+        }
+    }
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+            self.view.frame = self.view.bounds
+        }, completion: nil)
+    }
+    
+
 }
