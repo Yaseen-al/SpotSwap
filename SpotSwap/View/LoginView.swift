@@ -19,9 +19,8 @@ class LoginView: UIView {
     }()
     
     lazy var logoSubtitleLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 50, y: 50, width: 200, height: 21))
-        label.backgroundColor = .yellow
-        label.textColor = .black
+        let label = UILabel()
+        label.textColor = .white
         label.textAlignment = .center
         label.text = "Share your parking spot with people nearby"
         return label
@@ -29,26 +28,34 @@ class LoginView: UIView {
   
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
+        textField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         textField.placeholder = "Enter your Email"
+        textField.layer.cornerRadius = 5
         textField.borderStyle = .roundedRect
         textField.autocorrectionType = .no
         textField.autocapitalizationType = .none
-        textField.layer.shadowOpacity = 0.1
-        textField.layer.shadowOffset = CGSize(width: 2, height: 2)
-        textField.keyboardType = .emailAddress
         return textField
+    }()
+    lazy var emailLogo: UIImageView = {
+        let iView = UIImageView()
+        iView.image = #imageLiteral(resourceName: "envelope white")
+        iView.contentMode = .scaleToFill
+        return iView
     }()
     
     lazy var passwordTextField: UITextField = {
         let textField = UITextField()
-        textField.placeholder = "Enter your password"
+        textField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
+        textField.placeholder = "Password"
         textField.borderStyle = .roundedRect
-        textField.autocorrectionType = .no
-        textField.isSecureTextEntry = true
-        textField.autocapitalizationType = .none
-        textField.layer.shadowOpacity = 0.1
-        textField.layer.shadowOffset = CGSize(width: 2, height: 2)
+        textField.isSecureTextEntry = true // this helps to obscure the user's password with *******
         return textField
+    }()
+    lazy var passwordLogo: UIImageView = {
+        let iView = UIImageView()
+        iView.image = #imageLiteral(resourceName: "password white")
+        iView.contentMode = .scaleToFill
+        return iView
     }()
     
     lazy var loginButton: UIButton = {
@@ -73,13 +80,22 @@ class LoginView: UIView {
     private func prepareViews() {
         setupLogoImage()
         setupEmailTextField()
+        setupEmailLogo()
         setupPasswordTextField()
+        setupPasswordLogo()
         setupLoginButton()
-        //setupLogoSubtitleLabel()
+        setupLogoSubtitleLabel()
         setupButtonDetails()
 
     }
-    
+    override func layoutSubviews() {
+        //Email Logo
+        emailLogo.layer.cornerRadius = 5
+        emailLogo.layer.masksToBounds = true
+        //Password Logo
+        passwordLogo.layer.cornerRadius = 5
+        passwordLogo.layer.masksToBounds = true
+    }
     //For login button - rounds the corners and gives it a shadow
     func setupButtonDetails() {
         //button.titleLabel?.font = button.titleLabel?.font.withSize(12)
@@ -103,7 +119,7 @@ class LoginView: UIView {
     }
     
     private func setupLogoSubtitleLabel() {
-        self.addSubview(logoSubtitleLabel)
+        addSubview(logoSubtitleLabel)
         logoSubtitleLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
             make.bottom.equalTo(emailTextField).offset(-100)
@@ -111,11 +127,20 @@ class LoginView: UIView {
     }
     
     private func setupEmailTextField() {
-        self.addSubview(emailTextField)
+        addSubview(emailTextField)
         emailTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
             make.centerY.equalTo(snp.centerY)
-            make.width.equalTo(snp.width).multipliedBy(0.80)
+            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
+            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
+        }
+    }
+    private func setupEmailLogo(){
+        addSubview(emailLogo)
+        emailLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(emailTextField.snp.centerY)
+            make.right.equalTo(emailTextField.snp.left).offset(-5)
+            make.width.height.equalTo(snp.width).multipliedBy(0.08)
         }
     }
     
@@ -123,8 +148,17 @@ class LoginView: UIView {
         self.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.width.equalTo(snp.width).multipliedBy(0.80)
             make.top.equalTo(emailTextField).offset(70)
+            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
+            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
+        }
+    }
+    private func setupPasswordLogo(){
+        addSubview(passwordLogo)
+        passwordLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(passwordTextField.snp.centerY)
+            make.right.equalTo(passwordTextField.snp.left).offset(-5)
+            make.width.height.equalTo(snp.width).multipliedBy(0.08)
         }
     }
     

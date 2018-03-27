@@ -107,7 +107,6 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
                 print(error)
             })
             let mapViewController = ContainerViewController.storyBoardInstance()
-            mapViewController.modalPresentationStyle = .pageSheet
             self.present(mapViewController, animated: true, completion: nil)
         }) { (error) in
             //TODO Handle the errors
