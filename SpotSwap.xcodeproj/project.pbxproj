@@ -292,9 +292,6 @@
 			children = (
 				81BFAE78205F6C1700E27389 /* LaunchView.swift */,
 				81BFAE76205F6B2200E27389 /* LoginView.swift */,
-				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
-				C4F8A4A9205C3D1B001A746A /* MapView.swift */,
-				C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */,
 				81AEA972205C72A60081FD81 /* SignUpView.swift */,
 				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
 				1F674F6A206176E700E16D0A /* MenuView.swift */,
@@ -352,8 +349,8 @@
 		C4DCE410206A959A00F44698 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				C4F8A4A9205C3D1B001A746A /* MapView.swift */,
 				C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */,
+				C4F8A4A9205C3D1B001A746A /* MapView.swift */,
 				C4DCE40E206A928E00F44698 /* CalloutView.swift */,
 				C4EBA3CF20695E89003E0660 /* MapCalloutView.swift */,
 				C4DCE411206A95E600F44698 /* MapAnnotationView.swift */,

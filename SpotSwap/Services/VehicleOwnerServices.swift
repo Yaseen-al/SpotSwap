@@ -48,6 +48,7 @@ class VehicleOwnerService {
     public func getVehicleOwner() -> VehicleOwner {
         return vehicleOwner // app should crash if we dont have a vehicle owner
     }
+    
     //This function checks if the vehicle owner has a reservation or not
     public func hasReservation() -> Bool {
         return vehicleOwner.reservationId != nil
@@ -70,6 +71,7 @@ class VehicleOwnerService {
         }
         DataBaseService.manager.removeSpot(spotId: spot.spotUID)
     }
+    
     public func removeReservation(completion: @escaping(Reservation)-> Void){
         guard let reservationId = vehicleOwner.reservationId else{
             //TODO Handle the error

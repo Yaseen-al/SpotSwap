@@ -224,7 +224,7 @@ class MapCalloutView: CalloutView {
     
     private func fetchVehicleOwnerImage(vehicleOwner: VehicleOwner) {
         guard let url = vehicleOwner.userImage else { return }
-        FirebaseStorageManager.shared.retrieveImage(imgURL: url, completionHandler: { [weak self] image in
+        StorageService.manager.retrieveImage(imgURL: url, completionHandler: { [weak self] image in
             self?.imageView.image = image
         }) { [weak self] error in
             self?.imageView.backgroundColor = .red

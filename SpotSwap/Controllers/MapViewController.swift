@@ -2,15 +2,17 @@ import UIKit
 import MapKit
 import CoreLocation
 
-
 class MapViewController: UIViewController {
+    
     // MARK: - Properties
     private var initialLaunch = true
     private var contentView = MapView()
-    private var reservationDetailView: ReservationDetailView!
     private var menuView = MenuView()
+    private var reservationDetailView: ReservationDetailView!
+    
     // This is basically an instance of the current vehicle owner in a class that have some functions that helps in controlling the flow of the vehicleOwner operations.
     var vehicleOwnerService: VehicleOwnerService!
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,8 +24,8 @@ class MapViewController: UIViewController {
         LocationService.manager.setDelegate(viewController: self)
         self.view.backgroundColor = Stylesheet.Colors.GrayMain
     }
-    // MARK: - Setup NavigationBar
     
+    // MARK: - Setup - View/Data
     private func setupNavigationBar() {
         navigationItem.title = "SpotSwap"
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
@@ -35,9 +37,9 @@ class MapViewController: UIViewController {
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
     }
-    // MARK: - Setup Views
     
-    private func setupMenuView(){
+    // MARK: - Layout
+    private func setupMenuView() {
         view.addSubview(menuView)
         let menueViewWidth = UIScreen.main.bounds.width * 0.35
         menuView.snp.makeConstraints { (constraint) in
@@ -70,6 +72,20 @@ class MapViewController: UIViewController {
     }
 }
 
+// MARK: - Map Helper Functions
+private extension MapViewController {
+    func setMapRegion(around location: CLLocation) {
+        if initialLaunch {
+            let regionArea = 0.02 // smaller is more zoomed in
+            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
+            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: regionArea, longitudeDelta: regionArea))
+            contentView.mapView.setRegion(region, animated: true)
+            initialLaunch = false
+        }
+    }
+}
+
+// MARK: - Delegates
 // MARK: - MKMapViewDelegate
 extension MapViewController: MKMapViewDelegate {
     
@@ -86,40 +102,8 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         // Handle if the annotation comes from an open spot, my vehicle location or a spot the user reserved
-<<<<<<< HEAD
         pin?.annotation = annotation
         return pin
-=======
-        switch annotation {
-        case is Spot:
-            let spot = annotation as! Spot
-            // Create custom detail view, inject it with `annotation` for data.
-            let detailLatLongView = UILabel()
-            let lat = String(annotation.coordinate.latitude).prefix(5)
-            let long = String(annotation.coordinate.longitude).prefix(5)
-            
-            if let reservationID = spot.reservationId {
-                annotationView?.markerTintColor = Stylesheet.Colors.PinkMain
-                detailLatLongView.text = """
-                Reserved by \(reservationID.prefix(5)) 💩
-                You have \(spot.duration) minutes!
-                """
-            } else {
-                //This will create an annotation for the spot
-                annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
-                detailLatLongView.text = "LAT: \(lat), LONG: \(long)"
-            }
-            annotationView?.annotation = annotation
-            annotationView?.canShowCallout = true
-            annotationView?.detailCalloutAccessoryView = detailLatLongView
-            
-            let button = UIButton(type: .detailDisclosure)
-            annotationView?.rightCalloutAccessoryView = button
-        default:
-            break
-        }
-        return annotationView
->>>>>>> qa
     }
     
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
@@ -140,12 +124,12 @@ extension MapViewController: LocationServiceDelegate {
     }
     //*******************************************************\\
     func spotsUpdatedFromFirebase(_ spots: [Spot]) {
-        guard vehicleOwnerService.getVehicleOwner().reservationId != nil else{
-            // Refactor. Should add and remove individual annotation
-            contentView.mapView.removeAnnotations(contentView.mapView.annotations)
-            contentView.mapView.addAnnotations(spots)
-            return
-        }
+//        guard vehicleOwnerService.getVehicleOwner().reservationId != nil else{
+//            // Refactor. Should add and remove individual annotation
+//            contentView.mapView.removeAnnotations(contentView.mapView.annotations)
+//            contentView.mapView.addAnnotations(spots)
+//            return
+//        }
     }
     //*******************************************************\\
 }
@@ -181,7 +165,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
                     self.alertWithOkButton(title: "there was an error retrieving your matched spot taker", message: nil)
                     return
                 })
-            }else{
+            } else {
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerId, dataBaseObserveType: .singleEvent, completion: {(spotOwnerVehicleOwner) in
                     
                     self.setupReservationView(with: spotOwnerVehicleOwner, reservation: reservation)
@@ -197,6 +181,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
             print(error)
         }
     }
+    
     private func alertWithOkButton(title: String, message: String?){
         let alerViewController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -215,19 +200,6 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     }
 }
 
-// MARK: - Map Helper Functions
-private extension MapViewController {
-    func setMapRegion(around location: CLLocation) {
-        if initialLaunch {
-            let regionArea = 0.02 // smaller is more zoomed in
-            let center = CLLocationCoordinate2D(latitude: location.coordinate.latitude, longitude: location.coordinate.longitude)
-            let region = MKCoordinateRegion(center: center, span: MKCoordinateSpan(latitudeDelta: regionArea, longitudeDelta: regionArea))
-            contentView.mapView.setRegion(region, animated: true)
-            initialLaunch = false
-        }
-    }
-}
-
 //MARK: - DetailReservation Delegate
 extension MapViewController: ReserVationDetailViewDelegate {
     func prepareReservationAction() {
@@ -236,8 +208,6 @@ extension MapViewController: ReserVationDetailViewDelegate {
         }
         reservationDetailView.removeFromSuperview()
     }
-    
-    
 }
 
 //MARK: - Menu Delegates
@@ -252,7 +222,7 @@ extension MapViewController: MenuDelegate {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.loadLaunchViewController()
     }
-    //MARK: - Menu Button actions
+    // Menu Button actions
     @objc private func handleMenu(_ sender: UIBarButtonItem){
         menuView.handleMenu(contentView, sender: sender)
     }

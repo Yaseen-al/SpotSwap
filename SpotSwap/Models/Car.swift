@@ -7,7 +7,9 @@
 //
 
 import Foundation
-class Car: Codable{
+
+class Car: Codable {
+    
     let carMake: String
     let carModel: String
     let carYear: String

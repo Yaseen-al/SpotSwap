@@ -24,21 +24,22 @@ enum FireBaseStorageErrors: Error {
 }
 
 class StorageService {
-    //MARK: - Properties
     
+    //MARK: - Properties
     static let manager = StorageService()
     private var storage: Storage
     private var storageRef: StorageReference
     private var vehicleOwnerImageRef: StorageReference
     private var vehicleImageRef: StorageReference
-    //MARK: - Inits
     
+    //MARK: - Inits
     private init(){
         storage = Storage.storage()
         storageRef = storage.reference()
         vehicleOwnerImageRef = storageRef.child("vehiclOwnerImages")
         vehicleImageRef = storageRef.child("vehicleImages")
     }
+    
     //MARK: - Public functions
     func storeImage(imageType: ImageType, uid: String, image: UIImage, errorHandler: @escaping (Error)->Void) {
         guard let data = UIImagePNGRepresentation(image) else { print("image is nil"); return }
