@@ -2,14 +2,18 @@ import UIKit
 import MapKit
 import CoreLocation
 
+protocol MenuContainerDelegate: class {
+    func trigerMenu()
+}
+
+
 class MapViewController: UIViewController {
     
     // MARK: - Properties
     private var initialLaunch = true
     private var contentView = MapView()
-    private var menuView = MenuView()
     private var reservationDetailView: ReservationDetailView!
-    
+    var menuContainerDelegate: MenuContainerDelegate?
     // This is basically an instance of the current vehicle owner in a class that have some functions that helps in controlling the flow of the vehicleOwner operations.
     var vehicleOwnerService: VehicleOwnerService!
     
@@ -18,7 +22,6 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupContentView()
-        setupMenuView()
         setupDelegates()
         vehicleOwnerService = VehicleOwnerService(self)
         self.view.backgroundColor = Stylesheet.Colors.GrayMain
@@ -37,23 +40,12 @@ class MapViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
+
     private func setupDelegates() {
-        menuView.delegate = self
         LocationService.manager.setDelegate(viewController: self)
     }
     
-    // MARK: - Layout
-    private func setupMenuView() {
-        view.addSubview(menuView)
-        let menueViewWidth = UIScreen.main.bounds.width * 0.35
-        menuView.snp.makeConstraints { (constraint) in
-            constraint.width.equalTo(self.view.snp.width).multipliedBy(0.35)
-            constraint.leading.equalTo(self.view.snp.leading).offset(-menueViewWidth)
-            constraint.top.equalTo(self.view.safeAreaLayoutGuide.snp.top)
-            constraint.bottom.equalTo(self.view.safeAreaLayoutGuide.snp.bottom)
-            constraint.centerY.equalTo(self.view.snp.centerY)
-        }
-    }
+
     private func setupContentView() {
         contentView = MapView(viewController: self)
         view.addSubview(contentView)
@@ -215,21 +207,12 @@ extension MapViewController: ReserVationDetailViewDelegate {
     }
 }
 
-//MARK: - Menu Delegates
-extension MapViewController: MenuDelegate {
-    // This will handle the signout from the menu
-    func signOutButtonClicked(_ sender: MenuView) {
-        AuthenticationService.manager.signOut { (error) in
-            print(error)
-            self.dismiss(animated: true, completion: nil)
-            return
-        }
-        let appDelegate = UIApplication.shared.delegate as! AppDelegate
-        appDelegate.loadLaunchViewController()
-    }
-    // Menu Button actions
+
+//MARK: - Menu ContainerDelegate Delegate
+extension MapViewController {
     @objc private func handleMenu(_ sender: UIBarButtonItem){
-        menuView.handleMenu(contentView, sender: sender)
+        menuContainerDelegate?.trigerMenu()
+        
     }
 }
 

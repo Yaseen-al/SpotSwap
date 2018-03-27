@@ -123,7 +123,6 @@ class RegisterCarView: UIView {
         setupMakeLabel()
         setupMakeTF()
         setupModelLabel()
-        //        setupModelTF()
         setupDropDownButton()
         setupDropDownView()
         setupTableView()
