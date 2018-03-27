@@ -122,16 +122,15 @@ extension MapViewController: LocationServiceDelegate {
         LocationService.manager.setUserLocation(userLocation)
         setMapRegion(around: userLocation)
     }
-    //*******************************************************\\
+    
     func spotsUpdatedFromFirebase(_ spots: [Spot]) {
-//        guard vehicleOwnerService.getVehicleOwner().reservationId != nil else{
-//            // Refactor. Should add and remove individual annotation
-//            contentView.mapView.removeAnnotations(contentView.mapView.annotations)
-//            contentView.mapView.addAnnotations(spots)
-//            return
-//        }
+        guard vehicleOwnerService.getVehicleOwner().reservationId != nil else{
+            // Refactor. Should add and remove individual annotation
+            contentView.mapView.removeAnnotations(contentView.mapView.annotations)
+            contentView.mapView.addAnnotations(spots)
+            return
+        }
     }
-    //*******************************************************\\
 }
 
 // MARK: - MapViewGestureDelegate
@@ -204,7 +203,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
 extension MapViewController: ReserVationDetailViewDelegate {
     func prepareReservationAction() {
         vehicleOwnerService.removeReservation { (reservation) in
-            LocationService.manager.loadSpots()
+//            LocationService.manager.loadSpots()
         }
         reservationDetailView.removeFromSuperview()
     }

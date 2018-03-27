@@ -18,6 +18,8 @@ class VehicleOwnerService {
     private weak var delegate: VehicleOwnerServiceDelegate!
     private var vehicleOwner: VehicleOwner! {
         didSet {
+            LocationService.manager.loadSpots()
+
             //the delegate is should only fire up when vehicleOwner have reservation
             guard let reservationId = vehicleOwner.reservationId else {
                 delegate.vehiclOwnerHasNoReservation()
@@ -26,9 +28,9 @@ class VehicleOwnerService {
             
             delegate?.vehicleOwnerSpotReserved(reservationId: reservationId, currentVehicleOwner: vehicleOwner)
             print("Vehicle owner updated. Reservation \(reservationId)")
-            
         }
     }
+    
     //MARK: - Inits
     // In order to intialize the VehicleOwnerService you need to have a ViewControllerClass that conforms to VehicleOwnerServiceDelegate
     init(_ viewController: VehicleOwnerServiceDelegate) {
