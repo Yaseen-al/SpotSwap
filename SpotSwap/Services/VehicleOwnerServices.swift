@@ -11,6 +11,7 @@ protocol VehicleOwnerServiceDelegate: class {
     func vehiclOwnerRemoveReservation(_ reservationId: Reservation)
     //This Function can be used to load the normal map with all the spots around the user
     func vehiclOwnerHasNoReservation()
+    func vehicleOwnerRetrieved()
 }
 
 class VehicleOwnerService {
@@ -18,7 +19,7 @@ class VehicleOwnerService {
     private weak var delegate: VehicleOwnerServiceDelegate!
     private var vehicleOwner: VehicleOwner! {
         didSet {
-            
+            delegate.vehicleOwnerRetrieved()
             LocationService.manager.addSpotsFromFirebaseToMap()
 
             //the delegate is should only fire up when vehicleOwner have reservation

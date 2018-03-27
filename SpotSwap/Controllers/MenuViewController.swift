@@ -9,14 +9,16 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-    private let menuView = MenuView()
+    private var menuView: MenuView!
+    private var vehicleOwnerService: VehicleOwnerService!
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.menuView.delegate = self
+        vehicleOwnerService = VehicleOwnerService(self)
         view.backgroundColor = Stylesheet.Colors.OrangeMain
-        setupMenuView()
     }
     func setupMenuView() {
+        menuView = MenuView(vehicleOwnerService.getVehicleOwner())
+        self.menuView.delegate = self
         view.addSubview(menuView)
         menuView.snp.makeConstraints { (constraint) in
             constraint.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
@@ -34,5 +36,24 @@ extension MenuViewController: MenuDelegate{
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.loadLaunchViewController()
     }
+    
+}
+extension MenuViewController: VehicleOwnerServiceDelegate{
+    func vehicleOwnerRetrieved() {
+        setupMenuView()
+    }
+    
+    func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner) {
+        
+    }
+    
+    func vehiclOwnerRemoveReservation(_ reservationId: Reservation) {
+        
+    }
+    
+    func vehiclOwnerHasNoReservation() {
+        
+    }
+    
     
 }
