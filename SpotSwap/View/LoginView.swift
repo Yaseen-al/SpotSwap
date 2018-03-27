@@ -131,7 +131,7 @@ class LoginView: UIView {
         addSubview(emailTextField)
         emailTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.top.equalTo(logoSubtitleLabel.snp.bottom).offset(80)
+            make.top.equalTo(logoSubtitleLabel.snp.bottom).offset(120)
             make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
             make.height.equalTo(30)
         }
