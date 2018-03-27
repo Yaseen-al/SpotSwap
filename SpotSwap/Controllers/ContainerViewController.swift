@@ -7,7 +7,11 @@
 //
 
 import UIKit
-
+//MARK: - MenueStatus enum
+enum MenuStatus{
+    case visible
+    case hidden
+}
 class ContainerViewController: UIViewController, MenuContainerDelegate {
     @IBOutlet weak var menuLeadingConstraint: NSLayoutConstraint!
     private var menuStatus = MenuStatus.hidden

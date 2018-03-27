@@ -9,27 +9,30 @@
 import UIKit
 
 class MenuViewController: UIViewController {
-
+    private let menuView = MenuView()
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Stylesheet.Colors.PinkMain
-        // Do any additional setup after loading the view.
+        self.menuView.delegate = self
+        view.backgroundColor = Stylesheet.Colors.OrangeMain
+        setupMenuView()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func setupMenuView() {
+        view.addSubview(menuView)
+        menuView.snp.makeConstraints { (constraint) in
+            constraint.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+        }
+    }
+}
+extension MenuViewController: MenuDelegate{
+    // This will handle the signout from the menu
+    func signOutButtonClicked(_ sender: MenuView) {
+        AuthenticationService.manager.signOut { (error) in
+            print(error)
+            self.dismiss(animated: true, completion: nil)
+            return
+        }
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        appDelegate.loadLaunchViewController()
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
 }

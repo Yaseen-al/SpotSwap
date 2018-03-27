@@ -5,8 +5,7 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var enableAllOrientation = false
-    
+    var enableAllOrientation = true
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         if (enableAllOrientation == true){
             return UIInterfaceOrientationMask.allButUpsideDown
