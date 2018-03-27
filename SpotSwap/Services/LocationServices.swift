@@ -15,6 +15,17 @@ class LocationService: NSObject {
     private var locationManager: CLLocationManager!
     private weak var locationServiceDelegate: LocationServiceDelegate!
     
+    private var currentUserLocation: CLLocation?
+    
+    func setUserLocation(_ location: CLLocation) {
+        currentUserLocation = location
+    }
+    
+    
+    func getUserLocation() -> CLLocation? {
+        return currentUserLocation
+    }
+    
     // MARK: - Inits
     private override init() {
         super.init()
@@ -23,12 +34,29 @@ class LocationService: NSObject {
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.distanceFilter = 10
         checkForLocationServices()
-        addSpotsFromFirebaseToMap()
     }
     
     // MARK: - Public Methods
     func setDelegate(viewController: LocationServiceDelegate) {
         locationServiceDelegate = viewController
+    }
+    
+    func lookUpAddress(location: CLLocation, completionHandler: @escaping (CLPlacemark?) -> Void) {
+        // Use the last reported location.
+            let geocoder = CLGeocoder()
+            
+            // Look up the location and pass it to the completion handler
+            geocoder.reverseGeocodeLocation(location,
+                                            completionHandler: { (placemarks, error) in
+                                                if error == nil {
+                                                    let firstLocation = placemarks?[0]
+                                                    completionHandler(firstLocation)
+                                                }
+                                                else {
+                                                    // An error occurred during geocoding.
+                                                    completionHandler(nil)
+                                                }
+            })
     }
     
     // MARK: - Private Methods
@@ -52,15 +80,8 @@ class LocationService: NSObject {
         }
     }
     
-    private func addSpotsFromFirebaseToMap() {
-        DataBaseService.manager.retrieveAllSpots(dataBaseObserveType: .observing, completion: { [weak self] spots in
-            self?.locationServiceDelegate.spotsUpdatedFromFirebase(spots)
-        }) { error in
-            print(error)
-        }
-    }
     // this function shall load all the spots again
-    public func loadSpots(){
+    public func addSpotsFromFirebaseToMap() {
         DataBaseService.manager.retrieveAllSpots(dataBaseObserveType: .observing, completion: { [weak self] spots in
             self?.locationServiceDelegate.spotsUpdatedFromFirebase(spots)
         }) { error in

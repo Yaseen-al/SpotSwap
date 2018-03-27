@@ -31,19 +31,21 @@ extension DataBaseService{
     //This function will retrieve the vehicleOwner from the data base
     public func retrieveCurrentVehicleOwner(completion: @escaping(VehicleOwner)->Void, errorHandler: @escaping(Error)->Void) {
         // This will make sure that you have signed up user
-        guard let user = AuthenticationService.manager.getCurrentUser() else{
+        guard let user = AuthenticationService.manager.getCurrentUser() else {
+            print(#function, "No signed in user")
             errorHandler(DataBaseReferenceErrors.noSignedUser)
             return
         }
+        
         let vehicleOwnerRef = self.getCarOwnerRef().child(user.uid)
         vehicleOwnerRef.observe(.value) { (snapShot) in
             if let json = snapShot.value as? NSDictionary {
-                do{
+                do {
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
                     let vehicleOwner = try JSONDecoder().decode(VehicleOwner.self, from: jsonData)
                     completion(vehicleOwner)
                 }
-                catch{
+                catch {
                     
                     print(#function, error)
                     errorHandler(DataBaseReferenceErrors.errorDecodingVehicleOwner)
@@ -55,7 +57,7 @@ extension DataBaseService{
     public func retrieveVehicleOwner(vehicleOwnerId: String, dataBaseObserveType: DataBaseObserveType, completion: @escaping(VehicleOwner)->Void, errorHandler: @escaping(Error)->Void) {
         let vehicleOwnerRef = self.getCarOwnerRef().child(vehicleOwnerId)
         let vehicleOwnerDataSnapShootClosure: (DataSnapshot)->Void = { (snapShot) in
-            if let json = snapShot.value{
+            if let json = snapShot.value as? NSDictionary {
                 do{
                     let jsonData = try JSONSerialization.data(withJSONObject: json, options: [])
                     let vehicleOwner = try JSONDecoder().decode(VehicleOwner.self, from: jsonData)

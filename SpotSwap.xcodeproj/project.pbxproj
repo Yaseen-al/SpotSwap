@@ -48,6 +48,10 @@
 		C4C29B53205C3C4700C25344 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */; };
 		C4C29B54205C3C4700C25344 /* UIViewController+Nav.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */; };
 		C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B55205C3C4F00C25344 /* MapViewController.swift */; };
+		C4DCE40F206A928E00F44698 /* CalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE40E206A928E00F44698 /* CalloutView.swift */; };
+		C4DCE412206A95E600F44698 /* MapAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4DCE411206A95E600F44698 /* MapAnnotationView.swift */; };
+		C4EBA3D020695E89003E0660 /* MapCalloutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EBA3CF20695E89003E0660 /* MapCalloutView.swift */; };
+		C4EBA3D42069825B003E0660 /* AlertFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4EBA3D32069825B003E0660 /* AlertFactory.swift */; };
 		C4F30A8820600428008B0156 /* Reservation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F30A8720600428008B0156 /* Reservation.swift */; };
 		C4F30A8A20600459008B0156 /* VehicleOwnerServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F30A8920600459008B0156 /* VehicleOwnerServices.swift */; };
 		C4F30A8C20603E94008B0156 /* ReservationDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */; };
@@ -126,6 +130,10 @@
 		C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Nav.swift"; sourceTree = "<group>"; };
 		C4C29B55205C3C4F00C25344 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
+		C4DCE40E206A928E00F44698 /* CalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalloutView.swift; sourceTree = "<group>"; };
+		C4DCE411206A95E600F44698 /* MapAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapAnnotationView.swift; sourceTree = "<group>"; };
+		C4EBA3CF20695E89003E0660 /* MapCalloutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapCalloutView.swift; sourceTree = "<group>"; };
+		C4EBA3D32069825B003E0660 /* AlertFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertFactory.swift; sourceTree = "<group>"; };
 		C4F30A8720600428008B0156 /* Reservation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reservation.swift; sourceTree = "<group>"; };
 		C4F30A8920600459008B0156 /* VehicleOwnerServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleOwnerServices.swift; sourceTree = "<group>"; };
 		C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReservationDetailView.swift; sourceTree = "<group>"; };
@@ -263,6 +271,7 @@
 				81F9369A20645E8000BF5DA0 /* SearchTextField.swift */,
 				C4C29B4F205C3C4600C25344 /* Stylesheet.swift */,
 				C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */,
+				C4EBA3D32069825B003E0660 /* AlertFactory.swift */,
 				C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */,
 				1F7A31942059665D00A25693 /* AppDelegate.swift */,
 				1F7A319E2059665D00A25693 /* Assets.xcassets */,
@@ -283,11 +292,10 @@
 			children = (
 				81BFAE78205F6C1700E27389 /* LaunchView.swift */,
 				81BFAE76205F6B2200E27389 /* LoginView.swift */,
-				C4F8A4A9205C3D1B001A746A /* MapView.swift */,
-				C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */,
 				81AEA972205C72A60081FD81 /* SignUpView.swift */,
 				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
 				1F674F6A206176E700E16D0A /* MenuView.swift */,
+				C4DCE410206A959A00F44698 /* Map */,
 				1F7A31C92059669600A25693 /* Cells */,
 			);
 			path = View;
@@ -336,6 +344,18 @@
 				B3E83A19C74BF6B852D22407 /* Pods_SpotSwapUITests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C4DCE410206A959A00F44698 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				C4F30A8B20603E94008B0156 /* ReservationDetailView.swift */,
+				C4F8A4A9205C3D1B001A746A /* MapView.swift */,
+				C4DCE40E206A928E00F44698 /* CalloutView.swift */,
+				C4EBA3CF20695E89003E0660 /* MapCalloutView.swift */,
+				C4DCE411206A95E600F44698 /* MapAnnotationView.swift */,
+			);
+			path = Map;
 			sourceTree = "<group>";
 		};
 		FF4BB8FCD8A2D8C38C120974 /* Pods */ = {
@@ -669,10 +689,12 @@
 				1F9A92D220636D3D00A9FEFC /* ImageHelper.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
 				C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */,
+				C4EBA3D42069825B003E0660 /* AlertFactory.swift in Sources */,
 				81AEA975205FBE870081FD81 /* SignUpViewController.swift in Sources */,
 				C4C29B53205C3C4700C25344 /* UIColor+Hex.swift in Sources */,
 				81AEA977205FFC430081FD81 /* RegisterCarViewController.swift in Sources */,
 				1F674F6920615EFA00E16D0A /* DataBaseService+Reservations.swift in Sources */,
+				C4DCE40F206A928E00F44698 /* CalloutView.swift in Sources */,
 				1F467B1C20599BA900598418 /* DataBaseService.swift in Sources */,
 				81AEA973205C72A60081FD81 /* SignUpView.swift in Sources */,
 				1F467B202059AD2800598418 /* DataBaseService+CarMakes.swift in Sources */,
@@ -680,6 +702,7 @@
 				C4F8A4AA205C3D1B001A746A /* MapView.swift in Sources */,
 				1F467B0C20597E6000598418 /* CarModel.swift in Sources */,
 				C4C29B54205C3C4700C25344 /* UIViewController+Nav.swift in Sources */,
+				C4EBA3D020695E89003E0660 /* MapCalloutView.swift in Sources */,
 				81F9369B20645E8000BF5DA0 /* SearchTextField.swift in Sources */,
 				1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */,
 				1F467B182059896F00598418 /* CareModelsAPIClient.swift in Sources */,
@@ -693,6 +716,7 @@
 				C4F8A4AE205C3D85001A746A /* Coord.swift in Sources */,
 				1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */,
 				81AEA971205C724E0081FD81 /* RegisterCarView.swift in Sources */,
+				C4DCE412206A95E600F44698 /* MapAnnotationView.swift in Sources */,
 				C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */,
 				C4F30A8820600428008B0156 /* Reservation.swift in Sources */,
 				1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */,
@@ -857,7 +881,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = RBE99A2Y96;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -874,7 +898,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = RBE99A2Y96;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

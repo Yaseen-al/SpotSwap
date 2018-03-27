@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+
 class ImageHelper {
     private init() {}
     static let manager = ImageHelper()
