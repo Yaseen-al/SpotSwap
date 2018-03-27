@@ -234,7 +234,7 @@ extension MapViewController: MenuDelegate {
 }
 
 //MARK: - ExampleCalloutView Delegate
-extension MapViewController: ExampleCalloutViewDelegate {
+extension MapViewController: MapCalloutViewDelegate {
     func reserveButtonPressed(spot: Spot) {
         print("Reserved")
         vehicleOwnerService.reserveSpot(spot)

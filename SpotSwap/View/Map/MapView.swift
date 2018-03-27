@@ -9,7 +9,7 @@ protocol MapViewGestureDelegate: class {
 class MapView: UIView {
 
     weak var gestureDelegate: MapViewGestureDelegate!
-    weak var calloutDelegate: ExampleCalloutViewDelegate!
+    weak var calloutDelegate: MapCalloutViewDelegate!
     
     // MARK: - Properties
     lazy var mapView: MKMapView = {
@@ -31,7 +31,7 @@ class MapView: UIView {
         self.init()
         if let mapViewDelegate = viewController as? MKMapViewDelegate,
             let mapViewGestureDelegate = viewController as? MapViewGestureDelegate,
-            let mapViewCalloutDelegate = viewController as? ExampleCalloutViewDelegate {
+            let mapViewCalloutDelegate = viewController as? MapCalloutViewDelegate {
             
             mapView.delegate = mapViewDelegate
             gestureDelegate = mapViewGestureDelegate

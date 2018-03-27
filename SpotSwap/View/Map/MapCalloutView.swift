@@ -2,7 +2,7 @@ import UIKit
 import MapKit
 import SnapKit
 
-protocol ExampleCalloutViewDelegate: class {
+protocol MapCalloutViewDelegate: class {
     func reserveButtonPressed(spot: Spot)
 }
 
@@ -30,10 +30,8 @@ class MapCalloutView: CalloutView {
     
     private var subtitleLabel: UILabel = {
         let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Stylesheet.Colors.BlueMain
         label.font = UIFont.boldSystemFont(ofSize: 16)
-//        label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
     
@@ -62,18 +60,21 @@ class MapCalloutView: CalloutView {
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "USERNAME"
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
     }()
     
     private lazy var carTypeLabel: UILabel = {
         let label = UILabel()
         label.text = "CAR TYPE"
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
     private lazy var addressLabel: UILabel = {
         let label = UILabel()
         label.text = "ADDRESS"
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
@@ -185,7 +186,6 @@ class MapCalloutView: CalloutView {
     private func prepareCarTypeLabel() {
         carTypeLabel.snp.makeConstraints { make in
             make.top.equalTo(userNameLabel.snp.bottom).offset(5)
-            make.bottom.equalTo(addressLabel.snp.top).offset(5)
             make.left.equalTo(imageView.snp.right).offset(5)
             make.right.equalTo(contentView.snp.right).offset(-5)
         }
@@ -193,13 +193,26 @@ class MapCalloutView: CalloutView {
     
     private func prepareAddressLabel() {
         addressLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(contentView.snp.bottom).offset(-5)
+            make.top.equalTo(carTypeLabel.snp.bottom).offset(5)
+            make.bottom.lessThanOrEqualTo(contentView.snp.bottom).offset(-5)
             make.left.equalTo(imageView.snp.right).offset(5)
             make.right.equalTo(contentView.snp.right).offset(-5)
         }
     }
     
     // MARK: - Setup - View/Data
+    // Update callout contents
+    private func updateContents(for annotation: MKAnnotation) {
+        titleLabel.text = annotation.title ?? "Unknown"
+        subtitleLabel.text = "OPEN"
+        
+        if let spot = annotation as? Spot {
+            timerLabel.text = spot.duration
+            fetchVehicleOwnerData(spot: spot)
+            fetchAddress(coordinates: spot.coordinate)
+        }
+    }
+    
     private func fetchVehicleOwnerData(spot: Spot) {
         DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: spot.userUID, dataBaseObserveType: .observing, completion: { [weak self] vehicleOwner in
             self?.fetchVehicleOwnerImage(vehicleOwner: vehicleOwner)
@@ -234,18 +247,6 @@ class MapCalloutView: CalloutView {
         }
     }
     
-    // Update callout contents
-    private func updateContents(for annotation: MKAnnotation) {
-        titleLabel.text = annotation.title ?? "Unknown"
-        subtitleLabel.text = "OPEN"
-        
-        if let spot = annotation as? Spot {
-            timerLabel.text = spot.duration
-            fetchVehicleOwnerData(spot: spot)
-            fetchAddress(coordinates: spot.coordinate)
-        }
-    }
-    
     // This is an example method, defined by `CalloutView`, which is called when you tap on the callout
     // itself (but not one of its subviews that have user interaction enabled).
     override func didTouchUpInCallout(_ sender: Any) {
@@ -261,8 +262,6 @@ class MapCalloutView: CalloutView {
             }
         }
     }
-    
-    
     
 }
 
