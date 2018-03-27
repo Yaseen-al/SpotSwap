@@ -7,6 +7,7 @@
 import UIKit
 import ImagePicker
 import Toucan
+
 class RegisterCarViewController: UIViewController, UIImagePickerControllerDelegate {
     // MARK: - Properties
     private var email: String
@@ -184,9 +185,12 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     
 }
 //MARK: - Image Picker Delegates
-extension RegisterCarViewController: ImagePickerDelegate{
+extension RegisterCarViewController: ImagePickerDelegate {
     func doneButtonDidPress(_ imagePicker: ImagePickerController, images: [UIImage]) {
-        registerCarView.carImageView.image = images.first
+        guard !images.isEmpty else { return }
+        let selectedImage = images.first!
+        registerCarView.carImageView.image = selectedImage
+        profileImage = selectedImage
         dismiss(animated: true, completion: nil)
         return
     }

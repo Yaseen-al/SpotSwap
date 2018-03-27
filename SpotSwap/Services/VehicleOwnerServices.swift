@@ -18,7 +18,8 @@ class VehicleOwnerService {
     private weak var delegate: VehicleOwnerServiceDelegate!
     private var vehicleOwner: VehicleOwner! {
         didSet {
-            LocationService.manager.loadSpots()
+            
+            LocationService.manager.addSpotsFromFirebaseToMap()
 
             //the delegate is should only fire up when vehicleOwner have reservation
             guard let reservationId = vehicleOwner.reservationId else {

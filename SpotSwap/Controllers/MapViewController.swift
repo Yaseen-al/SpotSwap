@@ -19,9 +19,8 @@ class MapViewController: UIViewController {
         setupNavigationBar()
         setupContentView()
         setupMenuView()
-        menuView.delegate = self
+        setupDelegates()
         vehicleOwnerService = VehicleOwnerService(self)
-        LocationService.manager.setDelegate(viewController: self)
         self.view.backgroundColor = Stylesheet.Colors.GrayMain
     }
     
@@ -36,6 +35,11 @@ class MapViewController: UIViewController {
         // Removes 1px border line at the bottom of the nav bar
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
+    }
+    
+    private func setupDelegates() {
+        menuView.delegate = self
+        LocationService.manager.setDelegate(viewController: self)
     }
     
     // MARK: - Layout
@@ -150,12 +154,14 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner) {
         DataBaseService.manager.retrieveReservation(reservationId: reservationId, dataBaseObserveType: .singleEvent, completion: { reservation in
             //Adding annotaion for the reservation
-            self.contentView.mapView.removeAnnotations(self.contentView.mapView.annotations)
             let reservationAnnotation = MKPointAnnotation()
             reservationAnnotation.coordinate = CLLocationCoordinate2D(latitude: reservation.latitude, longitude: reservation.longitude)
+            
+            self.contentView.mapView.removeAnnotations(self.contentView.mapView.annotations)
             self.contentView.mapView.addAnnotation(reservationAnnotation)
+            
             //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
-            if reservation.takerId == currentVehicleOwner.userUID{
+            if reservation.takerId == currentVehicleOwner.userUID {
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
                     
                     self.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
@@ -203,7 +209,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
 extension MapViewController: ReserVationDetailViewDelegate {
     func prepareReservationAction() {
         vehicleOwnerService.removeReservation { (reservation) in
-//            LocationService.manager.loadSpots()
+//            LocationService.manager.addSpotsFromFirebaseToMap()
         }
         reservationDetailView.removeFromSuperview()
     }

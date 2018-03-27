@@ -34,7 +34,6 @@ class LocationService: NSObject {
         locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
         locationManager.distanceFilter = 10
         checkForLocationServices()
-//        addSpotsFromFirebaseToMap()
     }
     
     // MARK: - Public Methods
@@ -81,16 +80,8 @@ class LocationService: NSObject {
         }
     }
     
-    private func addSpotsFromFirebaseToMap() {
-        DataBaseService.manager.retrieveAllSpots(dataBaseObserveType: .observing, completion: { [weak self] spots in
-            self?.locationServiceDelegate.spotsUpdatedFromFirebase(spots)
-        }) { error in
-            print(error)
-        }
-    }
-    
     // this function shall load all the spots again
-    public func loadSpots() {
+    public func addSpotsFromFirebaseToMap() {
         DataBaseService.manager.retrieveAllSpots(dataBaseObserveType: .observing, completion: { [weak self] spots in
             self?.locationServiceDelegate.spotsUpdatedFromFirebase(spots)
         }) { error in

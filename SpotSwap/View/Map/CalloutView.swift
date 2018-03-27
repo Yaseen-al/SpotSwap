@@ -1,29 +1,6 @@
 import UIKit
 import MapKit
 
-/// Callout that shows title and subtitle
-///
-/// This is concrete subclass of `CalloutView` that has two labels. Note, to
-/// have the callout resized appropriately, all this class needed to do was
-/// update is the constraints between these two labels (which have intrinsic
-/// sizes based upon the text contained therein) and the `contentView`.
-/// Autolayout takes care of everything else.
-///
-/// Note, I've added observers for the `title` and `subtitle` properties of
-/// the annotation view. Generally you don't need to worry about that, but it
-/// can be useful if you're retrieving details about the annotation asynchronously
-/// but you want to show the pin while that's happening. You just want to make sure
-/// that when the annotation's relevant properties are retrieved, that we update
-/// this callout view (if it's being shown at all).
-
-
-// MARK: - View Life Cycle
-// MARK: - Setup - View/Data
-// MARK: - User Actions
-// MARK: - Storyboard Segue
-// MARK: - Notifications
-// MARK: - Update Interface
-// MARK: - UI Delegate
 class CalloutView: UIView {
     // MARK: - Types
     /// Shape of pointer at the bottom of the callout bubble
@@ -36,7 +13,6 @@ class CalloutView: UIView {
     }
     
     // MARK: - Properties
-    // The annotation for which this callout has been created.
     weak var annotation: MKAnnotation?
     
     // Shape of pointer at bottom of the callout bubble, pointing at annotation view.
@@ -55,7 +31,7 @@ class CalloutView: UIView {
         return layer
     }()
     
-    // Container View
+    // Container View for callout
     let contentView: UIView = {
         let contentView = UIView()
         contentView.translatesAutoresizingMaskIntoConstraints = false

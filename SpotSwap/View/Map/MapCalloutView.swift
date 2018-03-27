@@ -7,6 +7,7 @@ protocol ExampleCalloutViewDelegate: class {
 }
 
 class MapCalloutView: CalloutView {
+    
     // MARK: - Properties
     // Map View - Navigate up view hierarchy until we find `MKMapView`.
     private var mapView: MapView? {
@@ -36,12 +37,12 @@ class MapCalloutView: CalloutView {
         return label
     }()
     
-    private var detailsButton: UIButton = {
+    private var swapButton: UIButton = {
         let button = UIButton(type: .roundedRect)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setTitle("TEST", for: .normal)
+        button.setTitle("SWAP", for: .normal)
         button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .lightGray
+        button.backgroundColor = Stylesheet.Colors.OrangeMain
         button.layer.cornerRadius = 3
         button.addTarget(self, action: #selector(didTapDetailsButton(_:)), for: .touchUpInside)
         
@@ -51,7 +52,8 @@ class MapCalloutView: CalloutView {
     private lazy var imageView: UIImageView = {
         let iv = UIImageView()
         iv.image = UIImage(named: "defaultProfileImage")
-        iv.backgroundColor = .green
+        iv.contentMode = .scaleAspectFill
+        iv.backgroundColor = Stylesheet.Colors.PinkMain
         iv.layer.cornerRadius = 10
         iv.layer.masksToBounds = true
         return iv
@@ -86,7 +88,7 @@ class MapCalloutView: CalloutView {
         let label = UILabel()
         label.text = "0:00"
         label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .red
+        label.textColor = Stylesheet.Colors.PinkMain
         return label
     }()
     
@@ -111,7 +113,7 @@ class MapCalloutView: CalloutView {
     }
     
     private func addSubviewsToContentView() {
-        contentView.addSubview(detailsButton)
+        contentView.addSubview(swapButton)
         contentView.addSubview(subtitleLabel)
         contentView.addSubview(timerLabel)
         contentView.addSubview(distanceLabel)
@@ -122,7 +124,7 @@ class MapCalloutView: CalloutView {
     }
     
     private func prepareViews() {
-        prepareDetailsButton()
+        prepareSwapButton()
         prepareTimerLabel()
         prepareDistanceLabel()
         prepareSubtitleLabel()
@@ -132,8 +134,8 @@ class MapCalloutView: CalloutView {
         prepareAddressLabel()
     }
     
-    func prepareDetailsButton() {
-        detailsButton.snp.makeConstraints { make in
+    func prepareSwapButton() {
+        swapButton.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(5)
             make.bottom.equalTo(contentView.snp.bottom).offset(-5)
             make.width.equalTo(imageView.snp.width)
@@ -203,7 +205,7 @@ class MapCalloutView: CalloutView {
             self?.fetchVehicleOwnerImage(vehicleOwner: vehicleOwner)
             
             self?.userNameLabel.text = vehicleOwner.userName
-            self?.carTypeLabel.text = vehicleOwner.car.carMake + " " + vehicleOwner.car.carModel
+            self?.carTypeLabel.text = vehicleOwner.car.carMake + vehicleOwner.car.carModel
         }) { (error) in
             print(error)
         }
