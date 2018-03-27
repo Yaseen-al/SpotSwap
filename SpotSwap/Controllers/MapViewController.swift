@@ -36,7 +36,7 @@ class MapViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     // MARK: - Setup Views
-
+    
     private func setupMenuView(){
         view.addSubview(menuView)
         let menueViewWidth = UIScreen.main.bounds.width * 0.35
@@ -78,43 +78,18 @@ extension MapViewController: MKMapViewDelegate {
         
         // Show blue dot for user's current location
         if annotation is MKUserLocation {return nil}
+        
         // Get instance of annotationView so we can modify color
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: "myAnnotation") as? MKMarkerAnnotationView
-        if annotationView == nil {
-            annotationView = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotation")
+        var pin = mapView.dequeueReusableAnnotationView(withIdentifier: "myAnnotation") as? MapAnnotationView
+        if pin == nil {
+            pin = MapAnnotationView(annotation: annotation, reuseIdentifier: "myAnnotation")
         }
         
         // Handle if the annotation comes from an open spot, my vehicle location or a spot the user reserved
-        switch annotation {
-        case is Spot:
-            let spot = annotation as! Spot
-            // Create custom detail view, inject it with `annotation` for data.
-            let detailLatLongView = UILabel()
-            let lat = String(annotation.coordinate.latitude).prefix(5)
-            let long = String(annotation.coordinate.longitude).prefix(5)
-            
-            if let reservationID = spot.reservationUID {
-                annotationView?.markerTintColor = Stylesheet.Colors.PinkMain
-                detailLatLongView.text = """
-                Reserved by \(reservationID.prefix(5)) 💩
-                You have \(spot.duration) minutes!
-                """
-            } else {
-                //This will create an annotation for the spot
-                annotationView?.markerTintColor = Stylesheet.Colors.BlueMain
-                detailLatLongView.text = "LAT: \(lat), LONG: \(long)"
-            }
-            annotationView?.annotation = annotation
-            annotationView?.canShowCallout = true
-            annotationView?.detailCalloutAccessoryView = detailLatLongView
-            
-            let button = UIButton(type: .detailDisclosure)
-            annotationView?.rightCalloutAccessoryView = button
-        default:
-            break
-        }
-        return annotationView
+        pin?.annotation = annotation
+        return pin
     }
+    
     func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
         // TESTING - enable this line to simulate real use case of only being able to reserve a single spot at a time
         // let userHasNoCurrentReservation = !vehicleOwnerService.hasReservation()
@@ -128,6 +103,7 @@ extension MapViewController: MKMapViewDelegate {
 // MARK: - LocationServiceDelegate
 extension MapViewController: LocationServiceDelegate {
     func userLocationDidUpdate(_ userLocation: CLLocation) {
+        LocationService.manager.setUserLocation(userLocation)
         setMapRegion(around: userLocation)
     }
     
@@ -213,7 +189,7 @@ private extension MapViewController {
 }
 
 //MARK: - DetailReservation Delegate
-extension MapViewController: ReserVationDetailViewDelegate{
+extension MapViewController: ReserVationDetailViewDelegate {
     func prepareReservationAction() {
         //TODO remove the reservation and update both vehicle owners
         vehicleOwnerService.removeReservation { (reservation) in
@@ -226,7 +202,7 @@ extension MapViewController: ReserVationDetailViewDelegate{
 }
 
 //MARK: - Menu Delegates
-extension MapViewController: MenuDelegate{
+extension MapViewController: MenuDelegate {
     // This will handle the signout from the menu
     func signOutButtonClicked(_ sender: MenuView) {
         AuthenticationService.manager.signOut { (error) in
@@ -237,5 +213,13 @@ extension MapViewController: MenuDelegate{
     //MARK: - Menu Button actions
     @objc private func handleMenu(_ sender: UIBarButtonItem){
         menuView.handleMenu(contentView, sender: sender)
+    }
+}
+
+//MARK: - ExampleCalloutView Delegate
+extension MapViewController: ExampleCalloutViewDelegate {
+    func reserveButtonPressed(spot: Spot) {
+        print("Reserved")
+        vehicleOwnerService.reserveSpot(spot)
     }
 }

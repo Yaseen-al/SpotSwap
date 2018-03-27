@@ -15,6 +15,17 @@ class LocationService: NSObject {
     private var locationManager: CLLocationManager!
     private weak var locationServiceDelegate: LocationServiceDelegate!
     
+    private var currentUserLocation: CLLocation?
+    
+    func setUserLocation(_ location: CLLocation) {
+        currentUserLocation = location
+    }
+    
+    
+    func getUserLocation() -> CLLocation? {
+        return currentUserLocation
+    }
+    
     // MARK: - Inits
     private override init() {
         super.init()
@@ -29,6 +40,24 @@ class LocationService: NSObject {
     // MARK: - Public Methods
     func setDelegate(viewController: LocationServiceDelegate) {
         locationServiceDelegate = viewController
+    }
+    
+    func lookUpAddress(location: CLLocation, completionHandler: @escaping (CLPlacemark?) -> Void) {
+        // Use the last reported location.
+            let geocoder = CLGeocoder()
+            
+            // Look up the location and pass it to the completion handler
+            geocoder.reverseGeocodeLocation(location,
+                                            completionHandler: { (placemarks, error) in
+                                                if error == nil {
+                                                    let firstLocation = placemarks?[0]
+                                                    completionHandler(firstLocation)
+                                                }
+                                                else {
+                                                    // An error occurred during geocoding.
+                                                    completionHandler(nil)
+                                                }
+            })
     }
     
     // MARK: - Private Methods

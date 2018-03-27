@@ -1,8 +1,8 @@
 import UIKit
 import SnapKit
+
 protocol ReserVationDetailViewDelegate: class {
     func prepareReservationAction()
-    
 }
 class ReservationDetailView: UIView {
     // MARK: - Properties

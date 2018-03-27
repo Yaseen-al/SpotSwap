@@ -32,7 +32,6 @@ class Spot: NSObject, Codable {
 }
 
 extension Spot: MKAnnotation {
-    
     // Type must conform to MKAnnotation in order to be used a map pin.
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -41,5 +40,5 @@ extension Spot: MKAnnotation {
     var title: String? {
         return self.duration.description
     }
-    
 }
+
