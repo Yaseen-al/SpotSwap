@@ -107,10 +107,8 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             StorageService.manager.storeImage(imageType: .vehicleImage, uid: user.uid, image: tocanVehicleImage, errorHandler: { (error) in
                 print(error)
             })
-            let mapViewController = MapViewController()
-            let mapNavigationController = UINavigationController(rootViewController: mapViewController)
-            mapViewController.modalPresentationStyle = .pageSheet
-            self.present(mapNavigationController, animated: true, completion: nil)
+            let mapViewController = ContainerViewController.storyBoardInstance()
+            self.present(mapViewController, animated: true, completion: nil)
         }) { (error) in
             //TODO Handle the errors
         }
