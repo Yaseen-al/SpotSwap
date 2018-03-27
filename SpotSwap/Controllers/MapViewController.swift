@@ -139,6 +139,10 @@ extension MapViewController: MapViewGestureDelegate {
 
 // MARK: - VehicleOwnerServiceDelegate
 extension MapViewController: VehicleOwnerServiceDelegate {
+    func vehicleOwnerRetrieved() {
+        
+    }
+    
     func vehiclOwnerRemoveReservation(_ reservationId: Reservation) {
         //To Do remove the reservationView if it is on the mainView and load all the spots back
     }

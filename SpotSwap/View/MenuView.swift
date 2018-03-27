@@ -57,7 +57,19 @@ class MenuView: UIView {
         return sView
     }()
     //MARK: - Inits
-    
+    init(_ vehicleOwner: VehicleOwner){
+        self.init()
+        userNameLabel.text = vehicleOwner.userName
+        userPointsLabel.text = "Reward Points: " + vehicleOwner.rewardPoints.description
+        guard let imageUrl = vehicleOwner.userImage else{
+            return
+        }
+        StorageService.manager.retrieveImage(imgURL: imageUrl, completionHandler: { (profileImage) in
+            self.profileImage.image = profileImage
+        }) { (error) in
+            print(error)
+        }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = Stylesheet.Colors.GrayMain
@@ -116,5 +128,6 @@ class MenuView: UIView {
     @objc func signOutButtonAction(_ sender: UIButton){
         delegate?.signOutButtonClicked(self)
     }
+    
 
 }
