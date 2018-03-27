@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
             //present alert
             let alert = UIAlertController(title: "Login Successful!", message: "Finding nearby parking spots", preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "ok", style: .default, handler: { (alertAction) in
-                let mapView = MapViewController().inNavController()
+                let mapView = ContainerViewController.storyBoardInstance()
                 self.present(mapView, animated: true, completion: nil)
             })
             alert.addAction(alertAction)

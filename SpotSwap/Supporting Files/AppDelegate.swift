@@ -19,9 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //setup Window
 
         if let _ = AuthenticationService.manager.getCurrentUser(){
-            let mapRoot = MapViewController().inNavController()
+            let containerViewController = ContainerViewController.storyBoardInstance()
             window = UIWindow(frame: UIScreen.main.bounds)
-            window?.rootViewController = mapRoot
+            window?.rootViewController = containerViewController
             window?.makeKeyAndVisible()
             return true
 

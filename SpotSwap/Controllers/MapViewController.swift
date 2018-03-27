@@ -1,7 +1,9 @@
 import UIKit
 import MapKit
 import CoreLocation
-
+protocol MenuContainerDelegate: class {
+    func trigerMenu()
+}
 
 class MapViewController: UIViewController {
     // MARK: - Properties
@@ -9,6 +11,7 @@ class MapViewController: UIViewController {
     private var contentView = MapView()
     private var reservationDetailView: ReservationDetailView!
     private var menuView = MenuView()
+    var menuContainerDelegate: MenuContainerDelegate?
     // This is basically an instance of the current vehicle owner in a class that have some functions that helps in controlling the flow of the vehicleOwner operations.
     var vehicleOwnerService: VehicleOwnerService!
     // MARK: - View Life Cycle
@@ -233,7 +236,7 @@ extension MapViewController: ReserVationDetailViewDelegate{
 }
 
 //MARK: - Menu Delegates
-extension MapViewController: MenuDelegate{
+extension MapViewController: MenuDelegate {
     // This will handle the signout from the menu
     func signOutButtonClicked(_ sender: MenuView) {
         AuthenticationService.manager.signOut { (error) in
@@ -246,6 +249,8 @@ extension MapViewController: MenuDelegate{
     }
     //MARK: - Menu Button actions
     @objc private func handleMenu(_ sender: UIBarButtonItem){
-        menuView.handleMenu(contentView, sender: sender)
+//        menuView.handleMenu(contentView, sender: sender)
+        menuContainerDelegate?.trigerMenu()
+        
     }
 }
