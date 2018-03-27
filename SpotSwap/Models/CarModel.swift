@@ -24,4 +24,4 @@ struct CarModel: Codable {
         case modelName = "Model_Name"
     }
 }
-var popularCarMakes = ["Acura", "Audi", "Bentley", "BMW", "Buick", "Cadillac", "Chevrolet", "Chrysler", "Dodge", "Fiat", "Ford", "GMC", "Hyundai", "Infiniti", "Jaguar", "Jeep", "Kia", "lamborghini", "Lexus", "Lincoln", "Maserati", "Mazda", "McLaren", "Mercedes-Benz", "Mini", "Mitsubishi", "Nissan", "Porsche", "Rolls Royce", "Scion", "Smart", "Subaru", "Toyota", "VolksWagen", "Volvo", "Honda"]
+var popularCarMakes = ["Acura", "Audi", "Bentley", "BMW", "Buick", "Cadillac", "Chevrolet", "Chrysler", "Dodge", "Fiat", "Ford", "GMC", "Hyundai", "Infiniti", "Jaguar", "Jeep", "Kia", "Lamborghini", "Lexus", "Lincoln", "Maserati", "Mazda", "McLaren", "Mercedes-Benz", "Mini", "Mitsubishi", "Nissan", "Porsche", "Rolls Royce", "Scion", "Smart", "Subaru", "Toyota", "VolksWagen", "Volvo", "Honda"]

@@ -5,7 +5,7 @@ import MapKit
 class Spot: NSObject, Codable {
     var spotUID: String
     var userUID: String //this is the user who created the spot
-    var reservationUID: String?
+    var reservationId: String?
     let longitude: Double
     let latitude: Double
     let timeStamp: String
@@ -22,7 +22,7 @@ class Spot: NSObject, Codable {
     
     init(location: CLLocationCoordinate2D) {
         self.spotUID = ""
-        self.reservationUID = nil
+        self.reservationId = nil
         self.longitude = location.longitude
         self.latitude = location.latitude
         self.duration = DateProvider.manager.randomTimeForSpot()

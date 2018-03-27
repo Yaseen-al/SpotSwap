@@ -82,7 +82,15 @@ class LocationService: NSObject {
     }
     
     private func addSpotsFromFirebaseToMap() {
-        DataBaseService.manager.retrieveAllSpots(completion: { [weak self] spots in
+        DataBaseService.manager.retrieveAllSpots(dataBaseObserveType: .observing, completion: { [weak self] spots in
+            self?.locationServiceDelegate.spotsUpdatedFromFirebase(spots)
+        }) { error in
+            print(error)
+        }
+    }
+    // this function shall load all the spots again
+    public func loadSpots(){
+        DataBaseService.manager.retrieveAllSpots(dataBaseObserveType: .observing, completion: { [weak self] spots in
             self?.locationServiceDelegate.spotsUpdatedFromFirebase(spots)
         }) { error in
             print(error)
