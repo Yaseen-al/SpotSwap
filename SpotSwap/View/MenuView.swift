@@ -11,18 +11,11 @@ import UIKit
 protocol MenuDelegate {
     func signOutButtonClicked(_ sender: MenuView)
 }
-//MARK: - MenueStatus enum
-enum MenuStatus{
-    case visible
-    case hidden
-}
+
 class MenuView: UIView {
     //MARK: - Properties
     
-    var menueStatus = MenuStatus.hidden
     var delegate: MenuDelegate?
-    //MARK: - Content
-    
     lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.borderWidth = 2
@@ -64,7 +57,19 @@ class MenuView: UIView {
         return sView
     }()
     //MARK: - Inits
-    
+    init(_ vehicleOwner: VehicleOwner){
+        self.init()
+        userNameLabel.text = vehicleOwner.userName
+        userPointsLabel.text = "Reward Points: " + vehicleOwner.rewardPoints.description
+        guard let imageUrl = vehicleOwner.userImage else{
+            return
+        }
+        StorageService.manager.retrieveImage(imgURL: imageUrl, completionHandler: { (profileImage) in
+            self.profileImage.image = profileImage
+        }) { (error) in
+            print(error)
+        }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         backgroundColor = Stylesheet.Colors.GrayMain
@@ -123,64 +128,6 @@ class MenuView: UIView {
     @objc func signOutButtonAction(_ sender: UIButton){
         delegate?.signOutButtonClicked(self)
     }
-    //MARK: - Menu Handling
     
-    public func handleMenu(_ mainView: UIView, sender: UIBarButtonItem){
-        sender.isEnabled = false
-        switch menueStatus {
-        case .hidden:
-            showMenu(mainView, sender: sender)
-        case .visible:
-            hideMenu(mainView, sender: sender)
-        }
-    }
-    func addMaskToMainView(_ mainView: UIView) {
-        let layerMask: UIView = {
-            let view = UIView(frame: UIScreen.main.bounds)
-            view.backgroundColor = .black
-            view.layer.opacity = 0.25
-            view.tag = 99
-            return view
-        }()
-        
-        mainView.addSubview(layerMask)
-    }
-    private func hideMenu(_ mainView: UIView, sender: UIBarButtonItem) {
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-            self.frame.origin.x += 15
-            mainView.frame.origin.x += 15
-        }) { [weak self](completed) in
-            guard let menue = self else {return}
-            UIView.animate(withDuration: Double(0.5), animations: {
-                menue.frame.origin.x -= menue.bounds.width + 15
-                mainView.frame.origin.x -= menue.bounds.width + 15
-                menue.layoutIfNeeded()
-                for view in mainView.subviews{
-                    if view.tag == 99 {
-                        view.removeFromSuperview()
-                    }
-                }
-            }, completion: { (completed) in
-                sender.isEnabled = true
-            })
-            
-        }
-        menueStatus = .hidden
-    }
-    
-    private func showMenu(_ mainView: UIView, sender: UIBarButtonItem) {
-        addMaskToMainView(mainView)
-        UIView.animate(withDuration: Double(0.5), animations: {
-            
-        })
-        UIView.animate(withDuration: Double(0.5), animations: {
-            self.frame.origin.x += self.bounds.width
-            mainView.frame.origin.x += self.bounds.width
-            self.layoutIfNeeded()
-        }) { (completed) in
-            sender.isEnabled = true
-        }
-        menueStatus = .visible
-    }
-    
+
 }

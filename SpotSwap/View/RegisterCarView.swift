@@ -20,6 +20,8 @@ class RegisterCarView: UIView {
     
     lazy var carImageView: UIImageView = {
         let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "defaultVehicleImage")
+        imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
@@ -38,7 +40,6 @@ class RegisterCarView: UIView {
         let textField = SearchTextField()
         textField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
         textField.placeholder = " Enter car make"
-        //        textField.layer.cornerRadius = 5
         textField.borderStyle = .none
         textField.backgroundColor = .white
         textField.autocorrectionType = .no
@@ -114,8 +115,6 @@ class RegisterCarView: UIView {
         carImageView.layer.borderColor = Stylesheet.Colors.OrangeMain.cgColor
         carImageView.layer.borderWidth = 4
         dropDownButton.contentHorizontalAlignment = .left
-        //        dropDownView.layer.cornerRadius = 10
-        //        tableView.layer.cornerRadius = 10
     }
     
     private func setupViews() {
@@ -124,7 +123,6 @@ class RegisterCarView: UIView {
         setupMakeLabel()
         setupMakeTF()
         setupModelLabel()
-        //        setupModelTF()
         setupDropDownButton()
         setupDropDownView()
         setupTableView()

@@ -6,23 +6,33 @@ class LoginViewController: UIViewController {
     //view instance
     let loginView = LoginView()
     
+    var keyboardHeight: CGFloat = 0
+    
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(loginView)
         self.loginView.passwordTextField.delegate = self
         self.loginView.emailTextField.delegate = self
-        loginView.loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
+        setupLoginView()
         view.backgroundColor = Stylesheet.Colors.OrangeMain
         configureNavBar()
+        view.backgroundColor = Stylesheet.Colors.OrangeMain
+        loginView.lowerLoginButton.addTarget(self, action: #selector(loginTapped(sender:)), for: .touchUpInside)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
+    }
+    
+    func setupLoginView() {
+        view.addSubview(loginView)
+        loginView.snp.makeConstraints { (constraint) in
+            constraint.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+        }
     }
     
     func configureNavBar(){
         self.navigationController?.isNavigationBarHidden = false
-        self.navigationController?.navigationBar.barTintColor = Stylesheet.Colors.OrangeMain
-        let barButton = UIBarButtonItem(customView: loginView.loginButton)
-        //assigns button to navigationbar
-        self.navigationItem.rightBarButtonItem = barButton
+        navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
+        navigationController?.navigationBar.shadowImage = UIImage()
     }
     
     //MARK: - Setup Button Action
@@ -37,7 +47,7 @@ class LoginViewController: UIViewController {
             //present alert
             let alert = UIAlertController(title: "Login Successful!", message: "Finding nearby parking spots", preferredStyle: .alert)
             let alertAction = UIAlertAction(title: "ok", style: .default, handler: { (alertAction) in
-                let mapView = MapViewController().inNavController()
+                let mapView = ContainerViewController.storyBoardInstance()
                 self.present(mapView, animated: true, completion: nil)
             })
             alert.addAction(alertAction)
@@ -52,11 +62,27 @@ class LoginViewController: UIViewController {
     }
     
     //MARK: - Setup Keyboard Handling
-    func setupObserver() {
-        //TODO:Create notification center and add observers/selectors
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+            if keyboardHeight == 0 {
+                keyboardHeight = keyboardSize.height
+            }else{
+                return
+            }
+            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+                self.view.frame.origin.y -= self.keyboardHeight
+            }, completion: nil)
+        }
     }
     
-    //TODO: Add observer functions
+    @objc func keyboardWillHide(notification: NSNotification) {
+        
+        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
+            self.view.frame = self.view.bounds
+        }) { (animated) in
+            self.keyboardHeight = 0
+        }
+    }
 }
 
 //MARK: - textFieldDelegate

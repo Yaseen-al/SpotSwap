@@ -5,8 +5,7 @@ import Firebase
 class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
-    var enableAllOrientation = false
-    
+    var enableAllOrientation = true
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
         if (enableAllOrientation == true){
             return UIInterfaceOrientationMask.allButUpsideDown
@@ -18,10 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         //setup Window
 
-        if AuthenticationService.manager.getCurrentUser() != nil{
-            let mapRoot = MapViewController().inNavController()
+        if let _ = AuthenticationService.manager.getCurrentUser(){
+            let containerViewController = ContainerViewController.storyBoardInstance()
             window = UIWindow(frame: UIScreen.main.bounds)
-            window?.rootViewController = mapRoot
+            window?.rootViewController = containerViewController
             window?.makeKeyAndVisible()
             return true
 
@@ -32,6 +31,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController = navigationController
         window?.makeKeyAndVisible()
         return true
+    }
+    func loadLaunchViewController()
+    {
+        let root = LaunchViewController()
+        let navigationController = UINavigationController(rootViewController: root)
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.rootViewController = navigationController
+        window?.makeKeyAndVisible()
     }
     
     func applicationWillResignActive(_ application: UIApplication) {

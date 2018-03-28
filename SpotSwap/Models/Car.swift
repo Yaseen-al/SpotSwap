@@ -7,11 +7,19 @@
 //
 
 import Foundation
-struct Car: Codable{
+
+class Car: Codable {
+    
     let carMake: String
     let carModel: String
     let carYear: String
-    let carImageId: String?
+    let carImageId: String
+    init(carMake: String, carModel: String, carYear: String) {
+        self.carMake = carMake
+        self.carModel = carModel
+        self.carYear = carYear
+        self.carImageId = ""
+    }
     func toJSON() -> Any {
         let jsonData = try! JSONEncoder().encode(self)
         return try! JSONSerialization.jsonObject(with: jsonData, options: [])

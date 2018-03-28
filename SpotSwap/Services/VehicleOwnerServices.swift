@@ -11,6 +11,7 @@ protocol VehicleOwnerServiceDelegate: class {
     func vehiclOwnerRemoveReservation(_ reservationId: Reservation)
     //This Function can be used to load the normal map with all the spots around the user
     func vehiclOwnerHasNoReservation()
+    func vehicleOwnerRetrieved()
 }
 
 class VehicleOwnerService {
@@ -18,6 +19,9 @@ class VehicleOwnerService {
     private weak var delegate: VehicleOwnerServiceDelegate!
     private var vehicleOwner: VehicleOwner! {
         didSet {
+            delegate.vehicleOwnerRetrieved()
+            LocationService.manager.addSpotsFromFirebaseToMap()
+
             //the delegate is should only fire up when vehicleOwner have reservation
             guard let reservationId = vehicleOwner.reservationId else {
                 delegate.vehiclOwnerHasNoReservation()
@@ -26,9 +30,9 @@ class VehicleOwnerService {
             
             delegate?.vehicleOwnerSpotReserved(reservationId: reservationId, currentVehicleOwner: vehicleOwner)
             print("Vehicle owner updated. Reservation \(reservationId)")
-            
         }
     }
+    
     //MARK: - Inits
     // In order to intialize the VehicleOwnerService you need to have a ViewControllerClass that conforms to VehicleOwnerServiceDelegate
     init(_ viewController: VehicleOwnerServiceDelegate) {
@@ -48,6 +52,7 @@ class VehicleOwnerService {
     public func getVehicleOwner() -> VehicleOwner {
         return vehicleOwner // app should crash if we dont have a vehicle owner
     }
+    
     //This function checks if the vehicle owner has a reservation or not
     public func hasReservation() -> Bool {
         return vehicleOwner.reservationId != nil
@@ -70,6 +75,7 @@ class VehicleOwnerService {
         }
         DataBaseService.manager.removeSpot(spotId: spot.spotUID)
     }
+    
     public func removeReservation(completion: @escaping(Reservation)-> Void){
         guard let reservationId = vehicleOwner.reservationId else{
             //TODO Handle the error

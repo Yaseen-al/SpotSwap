@@ -8,10 +8,23 @@
 
 import UIKit
 import SnapKit
-
-class SignUpView: UIView {
-    
-    
+protocol SignUpViewDelegate: class {
+    func dismissKeyBoard()
+    func profileImageTapGesture()
+}
+class SignUpView: UIView, UIGestureRecognizerDelegate {
+    // MARK: - Properties
+    lazy var profileImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "defaultProfileImage")
+        imageView.backgroundColor = Stylesheet.Colors.White
+        imageView.contentMode = .scaleAspectFill
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeProfileImage))
+        tapGesture.delegate = self
+        imageView.isUserInteractionEnabled = true //essential for the tapGesture to work
+        imageView.addGestureRecognizer(tapGesture)
+        return imageView
+    }()
     lazy var backButton: UIBarButtonItem = {
         var button = UIBarButtonItem()
         return button
@@ -50,6 +63,13 @@ class SignUpView: UIView {
         textField.autocapitalizationType = .none
         return textField
     }()
+    lazy var userNameLogo: UIImageView = {
+        let iView = UIImageView()
+        iView.image = #imageLiteral(resourceName: "user-name white")
+        iView.contentMode = .scaleToFill
+//        iView.backgroundColor = .white
+        return iView
+    }()
     
     lazy var emailTextField: UITextField = {
         let textField = UITextField()
@@ -61,6 +81,13 @@ class SignUpView: UIView {
         textField.autocapitalizationType = .none
         return textField
     }()
+    lazy var emailLogo: UIImageView = {
+        let iView = UIImageView()
+        iView.image = #imageLiteral(resourceName: "envelope white")
+        iView.contentMode = .scaleToFill
+//        iView.backgroundColor = .white
+        return iView
+    }()
     
     lazy var passwordTextField: UITextField = {
         let textField = UITextField()
@@ -70,10 +97,21 @@ class SignUpView: UIView {
         textField.isSecureTextEntry = true // this helps to obscure the user's password with *******
         return textField
     }()
-    
-    
+    lazy var passwordLogo: UIImageView = {
+        let iView = UIImageView()
+        iView.image = #imageLiteral(resourceName: "password white")
+        iView.contentMode = .scaleToFill
+//        iView.backgroundColor = .white
+        return iView
+    }()
+    // MARK: - Delegates
+    weak var signUpViewDelegate: SignUpViewDelegate?
+    // MARK: - Inits
+
     override init(frame: CGRect) {
-        super.init(frame: UIScreen.main.bounds)
+        super.init(frame: frame)
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        addGestureRecognizer(tapGesture)
         commonInit()
         
     }
@@ -87,29 +125,40 @@ class SignUpView: UIView {
         setupViews()
     }
     
-    
-    //        override func layoutSubviews() {
-    //            // here you get the actual frame size of the elements before getting
-    //            // laid out on screen
-    //            super.layoutSubviews()
-    //        }
-    
+    // MARK: - LayoutSubViews
+
+    override func layoutSubviews() {
+        // here you get the actual frame size of the elements before getting laid out on screen
+        super.layoutSubviews()
+        setupProfileImageLayout()
+        //Email Logo
+        emailLogo.layer.cornerRadius = 5
+        emailLogo.layer.masksToBounds = true
+        //Password Logo
+        passwordLogo.layer.cornerRadius = 5
+        passwordLogo.layer.masksToBounds = true
+        //UserName Logo
+        userNameLogo.layer.cornerRadius = 5
+        userNameLogo.layer.masksToBounds = true
+    }
+    private func setupProfileImageLayout() {
+        profileImage.layer.cornerRadius = profileImage.bounds.width/2.0
+        profileImage.layer.masksToBounds = true
+        profileImage.layer.borderColor = Stylesheet.Colors.PinkMain.cgColor
+        profileImage.layer.borderWidth = 4
+    }
+    // MARK: - Setup Views
+
     private func setupViews() {
-        //            setupButtons()
         setupAppLabel()
         setupSloganLabel()
+        setupProfileImage()
         setupUsernameTF()
+        setupUserNameLogo()
         setupEmailTF()
+        setupEmailLogo()
         setupPasswordTF()
-    }
-    
-    
-    private func setupButtons(){
-        //        addSubview(backButton)
-        //        backButton.snp.makeConstraints { (make) in
-        //        }
-        //
-        //        addSubview(nextButton)
+        setupPasswordLogo()
     }
     
     private func setupAppLabel() {
@@ -129,14 +178,31 @@ class SignUpView: UIView {
             make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.06)
         }
     }
+    private func setupProfileImage(){
+        addSubview(profileImage)
+        profileImage.snp.makeConstraints { (constraint) in
+            constraint.top.equalTo(appSloganLabel.snp.top).offset(50)
+            constraint.centerX.equalTo(snp.centerX)
+            constraint.width.equalTo(snp.width).multipliedBy(0.40)
+            constraint.height.equalTo(profileImage.snp.width)
+        }
+    }
     
     private func setupUsernameTF() {
         addSubview(usernameTextField)
         usernameTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(appSloganLabel.snp.bottom).offset(40)
+            make.top.equalTo(profileImage.snp.bottom).offset(40)
             make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
             make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
             make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
+        }
+    }
+    private func setupUserNameLogo(){
+        addSubview(userNameLogo)
+        userNameLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(usernameTextField.snp.centerY)
+            make.right.equalTo(usernameTextField.snp.left).offset(-5)
+            make.width.height.equalTo(snp.width).multipliedBy(0.08)
         }
     }
     
@@ -149,6 +215,14 @@ class SignUpView: UIView {
             make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
         }
     }
+    private func setupEmailLogo(){
+        addSubview(emailLogo)
+        emailLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(emailTextField.snp.centerY)
+            make.right.equalTo(emailTextField.snp.left).offset(-5)
+            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+        }
+    }
     private func setupPasswordTF() {
         addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { (make) in
@@ -158,5 +232,22 @@ class SignUpView: UIView {
             make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
         }
     }
+    private func setupPasswordLogo(){
+        addSubview(passwordLogo)
+        passwordLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(passwordTextField.snp.centerY)
+            make.right.equalTo(passwordTextField.snp.left).offset(-5)
+            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+        }
+    }
+    
+    //MARK: Actions
+    @objc private func dismissKeyboard() {
+       signUpViewDelegate?.dismissKeyBoard()
+    }
+    @objc private func changeProfileImage() {
+        signUpViewDelegate?.profileImageTapGesture()
+    }
+
     
 }
