@@ -24,6 +24,7 @@ class LoginView: UIView {
         label.textColor = .white
         label.textAlignment = .center
         label.text = "Share your parking spot with people nearby"
+        label.numberOfLines = 2
         return label
     }()
     
@@ -124,6 +125,7 @@ class LoginView: UIView {
         logoSubtitleLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
             make.top.equalTo(logoImage.snp.bottom).offset(30)
+            make.width.equalTo(snp.width).multipliedBy(0.85)
         }
     }
     
