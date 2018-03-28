@@ -81,6 +81,25 @@ private extension MapViewController {
             initialLaunch = false
         }
     }
+    
+    func addRoute(mapView: MKMapView, spotLocation:CLLocationCoordinate2D, userLocation:CLLocationCoordinate2D ) {
+        let request = MKDirectionsRequest()
+        request.source = MKMapItem(placemark: MKPlacemark(coordinate: userLocation))
+        request.destination = MKMapItem(placemark: MKPlacemark(coordinate: spotLocation))
+        request.transportType = .automobile
+        
+        let directions = MKDirections(request: request)
+        
+        directions.calculate { response, error in
+            guard let unwrappedResponse = response else { return }
+            for route in unwrappedResponse.routes {
+                mapView.add(route.polyline)
+                mapView.setVisibleMapRect(route.polyline.boundingMapRect, animated: true)
+            }
+        }
+    }
+    
+    
 }
 
 // MARK: - Delegates
@@ -103,6 +122,18 @@ extension MapViewController: MKMapViewDelegate {
         return pin
     }
     
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if overlay is MKPolyline {
+            let renderer = MKPolylineRenderer(overlay: overlay)
+            renderer.strokeColor = Stylesheet.Colors.BlueMain
+            renderer.lineWidth = 2
+            renderer.lineCap = .round
+            renderer.lineJoin = .round
+            renderer.lineDashPattern = [2, 2]
+            return renderer
+        }
+        return MKOverlayRenderer()
+    }
 }
 
 // MARK: - LocationServiceDelegate
@@ -148,13 +179,17 @@ extension MapViewController: VehicleOwnerServiceDelegate {
 //            reservationAnnotation.coordinate = CLLocationCoordinate2D(latitude: reservation.latitude, longitude: reservation.longitude)
             
             self.contentView.mapView.removeAnnotations(self.contentView.mapView.annotations)
+            self.contentView.mapView.camera.altitude = 5
             self.contentView.mapView.addAnnotation(reservationAnnotation)
+//            self.contentView.mapView.showAnnotations([reservationAnnotation, self.contentView.mapView.userLocation], animated: true)
             
             //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
             if reservation.takerId == currentVehicleOwner.userUID {
-                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
+                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: { [weak self] (vehicleOwnerTaker) in
+                    guard let strongSelf = self else { return }
+                    strongSelf.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
+                    strongSelf.addRoute(mapView: strongSelf.contentView.mapView, spotLocation: reservation.coordinate, userLocation: strongSelf.contentView.mapView.userLocation.coordinate)
                     
-                    self.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
                 }, errorHandler: { (error) in
                     //this will give an alert to the user in case the taker data can't be retrieved
                     self.alertWithOkButton(title: "there was an error retrieving your matched spot taker", message: nil)
@@ -202,6 +237,8 @@ extension MapViewController: ReserVationDetailViewDelegate {
 //            LocationService.manager.addSpotsFromFirebaseToMap()
         }
         reservationDetailView.removeFromSuperview()
+        let mapOverlays = self.contentView.mapView.overlays
+        self.contentView.mapView.removeOverlays(mapOverlays)
     }
 }
 
