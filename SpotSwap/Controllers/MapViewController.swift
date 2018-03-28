@@ -45,8 +45,7 @@ class MapViewController: UIViewController {
         LocationService.manager.setDelegate(viewController: self)
         self.contentView.reservationViewDelegate = self
     }
-    
-    
+
     private func setupContentView() {
         contentView = MapView(viewController: self)
         view.addSubview(contentView)
@@ -187,15 +186,16 @@ extension MapViewController: VehicleOwnerServiceDelegate {
 
 //MARK: - DetailReservation Delegate
 extension MapViewController: ReservationViewDelegate {
-    func completeReservation() {
-        vehicleOwnerService.removeReservation { (reservation) in
-        }
-        contentView.removeReservationView()
-    }
-    
     func cancelReservation() {
         reservationCancelationHelper()
     }
+    
+    func completeReservation() {
+        vehicleOwnerService.removeReservation { (reservation) in
+            self.contentView.removeReservationView()
+        }
+    }
+
     private func reservationCancelationHelper(){
         let cancelationAlert = UIAlertController(title: "We are sorry for your inconvenience, was there is a propblem with the spot ?", message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (cancelAction) in
@@ -207,7 +207,10 @@ extension MapViewController: ReservationViewDelegate {
             }
         }
         let reportButton = UIAlertAction(title: "Yes, there was a problem with my reservation", style: .destructive) { (reportUserAction) in
-            
+                        //TODO Handle Flagging
+            self.vehicleOwnerService.removeReservation { (reservation) in
+                self.contentView.removeReservationView()
+            }
         }
         cancelationAlert.addAction(cancelAction)
         cancelationAlert.addAction(noAction)

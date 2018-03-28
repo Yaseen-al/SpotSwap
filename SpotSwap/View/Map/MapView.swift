@@ -183,7 +183,7 @@ class MapView: UIView {
     
     public func showReservationView(with vehicleOwner: VehicleOwner, reservation: Reservation){
         userNameLabel.text = vehicleOwner.userName
-        timer.setTitle(reservation.timeStamp, for: .normal)
+        timer.setTitle(reservation.duration, for: .normal)
         prepareReservationHeaderView()
         prepareReservationFooterView()
         prepareProfileImageView()
