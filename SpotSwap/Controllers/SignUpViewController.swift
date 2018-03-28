@@ -23,8 +23,8 @@ class SignUpViewController: UIViewController {
         tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
         view.addGestureRecognizer(tapGesture)
         setupNavBar()
-        
     }
+    
     
     @objc private func dismissKeyboard() {
         view.endEditing(true)

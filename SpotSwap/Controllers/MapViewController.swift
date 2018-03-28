@@ -21,6 +21,11 @@ class MapViewController: UIViewController {
         LocationService.manager.setDelegate(viewController: self)
         vehicleOwnerService = VehicleOwnerService(self)
         self.view.backgroundColor = Stylesheet.Colors.GrayMain
+        
+        //delete the below
+        AuthenticationService.manager.signOut { (error) in
+            
+        }
     }
     // MARK: - Setup NavigationBar
     

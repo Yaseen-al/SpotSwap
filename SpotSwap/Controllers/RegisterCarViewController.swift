@@ -22,7 +22,6 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             registerCarView.carImageView.image = images.first
         }
     }
-    
 
     
     private let imagePickerViewController = UIImagePickerController()
@@ -57,6 +56,18 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
     }
     
+    //Kaniz - Displays the walkthroughs after signing up but before the mapview*****************************
+    func displayWalkthroughs() {
+        //TODO: Fix so it works with Yaseens Data persistence class
+        let userDefaults = UserDefaults.standard
+        let displayedWalkthrough = userDefaults.bool(forKey: "DisplayedWalkthrough")
+        
+        if !displayedWalkthrough {
+            let pageVC = PageViewController()
+            self.present(pageVC, animated: true, completion: nil)
+        }
+    }
+    
     private func setupImagePicker() {
         imagePickerController = ImagePickerController()
         registerCarView.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
@@ -88,10 +99,14 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             let newCar = Car(carMake: make, carModel: model, carYear: "2018", carImageId: nil)
             let newVehicleOwner = VehicleOwner(user: user, car: newCar, userName: self.userName)
             DataBaseService.manager.addNewVehicleOwner(vehicleOwner: newVehicleOwner, userID: user.uid)
-            let mapViewController = MapViewController()
-            let mapNavigationController = UINavigationController(rootViewController: mapViewController)
-            mapViewController.modalPresentationStyle = .pageSheet
-            self.present(mapNavigationController, animated: true, completion: nil)
+//            let mapViewController = MapViewController()
+//            let mapNavigationController = UINavigationController(rootViewController: mapViewController)
+//            mapViewController.modalPresentationStyle = .pageSheet
+//            self.present(mapNavigationController, animated: true, completion: nil)
+            
+            //Kaniz********************************************
+            self.displayWalkthroughs()
+            
         }) { (error) in
             //TODO Handle the errors
         }
