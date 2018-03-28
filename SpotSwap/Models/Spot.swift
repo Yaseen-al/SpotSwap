@@ -25,8 +25,8 @@ class Spot: NSObject, Codable {
         self.reservationId = nil
         self.longitude = location.longitude
         self.latitude = location.latitude
-        self.duration = DateProvider.manager.randomTimeForSpot()
-        self.timeStamp = DateProvider.manager.currentTime()
+        self.duration = DateProvider.randomTimeForSpot()
+        self.timeStamp = DateProvider.currentTime()
         self.userUID = AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn"
     }
 }

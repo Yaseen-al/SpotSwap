@@ -23,7 +23,7 @@ class MapViewController: UIViewController {
         setupNavigationBar()
         setupContentView()
         setupDelegates()
-        vehicleOwnerService = VehicleOwnerService(self)
+        setupServices()
         self.view.backgroundColor = Stylesheet.Colors.GrayMain
     }
     
@@ -40,12 +40,6 @@ class MapViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
-
-    private func setupDelegates() {
-        LocationService.manager.setDelegate(viewController: self)
-    }
-    
-
     private func setupContentView() {
         contentView = MapView(viewController: self)
         view.addSubview(contentView)
@@ -53,10 +47,18 @@ class MapViewController: UIViewController {
             make.edges.equalTo(view.snp.edges)
         }
     }
+
+    private func setupDelegates() {
+        LocationService.manager.setDelegate(viewController: self)
+    }
+    
+    private func setupServices() {
+        vehicleOwnerService = VehicleOwnerService(self)
+    }
     
     private func setupReservationView(with vehicleOwner: VehicleOwner, reservation: Reservation) {
         //this will make a reservation view with certain data ==> their should be a vehicle owner to get this data from
-        reservationDetailView = ReservationDetailView(viewController: self, name: vehicleOwner.userName, time: "6.00")
+        reservationDetailView = ReservationDetailView(viewController: self, vehicleOwner: vehicleOwner, reservation: reservation)
         //        reservationDetailView.tag =
         self.reservationDetailView.delegate = self
         contentView.addSubview(reservationDetailView)
@@ -87,7 +89,6 @@ extension MapViewController: MKMapViewDelegate {
     
     // Create the pins and the detail view when the pin is tapped
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        
         // Show blue dot for user's current location
         if annotation is MKUserLocation {return nil}
         
@@ -100,14 +101,6 @@ extension MapViewController: MKMapViewDelegate {
         // Handle if the annotation comes from an open spot, my vehicle location or a spot the user reserved
         pin?.annotation = annotation
         return pin
-    }
-    
-    func mapView(_ mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-        // TESTING - enable this line to simulate real use case of only being able to reserve a single spot at a time
-        // let userHasNoCurrentReservation = !vehicleOwnerService.hasReservation()
-        if let spot = view.annotation as? Spot {
-            vehicleOwnerService.reserveSpot(spot)
-        }
     }
     
 }
@@ -150,8 +143,9 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner) {
         DataBaseService.manager.retrieveReservation(reservationId: reservationId, dataBaseObserveType: .singleEvent, completion: { reservation in
             //Adding annotaion for the reservation
-            let reservationAnnotation = MKPointAnnotation()
-            reservationAnnotation.coordinate = CLLocationCoordinate2D(latitude: reservation.latitude, longitude: reservation.longitude)
+            let reservationAnnotation = Spot(location: reservation.coordinate)
+            reservationAnnotation.reservationId = reservationId
+//            reservationAnnotation.coordinate = CLLocationCoordinate2D(latitude: reservation.latitude, longitude: reservation.longitude)
             
             self.contentView.mapView.removeAnnotations(self.contentView.mapView.annotations)
             self.contentView.mapView.addAnnotation(reservationAnnotation)

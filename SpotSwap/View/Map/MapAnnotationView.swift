@@ -7,6 +7,7 @@ class MapAnnotationView: MKMarkerAnnotationView {
     weak var calloutView: MapCalloutView?
     override var annotation: MKAnnotation? {
         willSet {
+            preparePin(newValue)
             calloutView?.removeFromSuperview()
         }
     }
@@ -17,7 +18,7 @@ class MapAnnotationView: MKMarkerAnnotationView {
     // MARK: - Inits
     override init(annotation: MKAnnotation?, reuseIdentifier: String?) {
         super.init(annotation: annotation, reuseIdentifier: reuseIdentifier)
-        preparePin()
+        preparePin(annotation)
         canShowCallout = false
         animatesWhenAdded = true
     }
@@ -26,7 +27,8 @@ class MapAnnotationView: MKMarkerAnnotationView {
         super.init(coder: aDecoder)
     }
     
-    private func preparePin() {
+    
+    private func preparePin(_ annotation: MKAnnotation?) {
         guard let spot = annotation as? Spot else { return }
         if spot.reservationId != nil {
             markerTintColor = Stylesheet.Colors.PinkMain
@@ -61,9 +63,13 @@ class MapAnnotationView: MKMarkerAnnotationView {
                     calloutView.alpha = 0
                 }, completion: { finished in
                     calloutView.removeFromSuperview()
+                    self.calloutView?.timer = nil
+                    self.calloutView = nil
                 })
             } else {
                 calloutView.removeFromSuperview()
+                self.calloutView?.timer = nil
+                self.calloutView = nil
             }
         }
     }

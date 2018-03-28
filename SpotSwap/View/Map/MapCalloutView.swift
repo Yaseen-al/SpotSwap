@@ -87,18 +87,44 @@ class MapCalloutView: CalloutView {
     
     private lazy var timerLabel: UILabel = {
         let label = UILabel()
-        label.text = "0:00"
+        label.text = "-:--"
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = Stylesheet.Colors.PinkMain
         return label
     }()
     
+    weak var timer: Timer? = {
+        let timer = Timer()
+        return timer
+    }()
+    
+    private var spotDuration = 5.0 //dummy initial value
+    
     // MARK: - Inits
     override init(annotation: MKAnnotation) {
         super.init(annotation: annotation)
         self.annotation = annotation
-        configure()
         updateContents(for: annotation)
+        runTimer(for: annotation)
+        configure()
+    }
+    
+    func runTimer(for annotation: MKAnnotation) {
+        if let spot = annotation as? Spot {
+            spotDuration = DateProvider.parseIntoSeconds(duration: spot.duration)
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc func updateTimer() {
+        guard let timer = timer, timer.isValid else { return }
+        if spotDuration < 1.0 {
+            timer.invalidate()
+            Alert.present(from: .reserveSpotConfirmation)
+        } else {
+            spotDuration -= 1.0
+            timerLabel.text = DateProvider.parseIntoFormattedString(time: spotDuration)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -139,8 +165,8 @@ class MapCalloutView: CalloutView {
         swapButton.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(5)
             make.bottom.equalTo(contentView.snp.bottom).offset(-5)
-            make.width.equalTo(imageView.snp.width)
-            make.centerX.equalTo(imageView.snp.centerX)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.8)
+            make.centerX.equalTo(contentView.snp.centerX)
         }
     }
     
@@ -207,7 +233,6 @@ class MapCalloutView: CalloutView {
         subtitleLabel.text = "OPEN"
         
         if let spot = annotation as? Spot {
-            timerLabel.text = spot.duration
             fetchVehicleOwnerData(spot: spot)
             fetchAddress(coordinates: spot.coordinate)
         }
