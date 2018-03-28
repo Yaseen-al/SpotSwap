@@ -3,7 +3,7 @@ import MapKit
 import CoreLocation
 
 protocol MenuContainerDelegate: class {
-    func trigerMenu()
+    func triggerMenu()
 }
 
 
@@ -12,7 +12,6 @@ class MapViewController: UIViewController {
     // MARK: - Properties
     private var initialLaunch = true
     private var contentView = MapView()
-    private var reservationDetailView: ReservationDetailView!
     var menuContainerDelegate: MenuContainerDelegate?
     // This is basically an instance of the current vehicle owner in a class that have some functions that helps in controlling the flow of the vehicleOwner operations.
     var vehicleOwnerService: VehicleOwnerService!
@@ -32,6 +31,7 @@ class MapViewController: UIViewController {
         navigationItem.title = "SpotSwap"
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
         let listNavigationItem = UIBarButtonItem(image: #imageLiteral(resourceName: "listIcon"), style: .plain, target: self, action: #selector(handleMenu(_:)))
+        listNavigationItem.tintColor = .white
         navigationItem.leftBarButtonItem = listNavigationItem
         // Removes the gloss that makes the nav bar a different shade of the UIColor assigned to it
         navigationController?.navigationBar.isTranslucent = false
@@ -40,6 +40,15 @@ class MapViewController: UIViewController {
         navigationController?.navigationBar.shadowImage = UIImage()
     }
     
+<<<<<<< HEAD
+=======
+    
+    private func setupDelegates() {
+        LocationService.manager.setDelegate(viewController: self)
+        self.contentView.reservationViewDelegate = self
+    }
+
+>>>>>>> qa
     private func setupContentView() {
         contentView = MapView(viewController: self)
         view.addSubview(contentView)
@@ -56,6 +65,7 @@ class MapViewController: UIViewController {
         vehicleOwnerService = VehicleOwnerService(self)
     }
     
+<<<<<<< HEAD
     private func setupReservationView(with vehicleOwner: VehicleOwner, reservation: Reservation) {
         //this will make a reservation view with certain data ==> their should be a vehicle owner to get this data from
         reservationDetailView = ReservationDetailView(viewController: self, vehicleOwner: vehicleOwner, reservation: reservation)
@@ -68,6 +78,8 @@ class MapViewController: UIViewController {
             make.height.equalTo(view.snp.height)
         }
     }
+=======
+>>>>>>> qa
 }
 
 // MARK: - Map Helper Functions
@@ -185,11 +197,16 @@ extension MapViewController: VehicleOwnerServiceDelegate {
             
             //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
             if reservation.takerId == currentVehicleOwner.userUID {
+<<<<<<< HEAD
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: { [weak self] (vehicleOwnerTaker) in
                     guard let strongSelf = self else { return }
                     strongSelf.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
                     strongSelf.addRoute(mapView: strongSelf.contentView.mapView, spotLocation: reservation.coordinate, userLocation: strongSelf.contentView.mapView.userLocation.coordinate)
                     
+=======
+                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
+                    self.contentView.showReservationView(with: vehicleOwnerTaker, reservation: reservation)
+>>>>>>> qa
                 }, errorHandler: { (error) in
                     //this will give an alert to the user in case the taker data can't be retrieved
                     self.alertWithOkButton(title: "there was an error retrieving your matched spot taker", message: nil)
@@ -197,8 +214,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
                 })
             } else {
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerId, dataBaseObserveType: .singleEvent, completion: {(spotOwnerVehicleOwner) in
-                    
-                    self.setupReservationView(with: spotOwnerVehicleOwner, reservation: reservation)
+                    self.contentView.showReservationView(with: spotOwnerVehicleOwner, reservation: reservation)
                 }, errorHandler: { (error) in
                     //this will give an alert to the user in case the taker data can't be retrieved
                     self.alertWithOkButton(title: "there was an error retrieving your matched spot owner", message: nil)
@@ -220,34 +236,60 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     }
     
     func vehiclOwnerHasNoReservation() {
-        guard let _ = reservationDetailView else { return }
-        if reservationDetailView.isDescendant(of: view) {
+        if contentView.reservationHeaderView.isDescendant(of: contentView){
             alertWithOkButton(title: "Reservation was canceled or completed", message: nil)
-            reservationDetailView.removeFromSuperview()
+            contentView.removeReservationView()
         }
-        
-        //This will load all the spots and load the default map, may be we can a cool sppinner
     }
 }
 
 //MARK: - DetailReservation Delegate
-extension MapViewController: ReserVationDetailViewDelegate {
-    func prepareReservationAction() {
+extension MapViewController: ReservationViewDelegate {
+    func cancelReservation() {
+        reservationCancelationHelper()
+    }
+    
+    func completeReservation() {
         vehicleOwnerService.removeReservation { (reservation) in
-//            LocationService.manager.addSpotsFromFirebaseToMap()
+            self.contentView.removeReservationView()
         }
+<<<<<<< HEAD
         reservationDetailView.removeFromSuperview()
         let mapOverlays = self.contentView.mapView.overlays
         self.contentView.mapView.removeOverlays(mapOverlays)
+=======
+>>>>>>> qa
     }
+
+    private func reservationCancelationHelper(){
+        let cancelationAlert = UIAlertController(title: "We are sorry for your inconvenience, was there is a propblem with the spot ?", message: nil, preferredStyle: .actionSheet)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (cancelAction) in
+            //TODO Handle Flagging
+        }
+        let noAction = UIAlertAction(title: "No, everything was ok, but I wan't to cancel", style: .default) { (cancelForNoReason) in
+            self.vehicleOwnerService.removeReservation { (reservation) in
+                self.contentView.removeReservationView()
+            }
+        }
+        let reportButton = UIAlertAction(title: "Yes, there was a problem with my reservation", style: .destructive) { (reportUserAction) in
+                        //TODO Handle Flagging
+            self.vehicleOwnerService.removeReservation { (reservation) in
+                self.contentView.removeReservationView()
+            }
+        }
+        cancelationAlert.addAction(cancelAction)
+        cancelationAlert.addAction(noAction)
+        cancelationAlert.addAction(reportButton)
+        self.present(cancelationAlert, animated: true, completion: nil)
+    }
+    
 }
 
 
 //MARK: - Menu ContainerDelegate Delegate
 extension MapViewController {
     @objc private func handleMenu(_ sender: UIBarButtonItem){
-        menuContainerDelegate?.trigerMenu()
-        
+        menuContainerDelegate?.triggerMenu()
     }
 }
 

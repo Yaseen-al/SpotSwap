@@ -13,6 +13,7 @@ enum MenuStatus{
     case hidden
 }
 class ContainerViewController: UIViewController, MenuContainerDelegate {
+    
     @IBOutlet weak var menuLeadingConstraint: NSLayoutConstraint!
     private var menuStatus = MenuStatus.hidden
     private let menuWidth: CGFloat = 160
@@ -42,7 +43,7 @@ class ContainerViewController: UIViewController, MenuContainerDelegate {
         return containerViewController
         
     }
-    func trigerMenu() {
+    func triggerMenu() {
         switch menuStatus {
         case .hidden:
             UIView.animate(withDuration: 0.5, animations: {
