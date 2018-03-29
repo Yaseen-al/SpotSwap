@@ -74,26 +74,26 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     
     @objc private func goToMapViewController() {
         guard let make = registerCarView.carMakeTextField.text, let model = registerCarView.dropDownButton.titleLabel?.text else {
-            showAlert(title: "Please enter a valid car make and model", message: nil)
+            Alert.present(title: "Please enter a valid car make and model", message: nil)
             return
         }
         guard make != "", model != "" else {
-            showAlert(title: "Please enter a valid car make and model", message: nil)
+            Alert.present(title: "Please enter a valid car make and model", message: nil)
             return
         }
-        guard let vehicleImage = registerCarView.carImageView.image else{
-            showAlert(title: "Please select a valid car image, so others will be able to swap easily with you", message: nil)
+        guard let vehicleImage = registerCarView.carImageView.image , registerCarView.carImageView.image != #imageLiteral(resourceName: "defaultVehicleImage") else{
+            Alert.present(title: "Please select a valid car image, so others will be able to swap easily with you", message: nil)
             return
         }
         //Compress the images for the storage
         let profileImageSize: CGSize = CGSize(width: 300, height: 300)
         guard let toucanProfileImage = Toucan.Resize.resizeImage(self.profileImage, size: profileImageSize) else{
-            showAlert(title: "error uploading your image please try again", message: nil)
+            Alert.present(title: "error uploading your image please try again", message: nil)
             return
         }
         let vehicleImageSize: CGSize = CGSize(width: 300, height: 300)
         guard let tocanVehicleImage = Toucan.Resize.resizeImage(vehicleImage, size: vehicleImageSize) else{
-            showAlert(title: "error uploading your image please try again", message: nil)
+            Alert.present(title: "There was an error uploading your image please try again", message: nil)
             return
         }
         
@@ -102,10 +102,12 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             let newVehicleOwner = VehicleOwner(user: user, car: newCar, userName: self.userName)
             DataBaseService.manager.addNewVehicleOwner(vehicleOwner: newVehicleOwner, userID: user.uid)
             StorageService.manager.storeImage(imageType: .vehicleOwner, uid: user.uid, image: toucanProfileImage, errorHandler: { (error) in
-                print(error)
+                print(#function, error)
+                Alert.present(title: "There was an error adding your images to the data base \(error.localizedDescription)", message: nil)
             })
             StorageService.manager.storeImage(imageType: .vehicleImage, uid: user.uid, image: tocanVehicleImage, errorHandler: { (error) in
-                print(error)
+                print(#function, error)
+                Alert.present(title: "There was an error adding your images to the data base \(error.localizedDescription)", message: nil)
             })
             let mapViewController = ContainerViewController.storyBoardInstance()
             self.present(mapViewController, animated: true, completion: nil)
@@ -153,12 +155,6 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         registerCarView.carMakeTextField.resignFirstResponder()
     }
     
-    private func showAlert(title: String, message: String?) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default) {alert in }
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
-    }
     // Configure a simple inline search text view
     private func configureSimpleInLineSearchTextField() {
         // Define the inline mode
@@ -176,7 +172,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             }
             self.registerCarView.carMakeTextField.filterStrings(carMakeKey)
         }, errorHandler: {(error: Error) in
-            
+            Alert.present(title: "There was an error retrieving car makes \(error.localizedDescription)", message: nil)
         })
         
     }
@@ -246,7 +242,7 @@ extension RegisterCarViewController: UITextFieldDelegate {
             return
         }
         guard let carModelOptions = carDict[carMake] else{
-            showAlert(title: "We are sorry this car make doesn't exist on our dataBase,", message: " we really appreciate you patience ")
+            Alert.present(title: "We are sorry this car make doesn't exist on our dataBase,", message: " we really appreciate you patience ")
             return
         }
         self.carModelOptions = carModelOptions
