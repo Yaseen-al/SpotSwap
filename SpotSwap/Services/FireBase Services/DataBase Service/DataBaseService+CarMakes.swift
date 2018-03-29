@@ -25,7 +25,7 @@ extension DataBaseService{
                 completion(carMakes)
             }
             catch{
-                
+                errorHandler(error)
             }
         }
     }
