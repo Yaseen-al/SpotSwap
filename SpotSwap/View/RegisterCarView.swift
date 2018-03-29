@@ -11,7 +11,6 @@ import SnapKit
 
 class RegisterCarView: UIView {
     var height = NSLayoutConstraint()
-    
     lazy var cameraButton: UIButton = {
         var button = UIButton()
         button.contentMode = .scaleAspectFill
@@ -89,9 +88,14 @@ class RegisterCarView: UIView {
         tv.backgroundColor = Stylesheet.Colors.PinkMain
         return tv
     }()
+    lazy var addImageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "plus-button"), for: .normal)
+        return button
+    }()
     
     override init(frame: CGRect) {
-        super.init(frame: UIScreen.main.bounds)
+        super.init(frame: frame)
         commonInit()
         superview?.bringSubview(toFront: dropDownView)
         
@@ -127,6 +131,7 @@ class RegisterCarView: UIView {
         setupDropDownButton()
         setupDropDownView()
         setupTableView()
+        setupAddImageButton()
     }
     
     private func setupCarImage() {
@@ -134,7 +139,7 @@ class RegisterCarView: UIView {
         carImageView.snp.makeConstraints { (make) in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(30)
             make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.50)
+            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.40)
             make.height.equalTo(carImageView.snp.width)
         }
     }
@@ -214,6 +219,14 @@ class RegisterCarView: UIView {
             make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
             make.trailing.equalTo(dropDownView.snp.trailing)
             make.bottom.equalTo(dropDownView.snp.bottom)
+        }
+    }
+    private func setupAddImageButton(){
+        addSubview(addImageButton)
+        addImageButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(carImageView.snp.right)
+            make.top.equalTo(carImageView.snp.top).offset(5)
+            make.width.height.equalTo(carImageView.snp.width).multipliedBy(0.20)
         }
     }
     
