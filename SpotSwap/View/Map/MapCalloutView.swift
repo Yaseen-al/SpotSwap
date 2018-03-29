@@ -2,7 +2,7 @@ import UIKit
 import MapKit
 import SnapKit
 
-protocol ExampleCalloutViewDelegate: class {
+protocol MapCalloutViewDelegate: class {
     func reserveButtonPressed(spot: Spot)
 }
 
@@ -30,10 +30,8 @@ class MapCalloutView: CalloutView {
     
     private var subtitleLabel: UILabel = {
         let label = UILabel()
-//        label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = Stylesheet.Colors.BlueMain
         label.font = UIFont.boldSystemFont(ofSize: 16)
-//        label.font = .preferredFont(forTextStyle: .caption1)
         return label
     }()
     
@@ -62,18 +60,21 @@ class MapCalloutView: CalloutView {
     private lazy var userNameLabel: UILabel = {
         let label = UILabel()
         label.text = "USERNAME"
+        label.font = UIFont.boldSystemFont(ofSize: 15)
         return label
     }()
     
     private lazy var carTypeLabel: UILabel = {
         let label = UILabel()
         label.text = "CAR TYPE"
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
     private lazy var addressLabel: UILabel = {
         let label = UILabel()
         label.text = "ADDRESS"
+        label.font = UIFont.systemFont(ofSize: 14)
         return label
     }()
     
@@ -86,18 +87,44 @@ class MapCalloutView: CalloutView {
     
     private lazy var timerLabel: UILabel = {
         let label = UILabel()
-        label.text = "0:00"
+        label.text = "-:--"
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = Stylesheet.Colors.PinkMain
         return label
     }()
     
+    weak var timer: Timer? = {
+        let timer = Timer()
+        return timer
+    }()
+    
+    private var spotDuration = 5.0 //dummy initial value
+    
     // MARK: - Inits
     override init(annotation: MKAnnotation) {
         super.init(annotation: annotation)
         self.annotation = annotation
-        configure()
         updateContents(for: annotation)
+        runTimer(for: annotation)
+        configure()
+    }
+    
+    func runTimer(for annotation: MKAnnotation) {
+        if let spot = annotation as? Spot {
+            spotDuration = DateProvider.parseIntoSeconds(duration: spot.duration)
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+        }
+    }
+    
+    @objc func updateTimer() {
+        guard let timer = timer, timer.isValid else { return }
+        if spotDuration < 1.0 {
+            timer.invalidate()
+            Alert.present(from: .reserveSpotConfirmation)
+        } else {
+            spotDuration -= 1.0
+            timerLabel.text = DateProvider.parseIntoFormattedString(time: spotDuration)
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -138,8 +165,8 @@ class MapCalloutView: CalloutView {
         swapButton.snp.makeConstraints { make in
             make.top.equalTo(imageView.snp.bottom).offset(5)
             make.bottom.equalTo(contentView.snp.bottom).offset(-5)
-            make.width.equalTo(imageView.snp.width)
-            make.centerX.equalTo(imageView.snp.centerX)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.8)
+            make.centerX.equalTo(contentView.snp.centerX)
         }
     }
     
@@ -185,7 +212,6 @@ class MapCalloutView: CalloutView {
     private func prepareCarTypeLabel() {
         carTypeLabel.snp.makeConstraints { make in
             make.top.equalTo(userNameLabel.snp.bottom).offset(5)
-            make.bottom.equalTo(addressLabel.snp.top).offset(5)
             make.left.equalTo(imageView.snp.right).offset(5)
             make.right.equalTo(contentView.snp.right).offset(-5)
         }
@@ -193,13 +219,25 @@ class MapCalloutView: CalloutView {
     
     private func prepareAddressLabel() {
         addressLabel.snp.makeConstraints { make in
-            make.bottom.equalTo(contentView.snp.bottom).offset(-5)
+            make.top.equalTo(carTypeLabel.snp.bottom).offset(5)
+            make.bottom.lessThanOrEqualTo(contentView.snp.bottom).offset(-5)
             make.left.equalTo(imageView.snp.right).offset(5)
             make.right.equalTo(contentView.snp.right).offset(-5)
         }
     }
     
     // MARK: - Setup - View/Data
+    // Update callout contents
+    private func updateContents(for annotation: MKAnnotation) {
+        titleLabel.text = annotation.title ?? "Unknown"
+        subtitleLabel.text = "OPEN"
+        
+        if let spot = annotation as? Spot {
+            fetchVehicleOwnerData(spot: spot)
+            fetchAddress(coordinates: spot.coordinate)
+        }
+    }
+    
     private func fetchVehicleOwnerData(spot: Spot) {
         DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: spot.userUID, dataBaseObserveType: .observing, completion: { [weak self] vehicleOwner in
             self?.fetchVehicleOwnerImage(vehicleOwner: vehicleOwner)
@@ -234,18 +272,6 @@ class MapCalloutView: CalloutView {
         }
     }
     
-    // Update callout contents
-    private func updateContents(for annotation: MKAnnotation) {
-        titleLabel.text = annotation.title ?? "Unknown"
-        subtitleLabel.text = "OPEN"
-        
-        if let spot = annotation as? Spot {
-            timerLabel.text = spot.duration
-            fetchVehicleOwnerData(spot: spot)
-            fetchAddress(coordinates: spot.coordinate)
-        }
-    }
-    
     // This is an example method, defined by `CalloutView`, which is called when you tap on the callout
     // itself (but not one of its subviews that have user interaction enabled).
     override func didTouchUpInCallout(_ sender: Any) {
@@ -261,8 +287,6 @@ class MapCalloutView: CalloutView {
             }
         }
     }
-    
-    
     
 }
 
