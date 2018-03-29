@@ -3,10 +3,14 @@ import UIKit
 
 class PageViewController: UIPageViewController {
     
+    let walkthroughVC = WalkthroughViewController()
+    
     //some hard coded data for our walkthrough screens
-    var pageHeaders = ["Reserve a parking spot", "Offer a parking spot", "Earn points!"]
-    var pageImages = ["defaultProfileimage", "spotSwapLogo", "SpotSwapIcon"]
-    var pageDescriptions = ["blah", "blah", "blah"]
+    var pageHeaders = ["Reserve a parking spot", "Offer a parking spot", "Earn points!", "Find a spot!"]
+    var pageImages: [UIImage] = [
+        #imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone"),#imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone")
+    ]
+    var pageDescriptions = ["On the map, tap the space you would like to reserve", "Once you're ready to leave your parking spot, swipe the leaving button", "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", ""]
     
     var colors = [UIColor.red, UIColor.blue, UIColor.orange]
     
@@ -21,21 +25,16 @@ class PageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .green
+        view.backgroundColor = Stylesheet.Colors.GrayMain
+        //view.backgroundColor = .green// for testing
         
-        //this class is the age view controller's data source itself
+        //this class is the page view controller's data source itself
         self.dataSource = self
         
         //create the first walkthrough VC
         if let startWalkthroughVC = self.viewControllerAtIndex(index: 0) {
             setViewControllers([startWalkthroughVC], direction: .forward, animated: true, completion: nil)
         }
-        
-        //set scroll direction
-        
-        //self.transitionStyle =
-        
-        //PageViewController.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
     }
     
     //MARK - Navigate
@@ -53,12 +52,11 @@ class PageViewController: UIPageViewController {
         
         //TODO:Change to dependency injection?
         let walkthroughVC = WalkthroughViewController()
-        walkthroughVC.imageName = pageImages[index]
-        //walkthroughVC.headerText = pageHeaders[index]
         walkthroughVC.walkthroughView.headerLabel.text = pageHeaders[index]
-        walkthroughVC.descriptionText = pageDescriptions[index]
+        walkthroughVC.walkthroughView.descriptionLabel.text = pageDescriptions[index]
         walkthroughVC.index = index
-        walkthroughVC.view.backgroundColor = colors[index]
+        walkthroughVC.walkthroughView.tutorialImageView.image = pageImages[index]
+        //walkthroughVC.view.backgroundColor = colors[index] //for testing
         
         return walkthroughVC
     }
@@ -84,6 +82,22 @@ extension PageViewController: UIPageViewControllerDataSource {
         return viewControllerAtIndex(index: index)//self.viewControllers?.index(of: index)
         
     }
+    
+}
+
+//MARK: - UIPageViewControllerDelegates
+extension PageViewController: UIPageViewControllerDelegate {
+    
+    func tutorialPageViewController(tutorialPageViewController: PageViewController,
+                                    didUpdatePageCount count: Int) {
+        walkthroughVC.walkthroughView.pageControl.numberOfPages = count
+    }
+    
+    func tutorialPageViewController(tutorialPageViewController: PageViewController,
+                                    didUpdatePageIndex index: Int) {
+        walkthroughVC.walkthroughView.pageControl.currentPage = index
+    }
+    
     
     
 }

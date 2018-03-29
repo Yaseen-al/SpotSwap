@@ -21,6 +21,7 @@ class SignUpViewController: UIViewController{
         view.backgroundColor = Stylesheet.Colors.OrangeMain
         self.signUpView.signUpViewDelegate = self
         setupNavBar()
+        setupSignUpView()
     }
     
     

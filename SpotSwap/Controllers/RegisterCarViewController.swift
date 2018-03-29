@@ -63,10 +63,9 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     //Kaniz - Displays the walkthroughs after signing up but before the mapview*****************************
     func displayWalkthroughs() {
         //TODO: Fix so it works with Yaseens Data persistence class
-        let userDefaults = UserDefaults.standard
-        let displayedWalkthrough = userDefaults.bool(forKey: "DisplayedWalkthrough")
+        let alreadyDisplayedWalkthrough = DataPersistence.manager.retrieveStateFromDefaults(UserDefaultsKeys.DisplayedWalkthrough)
         
-        if !displayedWalkthrough {
+        if !alreadyDisplayedWalkthrough! {
             let pageVC = PageViewController()
             self.present(pageVC, animated: true, completion: nil)
         }
@@ -126,6 +125,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         }) { (error) in
             //TODO Handle the errors
         }
+
     }
     
     @objc func cameraButtonPressed() {

@@ -1,7 +1,9 @@
 import UIKit
 import SnapKit
+import Pastel
 
 class LoginView: UIView {
+    
     
     // MARK: - Properties
     lazy var logoImage: UIImageView = {
@@ -75,7 +77,7 @@ class LoginView: UIView {
     // MARK: - Inits
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Stylesheet.Colors.OrangeMain
+        //backgroundColor = Stylesheet.Colors.OrangeMain
         prepareViews()
     }
     
@@ -85,6 +87,7 @@ class LoginView: UIView {
     
     // MARK: - Setup Views
     private func prepareViews() {
+        setupPastelView()
         setupLogoImage()
         setupLogoSubtitleLabel()
         setupEmailTextField()
@@ -94,6 +97,29 @@ class LoginView: UIView {
         setupLowerLoginButton()
         
     }
+    
+    lazy var pastelView: PastelView = {
+        let pastelView = PastelView(frame: frame)
+        // Custom Direction
+        pastelView.startPastelPoint = .bottomLeft
+        pastelView.endPastelPoint = .topRight
+        
+        // Custom Duration
+        pastelView.animationDuration = 3.0
+        
+        // Custom Color
+        pastelView.setColors([UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0),
+                              UIColor(red: 255/255, green: 64/255, blue: 129/255, alpha: 1.0),
+                              UIColor(red: 123/255, green: 31/255, blue: 162/255, alpha: 1.0),
+                              UIColor(red: 32/255, green: 76/255, blue: 255/255, alpha: 1.0),
+                              UIColor(red: 32/255, green: 158/255, blue: 255/255, alpha: 1.0),
+                              UIColor(red: 90/255, green: 120/255, blue: 127/255, alpha: 1.0),
+                              UIColor(red: 58/255, green: 255/255, blue: 217/255, alpha: 1.0)])
+        return pastelView
+    }()
+    
+    
+
     override func layoutSubviews() {
         //Email Logo
         emailLogo.layer.cornerRadius = 5
@@ -109,10 +135,20 @@ class LoginView: UIView {
         
     }
     
+    private func setupPastelView() {
+        self.addSubview(pastelView)
+        pastelView.snp.makeConstraints { (make) in
+            make.width.equalTo(snp.width)
+            make.height.equalTo(snp.height)
+            make.centerX.equalTo(snp.centerX)
+            make.centerY.equalTo(snp.centerY)
+        }
+    }
+    
     private func setupLogoImage() {
         self.addSubview(logoImage)
         logoImage.snp.makeConstraints { (make) in
-            make.top.equalTo(snp.top).offset(15)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(15)
             make.centerX.equalTo(snp.centerX)
             make.width.equalTo(snp.width).multipliedBy(0.80)
             make.height.equalTo(snp.height).multipliedBy(0.10)

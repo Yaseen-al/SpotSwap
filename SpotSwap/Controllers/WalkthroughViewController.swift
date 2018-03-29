@@ -3,14 +3,19 @@ import UIKit
 
 class WalkthroughViewController: UIViewController {
     
+    //TODO: Make dots clickable
+    
     //view instance
     let walkthroughView = WalkthroughView()
     
+    let launchVC = LaunchViewController()
+    
     //MARK - Data model for each walkthrough screen
     var index = 0 //the current page index
-    var headerText = ""
-    var imageName = ""
-    var descriptionText = ""
+//    var headerText = ""
+//    var imageName = ""
+//    var descriptionText = ""
+//    var imageView: UIImageView!
     
     //
     
@@ -26,9 +31,7 @@ class WalkthroughViewController: UIViewController {
         setupWalkthroughView()
         //page control dots now know what page we are on
         walkthroughView.pageControl.currentPage = index
-        
-        walkthroughView.imageView.image = UIImage(named: imageName)
-        
+                
         walkthroughView.startButton.isHidden = (index == 3) ? false : true
         walkthroughView.nextButton.isHidden = (index == 3) ? true : false
         
@@ -43,13 +46,19 @@ class WalkthroughViewController: UIViewController {
         }
     }
     
-    @objc func startTapped(sender: AnyObject) {
-        
+    @objc func startTapped(_ sender: UIButton!) {
         //To keep track if this is the user's first time logging in
         //let userDefaults = UserDefaults.standard
         DataPersistence.manager.addStateToDefaults(state: true, UserDefaultsKeys.DisplayedWalkthrough)
-        
-        self.dismiss(animated: true, completion: nil)
+
+            navigationController?.popViewController(animated: true)
+//        if self.parent is UIPageViewController {
+//            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+//            appDelegate.loadLaunchViewController()
+//        } else {
+//            let mapViewController = ContainerViewController.storyBoardInstance()
+//            self.present(mapViewController, animated: true, completion: nil)
+//        }
     }
     
     //If the user clicks the next button, we will show the next page view controller
