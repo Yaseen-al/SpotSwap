@@ -9,17 +9,22 @@ class LaunchViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.addSubview(launchView)
         launchView.loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         launchView.signUpButton.addTarget(self, action: #selector(signupTapped), for: .touchUpInside)
         configureNavBar()
         view.backgroundColor = .white
+        setupLaunchView()
     }
     
-    func configureNavBar(){
+    private func configureNavBar(){
         self.navigationController?.isNavigationBarHidden = true
     }
-    
+    private func setupLaunchView(){
+        view.addSubview(launchView)
+        launchView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view.snp.edges)
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         configureNavBar()
     }

@@ -51,13 +51,13 @@ class AuthenticationService {
                 if let errCode = AuthErrorCode(rawValue: error._code) {
                     switch errCode {
                     case .emailAlreadyInUse:
-                        print("invalid email")
-                        errorHandler(AuthenticationServiceErrors.invalidEmail)
+                        print(#function, AuthenticationServiceErrors.invalidEmail)
+                        errorHandler(error)
                     case .weakPassword:
-                        print("weak pass")
-                        errorHandler(AuthenticationServiceErrors.weakPassword)
+                        print(#function, AuthenticationServiceErrors.weakPassword)
+                        errorHandler(error)
                     default:
-                        print("Create User Error: \(error)")
+                        errorHandler(error)
                     }
                 }
                 errorHandler(error)
