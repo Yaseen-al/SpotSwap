@@ -98,14 +98,11 @@ class LaunchView: UIView {
     private func prepareViews() {
         setupImageView()
         setupLogoImage()
-<<<<<<< HEAD
         //setupLogoSubtitleLabel()
         setupTutorialButton()
-=======
         setupLogoSubtitleLabel()
         setupButtonContainerView()
->>>>>>> 9c995c461160f30c173741600e5a8854d88731ee
-        setUpLoginButton()
+         setUpLoginButton()
         setUpSignUpButton()
     }
     
@@ -144,7 +141,6 @@ class LaunchView: UIView {
             make.centerX.equalTo(snp.centerX)
         }
     }
-<<<<<<< HEAD
     
     private func setupTutorialButton() {
         self.addSubview(tutorialButton)
@@ -156,8 +152,6 @@ class LaunchView: UIView {
         }
     }
     
-=======
->>>>>>> 9c995c461160f30c173741600e5a8854d88731ee
     private func setUpLoginButton() {
         self.addSubview(loginButton)
         loginButton.snp.makeConstraints { (make) in
