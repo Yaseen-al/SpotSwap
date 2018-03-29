@@ -1,9 +1,7 @@
 import UIKit
 import SnapKit
 
-protocol ReserVationDetailViewDelegate: class {
-    func prepareReservationAction()
-}
+
 class ReservationDetailView: UIView {
     // MARK: - Properties
     lazy var imageView: UIImageView = {
@@ -19,18 +17,20 @@ class ReservationDetailView: UIView {
         return label
     }()
     
-    lazy var timer: UIButton = {
+    lazy var timerButton: UIButton = {
         let bttn = UIButton()
         bttn.layer.cornerRadius = 5
         bttn.layer.masksToBounds = true
         bttn.backgroundColor = Stylesheet.Colors.PinkMain
         return bttn
     }()
+    
     lazy var headerView: UIView = {
         let view = UIView()
         view.backgroundColor = Stylesheet.Colors.OrangeMain
         return view
     }()
+    
     // this will either cancel current reservation or end it if the user arrived to the reserved spot
     lazy var reservationAction: UIButton = {
         let bttn = UIButton()
@@ -41,12 +41,50 @@ class ReservationDetailView: UIView {
         bttn.addTarget(self, action: #selector(prepareReservationAction(_:)), for: .touchUpInside)
         return bttn
     }()
-    weak var delegate: ReserVationDetailViewDelegate?
+
+    
+    private weak var timer: Timer? = {
+        let timer = Timer()
+        return timer
+    }()
+
+    private var spotDuration = 5.0 //dummy initial value
+
+    func runTimer(for duration: String) {
+            spotDuration = DateProvider.parseIntoSeconds(duration: duration)
+            timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+
+    @objc func updateTimer() {
+        guard let timer = timer, timer.isValid else { return }
+        if spotDuration < 1.0 {
+            timer.invalidate()
+//            Alert.present(from: .reserveSpotConfirmation)
+        } else {
+            spotDuration -= 1.0
+            let timeStr = DateProvider.parseIntoFormattedString(time: spotDuration)
+            timerButton.setTitle(timeStr, for: .normal)
+        }
+    }
+    
+    private func fetchVehicleOwnerImage(vehicleOwner: VehicleOwner) {
+        guard let url = vehicleOwner.userImage else { return }
+        StorageService.manager.retrieveImage(imgURL: url, completionHandler: { [weak self] image in
+            self?.imageView.image = image
+        }) { [weak self] error in
+            self?.imageView.backgroundColor = .red
+            print(error)
+        }
+    }
+    
+
     // MARK: - Inits
-    init(viewController: UIViewController, name: String, time: String) {
+    init(viewController: UIViewController, vehicleOwner: VehicleOwner, reservation: Reservation) {
         self.init()
-        userNameLabel.text = name
-        timer.setTitle(time, for: .normal)
+        fetchVehicleOwnerImage(vehicleOwner: vehicleOwner)
+        userNameLabel.text = vehicleOwner.userName
+        runTimer(for: reservation.duration)
+//        timerButton.setTitle(time, for: .normal)
         prepareViews()
         self.backgroundColor = .clear
     }
@@ -65,9 +103,10 @@ class ReservationDetailView: UIView {
         prepareHeaderView()
         prepareImageView()
         prepareNameLabel()
-        prepareTimer()
+        prepareTimerButton()
         prepareReservationAction()
     }
+    
     private func prepareHeaderView(){
         addSubview(headerView)
         headerView.snp.makeConstraints { (make) in
@@ -94,9 +133,9 @@ class ReservationDetailView: UIView {
         }
     }
     
-    private func prepareTimer() {
-        headerView.addSubview(timer)
-        timer.snp.makeConstraints { make in
+    private func prepareTimerButton() {
+        headerView.addSubview(timerButton)
+        timerButton.snp.makeConstraints { make in
             make.right.equalTo(headerView.snp.right).offset(-10)
             make.centerY.equalTo(headerView.snp.centerY)
             make.height.equalTo(imageView.snp.height).dividedBy(2)
@@ -113,7 +152,6 @@ class ReservationDetailView: UIView {
         }
     }
     @objc func prepareReservationAction(_ sender: UIButton){
-        delegate?.prepareReservationAction()
     }
     
 }

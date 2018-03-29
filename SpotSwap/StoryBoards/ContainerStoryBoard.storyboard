@@ -17,7 +17,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NAO-Nx-eXN">
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NAO-Nx-eXN" userLabel="Menu Container View">
                                 <rect key="frame" x="-160" y="0.0" width="160" height="667"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="n7z-0t-DsW"/>
@@ -38,6 +38,7 @@
                             <constraint firstItem="guB-7X-w28" firstAttribute="bottom" secondItem="NAO-Nx-eXN" secondAttribute="bottom" id="3wD-9w-jQ2"/>
                             <constraint firstItem="ZRo-Z4-5xB" firstAttribute="height" secondItem="hc7-lE-GCq" secondAttribute="height" id="7ik-qI-hmT"/>
                             <constraint firstItem="ZRo-Z4-5xB" firstAttribute="top" secondItem="hc7-lE-GCq" secondAttribute="top" id="UsM-f3-RdH"/>
+                            <constraint firstItem="NAO-Nx-eXN" firstAttribute="height" secondItem="hc7-lE-GCq" secondAttribute="height" id="X8B-nU-2Yh"/>
                             <constraint firstItem="ZRo-Z4-5xB" firstAttribute="leading" secondItem="NAO-Nx-eXN" secondAttribute="trailing" id="e8L-uT-G7p"/>
                             <constraint firstItem="NAO-Nx-eXN" firstAttribute="leading" secondItem="guB-7X-w28" secondAttribute="leading" constant="-160" id="fPL-Hp-BiM"/>
                             <constraint firstItem="NAO-Nx-eXN" firstAttribute="top" secondItem="hc7-lE-GCq" secondAttribute="top" id="fy5-dI-uMT"/>
@@ -67,7 +68,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Out-Fc-i7t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-653" y="918"/>
+            <point key="canvasLocation" x="-643" y="1048"/>
         </scene>
         <!--Map View Controller-->
         <scene sceneID="uD7-Wg-9xx">
@@ -83,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="96n-E3-zvZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1490" y="1008"/>
+            <point key="canvasLocation" x="1265" y="1075"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="QYP-9h-30v">

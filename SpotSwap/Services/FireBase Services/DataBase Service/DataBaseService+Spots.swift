@@ -27,6 +27,13 @@ extension DataBaseService{
                     errorHandler(DataBaseReferenceErrors.errorDecodingSpot)
                 }
             }
+            // clean up the expired spots
+            
+            // return regular user spots or spot
+//            var fileteredSpots = [Spot]()
+//            for spot in allSpots{
+////                let spotDate = spot.
+//            }
             completion(allSpots)
         }
         switch dataBaseObserveType {
