@@ -6,7 +6,7 @@ class LaunchView: UIView {
     // MARK: - Properties
     lazy var backgroundImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "launchImage ")
+        iv.image = #imageLiteral(resourceName: "parking")
         iv.contentMode = .scaleAspectFill
         return iv
     }()
