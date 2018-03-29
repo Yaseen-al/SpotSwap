@@ -17,6 +17,7 @@ class MapView: UIView {
     weak var reservationViewDelegate: ReservationViewDelegate?
     
     // MARK: - Properties
+    private var spotDuration = 5.0 //dummy initial value
     lazy var mapView: MKMapView = {
         let map = MKMapView()
         map.showsUserLocation = true
@@ -34,6 +35,7 @@ class MapView: UIView {
     lazy var profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.image = #imageLiteral(resourceName: "defaultProfileImage")
+        iv.contentMode = .scaleAspectFill
         iv.layer.cornerRadius = 10
         iv.layer.masksToBounds = true
         return iv
@@ -43,7 +45,7 @@ class MapView: UIView {
         label.text = "Yaseen Test"
         return label
     }()
-    lazy var timer: UIButton = {
+    lazy var timerButton: UIButton = {
         let bttn = UIButton()
         bttn.layer.cornerRadius = 5
         bttn.layer.masksToBounds = true
@@ -77,6 +79,10 @@ class MapView: UIView {
         let view = UIView()
         view.backgroundColor = .white
         return view
+    }()
+    private weak var timer: Timer? = {
+        let timer = Timer()
+        return timer
     }()
     // MARK: - Inits
     init(viewController: UIViewController) {
@@ -147,8 +153,8 @@ class MapView: UIView {
     }
     
     private func prepareTimer() {
-        reservationHeaderView.addSubview(timer)
-        timer.snp.makeConstraints { make in
+        reservationHeaderView.addSubview(timerButton)
+        timerButton.snp.makeConstraints { make in
             make.right.equalTo(reservationHeaderView.snp.right).offset(-10)
             make.centerY.equalTo(reservationHeaderView.snp.centerY)
             make.height.equalTo(reservationHeaderView.snp.height).multipliedBy(0.65)
@@ -185,10 +191,12 @@ class MapView: UIView {
     
     public func showReservationView(with vehicleOwner: VehicleOwner, reservation: Reservation){
         userNameLabel.text = vehicleOwner.userName
-        timer.setTitle(reservation.duration, for: .normal)
+//        timerButton.setTitle(reservation.duration, for: .normal)
+        runTimer(for: reservation.duration)
         prepareReservationHeaderView()
         prepareReservationFooterView()
         prepareProfileImageView()
+        fetchVehicleOwnerImage(vehicleOwner: vehicleOwner)
         prepareUserNameLabel()
         prepareTimer()
         prepareArrivedReservationButton()
@@ -233,4 +241,33 @@ private extension MapView {
         gestureDelegate.mapViewWasLongPressed(at: touchMapCoordinate)
     }
     
+}
+// Timer functions
+extension MapView {
+    func runTimer(for duration: String) {
+        spotDuration = DateProvider.parseIntoSeconds(duration: duration)
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updateTimer() {
+        guard let timer = timer, timer.isValid else { return }
+        if spotDuration < 1.0 {
+            timer.invalidate()
+            //            Alert.present(from: .reserveSpotConfirmation)
+        } else {
+            spotDuration -= 1.0
+            let timeStr = DateProvider.parseIntoFormattedString(time: spotDuration)
+            timerButton.setTitle(timeStr, for: .normal)
+        }
+    }
+    
+    private func fetchVehicleOwnerImage(vehicleOwner: VehicleOwner) {
+        guard let url = vehicleOwner.userImage else { return }
+        StorageService.manager.retrieveImage(imgURL: url, completionHandler: { [weak self] image in
+            self?.profileImageView.image = image
+        }) { [weak self] error in
+            self?.profileImageView.backgroundColor = .red
+            print(error)
+        }
+    }
 }
