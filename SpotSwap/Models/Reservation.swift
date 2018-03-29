@@ -9,6 +9,7 @@ class Reservation: NSObject, Codable {
     let longitude: Double
     let latitude: Double
     let timeStamp: String
+    let timeStamp1970: Double
     let duration: String
     
     func toJSON() -> Any {
@@ -29,6 +30,7 @@ class Reservation: NSObject, Codable {
         self.longitude = availableSpot.longitude
         self.latitude = availableSpot.latitude
         self.timeStamp = availableSpot.timeStamp
+        self.timeStamp1970 = DateProvider.currentTimeSince1970()
         self.duration = availableSpot.duration
     }
 

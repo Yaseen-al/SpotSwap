@@ -43,6 +43,7 @@ class RegisterCarView: UIView {
         textField.borderStyle = .none
         textField.backgroundColor = .white
         textField.autocorrectionType = .no
+        textField.borderStyle = .roundedRect
         textField.autocapitalizationType = .none
         return textField
     }()
@@ -123,7 +124,6 @@ class RegisterCarView: UIView {
         setupMakeLabel()
         setupMakeTF()
         setupModelLabel()
-        //        setupModelTF()
         setupDropDownButton()
         setupDropDownView()
         setupTableView()

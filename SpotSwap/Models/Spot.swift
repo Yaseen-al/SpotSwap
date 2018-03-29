@@ -9,6 +9,7 @@ class Spot: NSObject, Codable {
     let longitude: Double
     let latitude: Double
     let timeStamp: String
+    let timeStamp1970: Double
     let duration: String
     func toJSON() -> Any {
         do {
@@ -25,14 +26,14 @@ class Spot: NSObject, Codable {
         self.reservationId = nil
         self.longitude = location.longitude
         self.latitude = location.latitude
-        self.duration = DateProvider.manager.randomTimeForSpot()
-        self.timeStamp = DateProvider.manager.currentTime()
+        self.duration = DateProvider.randomTimeForSpot()
+        self.timeStamp = DateProvider.currentTime()
+        self.timeStamp1970 = DateProvider.currentTimeSince1970()
         self.userUID = AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn"
     }
 }
 
 extension Spot: MKAnnotation {
-    
     // Type must conform to MKAnnotation in order to be used a map pin.
     var coordinate: CLLocationCoordinate2D {
         return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -41,5 +42,5 @@ extension Spot: MKAnnotation {
     var title: String? {
         return self.duration.description
     }
-    
 }
+

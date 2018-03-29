@@ -27,7 +27,18 @@ extension DataBaseService{
                     errorHandler(DataBaseReferenceErrors.errorDecodingSpot)
                 }
             }
-            completion(allSpots)
+            // clean up the expired spots
+            
+            // return regular user spots or spot
+            let fileteredSpots = allSpots.filter({ (spot) -> Bool in
+                if DateProvider.currentTimeSince1970() - spot.timeStamp1970 < DateProvider.expirationTime{
+                    return true
+                }else{
+                    self.removeSpot(spotId: spot.spotUID)
+                    return false
+                }
+            })
+            completion(fileteredSpots)
         }
         switch dataBaseObserveType {
         case .observing:

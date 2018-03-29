@@ -10,12 +10,26 @@ import Foundation
 import FirebaseAuth
 
 // MARK: - AuthenticationService Errors
-enum AuthenticationServiceErrors: Error{
+public enum AuthenticationServiceErrors: Error{
     case signInError
     case invalidEmail
     case weakPassword
     case signOutError
     case noSignedInUser
+    public var errorDescription: String? {
+        switch self {
+        case .signInError:
+            return NSLocalizedString("There was an error in signing in ", comment: "My error")
+        case .invalidEmail:
+            return NSLocalizedString("A user-friendly description of the error.", comment: "My error")
+        case .weakPassword:
+            return NSLocalizedString("A user-friendly description of the error.", comment: "My error")
+        case .signOutError:
+            return NSLocalizedString("A user-friendly description of the error.", comment: "My error")
+        case .noSignedInUser:
+            return NSLocalizedString("A user-friendly description of the error.", comment: "My error")
+        }
+    }
 }
 
 class AuthenticationService {
@@ -37,13 +51,13 @@ class AuthenticationService {
                 if let errCode = AuthErrorCode(rawValue: error._code) {
                     switch errCode {
                     case .emailAlreadyInUse:
-                        print("invalid email")
-                        errorHandler(AuthenticationServiceErrors.invalidEmail)
+                        print(#function, AuthenticationServiceErrors.invalidEmail)
+                        errorHandler(error)
                     case .weakPassword:
-                        print("weak pass")
-                        errorHandler(AuthenticationServiceErrors.weakPassword)
+                        print(#function, AuthenticationServiceErrors.weakPassword)
+                        errorHandler(error)
                     default:
-                        print("Create User Error: \(error)")
+                        errorHandler(error)
                     }
                 }
                 errorHandler(error)
@@ -57,8 +71,8 @@ class AuthenticationService {
    public func signIn(email: String, password: String, completion: @escaping (User) -> Void, errorHandler: @escaping(Error)->Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if let error = error {
-                print("Dev: \(error)")
-                errorHandler(AuthenticationServiceErrors.signInError)
+                print(#function, AuthenticationServiceErrors.signInError)
+                errorHandler(error)
             } else if let user = user {
                 completion(user)
             }
@@ -70,7 +84,8 @@ class AuthenticationService {
         do {
             try Auth.auth().signOut()
         } catch {
-            errorHandler(AuthenticationServiceErrors.signOutError)
+            print(#function, AuthenticationServiceErrors.signOutError)
+            errorHandler(error)
         }
     }
 }

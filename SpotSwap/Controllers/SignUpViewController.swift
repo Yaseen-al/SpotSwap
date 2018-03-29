@@ -35,6 +35,8 @@ class SignUpViewController: UIViewController{
     // MARK: - Setup NavigationBar
     private func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(goToNextView))
+        navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -51,19 +53,19 @@ class SignUpViewController: UIViewController{
     //MARK:  Acitons
     @objc private func goToNextView() {
         guard let username = signUpView.usernameTextField.text, let email = signUpView.emailTextField.text, let password = signUpView.passwordTextField.text else{
-            showAlert(title: "Please enter a valid email, username, and password", message: nil)
+            Alert.present(title: "Please enter a valid email, username, and password", message: nil)
             return
         }
         guard username != "", email != "",  password != "" else {
-            showAlert(title: "Please enter a valid email, username, and password", message: nil)
+            Alert.present(title: "Please enter a valid email, username, and password", message: nil)
             return
         }
         guard email.contains("@"), email.contains(".") else {
-            showAlert(title: "Please enter a valid email", message: nil)
+            Alert.present(title: "Please enter a valid email", message: nil)
             return
         }
-        guard let image = signUpView.profileImage.image else{
-            showAlert(title: "Please select a valid picture", message: nil)
+        guard let image = signUpView.profileImage.image, signUpView.profileImage.image != #imageLiteral(resourceName: "defaultProfileImage") else{
+            Alert.present(title: "Please select a valid picture", message: nil)
             return
         }
         let registerCarVC = RegisterCarViewController(userName: username, email: email, password: password, profileImage: image)
@@ -71,14 +73,7 @@ class SignUpViewController: UIViewController{
         
         
     }
-    //MARK: Prvate Functions
-    private func showAlert(title: String, message: String?) {
-        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "Ok", style: .default) {alert in }
-        alertController.addAction(okAction)
-        present(alertController, animated: true, completion: nil)
-    }
-    
+
     
     //MARK: - Setup Keyboard Handling
     @objc func keyboardWillShow(notification: NSNotification) {
