@@ -117,7 +117,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             let mapViewController = ContainerViewController.storyBoardInstance()
             self.present(mapViewController, animated: true, completion: nil)
         }) { (error) in
-            //TODO Handle the errors
+             Alert.present(title: error.localizedDescription, message: nil)
         }
     }
     

@@ -16,7 +16,6 @@ class LoginViewController: UIViewController {
         setupLoginView()
         view.backgroundColor = Stylesheet.Colors.OrangeMain
         configureNavBar()
-        view.backgroundColor = Stylesheet.Colors.OrangeMain
         loginView.lowerLoginButton.addTarget(self, action: #selector(loginTapped(sender:)), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
