@@ -9,6 +9,7 @@ import ImagePicker
 import Toucan
 
 class RegisterCarViewController: UIViewController, UIImagePickerControllerDelegate {
+
     // MARK: - Properties
     private var email: String
     private var password: String
@@ -57,12 +58,27 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             #selector(goToMapViewController))
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
+
+    
+    //Kaniz - Displays the walkthroughs after signing up but before the mapview*****************************
+    func displayWalkthroughs() {
+        //TODO: Fix so it works with Yaseens Data persistence class
+        let alreadyDisplayedWalkthrough = DataPersistence.manager.retrieveStateFromDefaults(UserDefaultsKeys.DisplayedWalkthrough)
+        
+        if !alreadyDisplayedWalkthrough! {
+            let pageVC = PageViewController()
+            self.present(pageVC, animated: true, completion: nil)
+        }
+    }
+    
+
     private func setupRegisterCarView(){
         view.addSubview(registerCarView)
         registerCarView.snp.makeConstraints { (make) in
             make.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
         }
     }
+    
     private func setupImagePicker() {
         imagePickerController = ImagePickerController()
         registerCarView.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
@@ -106,6 +122,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             let newCar = Car(carMake: make, carModel: model, carYear: "2018")
             let newVehicleOwner = VehicleOwner(user: user, car: newCar, userName: self.userName)
             DataBaseService.manager.addNewVehicleOwner(vehicleOwner: newVehicleOwner, userID: user.uid)
+
             StorageService.manager.storeImage(imageType: .vehicleOwner, uid: user.uid, image: toucanProfileImage, errorHandler: { (error) in
                 print(#function, error)
                 Alert.present(title: "There was an error adding your images to the data base \(error.localizedDescription)", message: nil)
@@ -119,6 +136,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         }) { (error) in
             //TODO Handle the errors
         }
+
     }
     
     @objc func cameraButtonPressed() {

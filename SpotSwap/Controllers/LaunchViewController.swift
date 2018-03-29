@@ -9,6 +9,8 @@ class LaunchViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(launchView)
+        launchView.tutorialButton.addTarget(self, action: #selector(tutorialTapped), for: .touchUpInside)
         launchView.loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         launchView.signUpButton.addTarget(self, action: #selector(signupTapped), for: .touchUpInside)
         configureNavBar()
@@ -30,6 +32,13 @@ class LaunchViewController: UIViewController {
     }
     
     //MARK: - Button Actions
+    @objc func tutorialTapped(_ sender: UIButton!) {
+       print("tutorial tapped")
+        let pageVC = PageViewController()
+        //present(pageVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(pageVC, animated: true)
+    }
+    
     @objc func loginTapped(_ sender: UIButton!) {
         print("login tapped!")
         let loginVC = LoginViewController()

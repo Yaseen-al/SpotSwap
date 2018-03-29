@@ -35,14 +35,29 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         return button
     }()
     
-    lazy var appNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "SpotSwap"
-        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold)
-        label.textColor = UIColor.white
-        label.textAlignment = .center
-        return label
+    lazy var logoImage: UIImageView = {
+        let logo = UIImageView()
+        logo.image = UIImage(named: "43iosgroup6logo")
+        logo.contentMode = .scaleAspectFill
+        //style details
+        logo.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        logo.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        logo.layer.shadowOpacity = 1.0
+        logo.layer.shadowRadius = 0.0
+        //        logo.backgroundColor = .yellow
+        logo.clipsToBounds = false
+        logo.layer.masksToBounds = false
+        return logo
     }()
+    
+//    lazy var appNameLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "SpotSwap"
+//        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold)
+//        label.textColor = UIColor.white
+//        label.textAlignment = .center
+//        return label
+//    }()
     
     lazy var appSloganLabel: UILabel = {
         let label = UILabel()
@@ -154,7 +169,8 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Setup Views
 
     private func setupViews() {
-        setupAppLabel()
+        //setupAppLabel()
+        setupLogoImage()
         setupSloganLabel()
         setupProfileImage()
         setupAddImageButton()
@@ -166,19 +182,29 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         setupPasswordLogo()
     }
     
-    private func setupAppLabel() {
-        addSubview(appNameLabel)
-        appNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.06)
+    private func setupLogoImage() {
+        self.addSubview(logoImage)
+        logoImage.snp.makeConstraints { (make) in
+            make.top.equalTo(snp.top).offset(15)
+            make.centerX.equalTo(snp.centerX)
+            make.width.equalTo(snp.width).multipliedBy(0.80)
+            make.height.equalTo(snp.height).multipliedBy(0.10)
         }
     }
+    
+//    private func setupAppLabel() {
+//        addSubview(appNameLabel)
+//        appNameLabel.snp.makeConstraints { (make) in
+//            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+//            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
+//            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.06)
+//        }
+//    }
     
     private func setupSloganLabel() {
         addSubview(appSloganLabel)
         appSloganLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(appNameLabel.snp.bottom).offset(20)
+            make.top.equalTo(logoImage.snp.bottom).offset(20)
             make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
             make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.06)
         }

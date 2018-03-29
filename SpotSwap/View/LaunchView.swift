@@ -6,7 +6,7 @@ class LaunchView: UIView {
     // MARK: - Properties
     lazy var backgroundImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "launchImage ")
+        iv.image = #imageLiteral(resourceName: "parking")
         iv.contentMode = .scaleAspectFill
         return iv
     }()
@@ -33,6 +33,15 @@ class LaunchView: UIView {
         label.textAlignment = .center
         label.numberOfLines = 2
         return label
+    }()
+    
+    lazy var tutorialButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = Stylesheet.Colors.PinkMain
+        button.layer.borderWidth = 1
+        button.layer.borderColor = Stylesheet.Colors.GrayMain.cgColor
+        button.setTitle("Take a look inside", for: .normal)
+        return button
     }()
     
     lazy var loginButton: UIButton = {
@@ -89,9 +98,11 @@ class LaunchView: UIView {
     private func prepareViews() {
         setupImageView()
         setupLogoImage()
+        //setupLogoSubtitleLabel()
+        setupTutorialButton()
         setupLogoSubtitleLabel()
         setupButtonContainerView()
-        setUpLoginButton()
+         setUpLoginButton()
         setUpSignUpButton()
     }
     
@@ -130,6 +141,17 @@ class LaunchView: UIView {
             make.centerX.equalTo(snp.centerX)
         }
     }
+    
+    private func setupTutorialButton() {
+        self.addSubview(tutorialButton)
+        tutorialButton.snp.makeConstraints { (make) in
+            make.width.equalTo(snp.width).multipliedBy(0.50)
+            make.height.equalTo(30)
+            make.centerX.equalTo(snp.centerX)
+            make.bottom.equalTo(snp.bottom).offset(-80)
+        }
+    }
+    
     private func setUpLoginButton() {
         self.addSubview(loginButton)
         loginButton.snp.makeConstraints { (make) in

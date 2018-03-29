@@ -24,6 +24,11 @@ class MapViewController: UIViewController {
         setupDelegates()
         setupServices()
         self.view.backgroundColor = Stylesheet.Colors.GrayMain
+        
+        //delete the below
+        AuthenticationService.manager.signOut { (error) in
+            
+        }
     }
     
     // MARK: - Setup - View/Data

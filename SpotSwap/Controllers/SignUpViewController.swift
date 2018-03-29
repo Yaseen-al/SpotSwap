@@ -22,6 +22,12 @@ class SignUpViewController: UIViewController{
         self.signUpView.signUpViewDelegate = self
         setupNavBar()
         setupSignUpView()
+    }
+    
+    
+    @objc private func dismissKeyboard() {
+        view.endEditing(true)
+        setupSignUpView()
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
         setupImagePicker()
