@@ -1,13 +1,7 @@
 import UIKit
 import SnapKit
 
-<<<<<<< HEAD
-protocol ReserVationDetailViewDelegate: class {
-    func prepareReservationAction()
-}
 
-=======
->>>>>>> qa
 class ReservationDetailView: UIView {
     // MARK: - Properties
     lazy var imageView: UIImageView = {
@@ -47,7 +41,7 @@ class ReservationDetailView: UIView {
         bttn.addTarget(self, action: #selector(prepareReservationAction(_:)), for: .touchUpInside)
         return bttn
     }()
-<<<<<<< HEAD
+
     
     private weak var timer: Timer? = {
         let timer = Timer()
@@ -83,9 +77,7 @@ class ReservationDetailView: UIView {
         }
     }
     
-    weak var delegate: ReserVationDetailViewDelegate?
-=======
->>>>>>> qa
+
     // MARK: - Inits
     init(viewController: UIViewController, vehicleOwner: VehicleOwner, reservation: Reservation) {
         self.init()

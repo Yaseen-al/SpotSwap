@@ -9,6 +9,7 @@ class Spot: NSObject, Codable {
     let longitude: Double
     let latitude: Double
     let timeStamp: String
+    let timeStamp1970: Double
     let duration: String
     func toJSON() -> Any {
         do {
@@ -27,6 +28,7 @@ class Spot: NSObject, Codable {
         self.latitude = location.latitude
         self.duration = DateProvider.randomTimeForSpot()
         self.timeStamp = DateProvider.currentTime()
+        self.timeStamp1970 = DateProvider.currentTimeSince1970()
         self.userUID = AuthenticationService.manager.getCurrentUser()?.uid ?? "NotLoggedIn"
     }
 }

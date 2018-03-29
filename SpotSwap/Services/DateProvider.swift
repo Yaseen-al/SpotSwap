@@ -14,16 +14,14 @@ class DateProvider {
         let timeString = dateFormatter.string(from: date)
         return timeString
     }
-<<<<<<< HEAD
-    
-    static func randomTimeForSpot(_ upperlimit: Int = 5) -> String {
-=======
-    public func currentTimeSince1970()->TimeInterval{
+
+    static func currentTimeSince1970()->TimeInterval{
         let date = Date()
         return date.timeIntervalSince1970
     }
-    public func randomTimeForSpot(_ upperlimit: Int = 5) -> String {
->>>>>>> qa
+        
+    static func randomTimeForSpot(_ upperlimit: Int = 5) -> String {
+
         let seconds = ["05", "15", "30", "45"]
         let randomIndex = Int(arc4random_uniform(4))
         

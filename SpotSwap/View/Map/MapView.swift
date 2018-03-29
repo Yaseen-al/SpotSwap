@@ -13,13 +13,9 @@ protocol ReservationViewDelegate: class {
 class MapView: UIView {
     
     weak var gestureDelegate: MapViewGestureDelegate!
-<<<<<<< HEAD
     weak var calloutDelegate: MapCalloutViewDelegate!
-    
-=======
-    weak var calloutDelegate: ExampleCalloutViewDelegate!
     weak var reservationViewDelegate: ReservationViewDelegate?
->>>>>>> qa
+    
     // MARK: - Properties
     lazy var mapView: MKMapView = {
         let map = MKMapView()
@@ -87,12 +83,8 @@ class MapView: UIView {
         self.init()
         if let mapViewDelegate = viewController as? MKMapViewDelegate,
             let mapViewGestureDelegate = viewController as? MapViewGestureDelegate,
-<<<<<<< HEAD
             let mapViewCalloutDelegate = viewController as? MapCalloutViewDelegate {
-            
-=======
-            let mapViewCalloutDelegate = viewController as? ExampleCalloutViewDelegate {
->>>>>>> qa
+        
             mapView.delegate = mapViewDelegate
             gestureDelegate = mapViewGestureDelegate
             calloutDelegate = mapViewCalloutDelegate
@@ -202,7 +194,18 @@ class MapView: UIView {
         prepareArrivedReservationButton()
         prepareCancelReservaionButton()
     }
-    public func removeReservationView(){
+    
+    public func removeReservationDetailsFromMap() {
+        removeReservationView()
+        removeOverlays()
+    }
+    
+    private func removeOverlays() {
+        let mapOverlays = self.mapView.overlays
+        self.mapView.removeOverlays(mapOverlays)
+    }
+    
+    private func removeReservationView(){
         reservationHeaderView.removeFromSuperview()
         reservationFooterView.removeFromSuperview()
     }
