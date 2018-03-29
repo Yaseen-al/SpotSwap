@@ -8,7 +8,7 @@ class LoginViewController: UIViewController {
 
     
     var keyboardHeight: CGFloat = 0
-    
+
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,11 +40,10 @@ class LoginViewController: UIViewController {
     
     //MARK: - Setup Button Action
     @objc func loginTapped(sender:UIButton!) {
-        guard let emailText = loginView.emailTextField.text, let passwordText = loginView.passwordTextField.text else{
-            //TODO Kaniz handle the errors
+        guard let emailText = loginView.emailTextField.text, let passwordText = loginView.passwordTextField.text, loginView.emailTextField.text != "", loginView.passwordTextField.text != "" else{
+            Alert.present(from: Alert.AlertType.emptyTextFields)
             return
         }
-        print("I've been tapped!")
         //TODO: Call firebase manager to authenticate the user and login
         AuthenticationService.manager.signIn(email: emailText, password: passwordText, completion: { (user) in
             //present alert
@@ -57,7 +56,7 @@ class LoginViewController: UIViewController {
             self.present(alert, animated: true)
             
         }) { (error) in
-            let alert = UIAlertController(title: "Login Error!", message: "\(error)", preferredStyle: .alert)
+            let alert = UIAlertController(title: "Login Error!", message: "\(error.localizedDescription)", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
             self.present(alert, animated: true)
         }

@@ -26,11 +26,12 @@ class LaunchView: UIView {
     }()
     
     lazy var logoSubtitleLabel: UILabel = {
-        let label = UILabel(frame: CGRect(x: 50, y: 50, width: 200, height: 21))
-        label.backgroundColor = .orange
-        label.textColor = .black
+        let label = UILabel()
+        label.text = "Share your parking with people nearby"
+        label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 20)
+        label.textColor = UIColor.white
         label.textAlignment = .center
-        label.text = "Share your parking spot with people nearby"
+        label.numberOfLines = 2
         return label
     }()
     
@@ -46,25 +47,46 @@ class LaunchView: UIView {
     lazy var loginButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Stylesheet.Colors.OrangeMain
-        button.layer.borderWidth = 1
+        button.titleLabel?.font = UIFont(name: Stylesheet.Fonts.Bold, size: 20)
+        button.titleLabel?.textColor = Stylesheet.Colors.LightGray
+        button.titleLabel?.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        button.titleLabel?.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        button.titleLabel?.layer.shadowOpacity = 1.0
         button.layer.borderColor = Stylesheet.Colors.GrayMain.cgColor
+        button.layer.shadowColor = Stylesheet.Colors.GrayMain.cgColor
+        button.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        button.layer.shadowOpacity = 1.0
+        
         button.setTitle("Login", for: .normal)
         return button
     }()
     
     lazy var signUpButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Stylesheet.Colors.OrangeMain
-        button.layer.borderWidth = 1
+        button.backgroundColor = Stylesheet.Colors.PinkMain
+        button.titleLabel?.font = UIFont(name: Stylesheet.Fonts.Bold, size: 20)
+        button.titleLabel?.textColor = Stylesheet.Colors.LightGray
+        button.titleLabel?.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        button.titleLabel?.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        button.titleLabel?.layer.shadowOpacity = 1.0
         button.layer.borderColor = Stylesheet.Colors.GrayMain.cgColor
+        button.layer.shadowColor = Stylesheet.Colors.GrayMain.cgColor
+        button.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        button.layer.shadowOpacity = 1.0
+
         button.setTitle("SignUp", for: .normal)
         return button
     }()
     
+    lazy var buttonContainerView: UIView = {
+        let view = UIView()
+        view.backgroundColor = .white
+        return view
+    }()
     
     // MARK: - Inits
     override init(frame: CGRect) {
-        super.init(frame: UIScreen.main.bounds)
+        super.init(frame: frame)
         prepareViews()
     }
     
@@ -76,8 +98,13 @@ class LaunchView: UIView {
     private func prepareViews() {
         setupImageView()
         setupLogoImage()
+<<<<<<< HEAD
         //setupLogoSubtitleLabel()
         setupTutorialButton()
+=======
+        setupLogoSubtitleLabel()
+        setupButtonContainerView()
+>>>>>>> 9c995c461160f30c173741600e5a8854d88731ee
         setUpLoginButton()
         setUpSignUpButton()
     }
@@ -87,8 +114,6 @@ class LaunchView: UIView {
         self.addSubview(backgroundImageView)
         backgroundImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(snp.edges)
-            //make.top.equalTo(safeAreaLayoutGuide.snp.top)
-            //make.leading.trailing.bottom.equalTo(self)
         }
     }
     
@@ -97,17 +122,29 @@ class LaunchView: UIView {
         logoImage.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
             make.centerY.equalTo(snp.centerY)
-            make.width.equalTo(snp.width).multipliedBy(0.80)
-            make.height.equalTo(snp.height).multipliedBy(0.40)
+            make.width.equalTo(snp.width).multipliedBy(0.85)
+            make.height.equalTo(snp.height).multipliedBy(0.25)
         }
     }
     
     private func setupLogoSubtitleLabel() {
         self.addSubview(logoSubtitleLabel)
         logoSubtitleLabel.snp.makeConstraints { (make) in
+           make.top.equalTo(logoImage.snp.bottom).offset(20)
+            make.centerX.equalTo(snp.centerX)
+            make.width.equalTo(snp.width).multipliedBy(0.90)
+        }
+    }
+    private func setupButtonContainerView(){
+        addSubview(buttonContainerView)
+        buttonContainerView.snp.makeConstraints { (make) in
+            make.bottom.equalTo(snp.bottom)
+            make.width.equalTo(snp.width)
+            make.height.equalTo(snp.height).multipliedBy(0.10)
             make.centerX.equalTo(snp.centerX)
         }
     }
+<<<<<<< HEAD
     
     private func setupTutorialButton() {
         self.addSubview(tutorialButton)
@@ -119,24 +156,25 @@ class LaunchView: UIView {
         }
     }
     
+=======
+>>>>>>> 9c995c461160f30c173741600e5a8854d88731ee
     private func setUpLoginButton() {
         self.addSubview(loginButton)
         loginButton.snp.makeConstraints { (make) in
-            make.width.equalTo(snp.width).multipliedBy(0.50)
-            make.height.equalTo(60)
-            make.left.equalTo(snp.left)
-            make.bottom.equalTo(snp.bottom)
+            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.50)
+            make.height.equalTo(buttonContainerView.snp.height)
+            make.left.equalTo(buttonContainerView.snp.left)
+            make.bottom.equalTo(buttonContainerView.snp.bottom)
             
         }
     }
-    
     private func setUpSignUpButton() {
-        self.addSubview(signUpButton)
+        buttonContainerView.addSubview(signUpButton)
         signUpButton.snp.makeConstraints { (make) in
-            make.width.equalTo(snp.width).multipliedBy(0.50)
-            make.height.equalTo(60)
-            make.right.equalTo(snp.right)
-            make.bottom.equalTo(snp.bottom)
+            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.50)
+            make.height.equalTo(buttonContainerView.snp.height)
+            make.right.equalTo(buttonContainerView.snp.right)
+            make.bottom.equalTo(buttonContainerView.snp.bottom)
         }
     }
     

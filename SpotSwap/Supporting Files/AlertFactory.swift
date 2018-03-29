@@ -13,6 +13,7 @@ extension UIApplication {
 struct Alert {
     enum AlertType {
         case reserveSpotConfirmation
+        case emptyTextFields
     }
     
     let title: String
@@ -31,7 +32,10 @@ struct Alert {
             title = "Swap Spots?"
             message = "Are you sure you want to reserve this Spot?"
             actions = ["YES", "NO"]
-        
+        case .emptyTextFields:
+            title = "Please have a valid entry in the input fields"
+            message = nil
+            actions = ["Ok"]
         }
     }
     
@@ -41,6 +45,15 @@ struct Alert {
         let dismissAlert = UIAlertAction(title: alert.actions.first!, style: .default, handler: nil)
         let actions = [dismissAlert]
         actions.forEach({alertController.addAction($0)})
+        if let topView = UIApplication.getTopViewController() {
+            topView.present(alertController, animated: true, completion: nil)
+        }
+        
+    }
+    static func present(title: String, message: String?) {
+        let alertController = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "Ok", style: .default) {alert in }
+        alertController.addAction(okAction)
         if let topView = UIApplication.getTopViewController() {
             topView.present(alertController, animated: true, completion: nil)
         }

@@ -15,12 +15,18 @@ class LaunchViewController: UIViewController {
         launchView.signUpButton.addTarget(self, action: #selector(signupTapped), for: .touchUpInside)
         configureNavBar()
         view.backgroundColor = .white
+        setupLaunchView()
     }
     
-    func configureNavBar(){
+    private func configureNavBar(){
         self.navigationController?.isNavigationBarHidden = true
     }
-    
+    private func setupLaunchView(){
+        view.addSubview(launchView)
+        launchView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view.snp.edges)
+        }
+    }
     override func viewWillAppear(_ animated: Bool) {
         configureNavBar()
     }
