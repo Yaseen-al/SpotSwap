@@ -7,7 +7,7 @@ class LoginViewController: UIViewController {
     let loginView = LoginView()
     
     var keyboardHeight: CGFloat = 0
-    
+
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
