@@ -40,6 +40,8 @@ class SignUpViewController: UIViewController{
     // MARK: - Setup NavigationBar
     private func setupNavBar() {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(goToNextView))
+        navigationItem.rightBarButtonItem?.tintColor = .white
+        navigationController?.navigationBar.tintColor = .white
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
         navigationController?.navigationBar.shadowImage = UIImage()
