@@ -284,14 +284,14 @@ extension MapViewController: ReservationViewDelegate {
     }
 
     private func reservationCancelationHelper() {
-        let cancelationAlert = UIAlertController(title: "We are sorry for your inconvenience, was there is a propblem with the spot ?", message: nil, preferredStyle: .actionSheet)
+        let cancelationAlert = UIAlertController(title: "Are you sure you want to cancel", message: nil, preferredStyle: .actionSheet)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { (cancelAction) in
             //TODO Handle Flagging
         }
-        let noAction = UIAlertAction(title: "No, everything was ok, but I wan't to cancel", style: .default) { (cancelForNoReason) in
-            self.completeReservation()
+        let noAction = UIAlertAction(title: "No", style: .default) { (cancelForNoReason) in
+//            self.completeReservation()
         }
-        let reportButton = UIAlertAction(title: "Yes, there was a problem with my reservation", style: .destructive) { (reportUserAction) in
+        let reportButton = UIAlertAction(title: "Yes", style: .destructive) { (reportUserAction) in
                         //TODO Handle Flagging
             self.completeReservation()
         }
