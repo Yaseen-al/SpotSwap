@@ -14,7 +14,7 @@ target 'SpotSwap' do
   pod 'Toucan'
   pod 'Kingfisher'
   pod 'ImagePicker'
-  
+  pod 'Pastel'
   target 'SpotSwapTests' do
     inherit! :search_paths
     # Pods for testing

@@ -38,16 +38,15 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .clear
-        view.addSubview(registerCarView)
+        view.backgroundColor = Stylesheet.Colors.GrayMain
         setupNavBar()
+        setupRegisterCarView()
         setupImagePicker()
         configureSimpleInLineSearchTextField()
         registerCarView.tableView.delegate = self
         registerCarView.tableView.dataSource = self
         registerCarView.carMakeTextField.delegate = self
         registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
@@ -58,10 +57,16 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             #selector(goToMapViewController))
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: .default)
     }
-    
+    private func setupRegisterCarView(){
+        view.addSubview(registerCarView)
+        registerCarView.snp.makeConstraints { (make) in
+            make.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+        }
+    }
     private func setupImagePicker() {
         imagePickerController = ImagePickerController()
         registerCarView.cameraButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
+        registerCarView.addImageButton.addTarget(self, action: #selector(cameraButtonPressed), for: .touchUpInside)
         imagePickerController.delegate = self
         imagePickerController.imageLimit = 1
     }
@@ -112,7 +117,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             let mapViewController = ContainerViewController.storyBoardInstance()
             self.present(mapViewController, animated: true, completion: nil)
         }) { (error) in
-            //TODO Handle the errors
+             Alert.present(title: error.localizedDescription, message: nil)
         }
     }
     

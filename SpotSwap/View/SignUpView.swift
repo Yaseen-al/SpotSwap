@@ -67,7 +67,6 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         let iView = UIImageView()
         iView.image = #imageLiteral(resourceName: "user-name white")
         iView.contentMode = .scaleToFill
-//        iView.backgroundColor = .white
         return iView
     }()
     
@@ -85,7 +84,6 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         let iView = UIImageView()
         iView.image = #imageLiteral(resourceName: "envelope white")
         iView.contentMode = .scaleToFill
-//        iView.backgroundColor = .white
         return iView
     }()
     
@@ -101,13 +99,19 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         let iView = UIImageView()
         iView.image = #imageLiteral(resourceName: "password white")
         iView.contentMode = .scaleToFill
-//        iView.backgroundColor = .white
         return iView
     }()
+    lazy var addImageButton: UIButton = {
+        let button = UIButton()
+        button.setImage(#imageLiteral(resourceName: "plus-button"), for: .normal)
+        button.addTarget(self, action: #selector(changeProfileImage), for: .touchUpInside)
+        return button
+    }()
+    
     // MARK: - Delegates
     weak var signUpViewDelegate: SignUpViewDelegate?
+    
     // MARK: - Inits
-
     override init(frame: CGRect) {
         super.init(frame: frame)
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -153,6 +157,7 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         setupAppLabel()
         setupSloganLabel()
         setupProfileImage()
+        setupAddImageButton()
         setupUsernameTF()
         setupUserNameLogo()
         setupEmailTF()
@@ -180,14 +185,21 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
     }
     private func setupProfileImage(){
         addSubview(profileImage)
-        profileImage.snp.makeConstraints { (constraint) in
-            constraint.top.equalTo(appSloganLabel.snp.top).offset(50)
-            constraint.centerX.equalTo(snp.centerX)
-            constraint.width.equalTo(snp.width).multipliedBy(0.40)
-            constraint.height.equalTo(profileImage.snp.width)
+        profileImage.snp.makeConstraints { (make) in
+            make.top.equalTo(appSloganLabel.snp.top).offset(50)
+            make.centerX.equalTo(snp.centerX)
+            make.width.equalTo(snp.width).multipliedBy(0.40)
+            make.height.equalTo(profileImage.snp.width)
         }
     }
-    
+    private func setupAddImageButton(){
+        addSubview(addImageButton)
+        addImageButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(profileImage.snp.right)
+            make.top.equalTo(profileImage.snp.top).offset(5)
+            make.width.height.equalTo(profileImage.snp.width).multipliedBy(0.20)
+        }
+    }
     private func setupUsernameTF() {
         addSubview(usernameTextField)
         usernameTextField.snp.makeConstraints { (make) in
