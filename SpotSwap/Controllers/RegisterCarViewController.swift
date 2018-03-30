@@ -48,7 +48,6 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         registerCarView.carMakeTextField.delegate = self
         registerCarView.dropDownButton.addTarget(self, action: #selector(dropDownList), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
     }
     // MARK: - Setup NavBar and Views
@@ -90,18 +89,19 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             Alert.present(title: "Please select a valid car image, so others will be able to swap easily with you", message: nil)
             return
         }
+
+        let vehicleImageSize: CGSize = CGSize(width: 300, height: 300)
+        guard let tocanVehicleImage = Toucan.Resize.resizeImage(vehicleImage, size: vehicleImageSize) else{
+            Alert.present(title: "There was an error uploading your image please try again", message: nil)
+            return
+        }
         //Compress the images for the storage
         let profileImageSize: CGSize = CGSize(width: 300, height: 300)
         guard let toucanProfileImage = Toucan.Resize.resizeImage(self.profileImage, size: profileImageSize) else{
             Alert.present(title: "error uploading your image please try again", message: nil)
             return
         }
-        let vehicleImageSize: CGSize = CGSize(width: 300, height: 300)
-        guard let tocanVehicleImage = Toucan.Resize.resizeImage(vehicleImage, size: vehicleImageSize) else{
-            Alert.present(title: "There was an error uploading your image please try again", message: nil)
-            return
-        }
-        
+        self.registerCarView.carImageView.image = vehicleImage
         AuthenticationService.manager.createUser(email: email, password: password, completion: { (user) in
             let newCar = Car(carMake: make, carModel: model, carYear: "2018")
             let newVehicleOwner = VehicleOwner(user: user, car: newCar, userName: self.userName)
@@ -114,8 +114,8 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
                 print(#function, error)
                 Alert.present(title: "There was an error adding your images to the data base \(error.localizedDescription)", message: nil)
             })
-            let mapViewController = ContainerViewController.storyBoardInstance()
-            self.present(mapViewController, animated: true, completion: nil)
+//            let mapViewController = ContainerViewController.storyBoardInstance()
+//            self.present(mapViewController, animated: true, completion: nil)
         }) { (error) in
              Alert.present(title: error.localizedDescription, message: nil)
         }
@@ -189,7 +189,6 @@ extension RegisterCarViewController: ImagePickerDelegate {
         guard !images.isEmpty else { return }
         let selectedImage = images.first!
         registerCarView.carImageView.image = selectedImage
-        profileImage = selectedImage
         dismiss(animated: true, completion: nil)
         return
     }
