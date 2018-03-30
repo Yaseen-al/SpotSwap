@@ -11,6 +11,7 @@ class LaunchViewController: UIViewController {
         super.viewDidLoad()
         launchView.loginButton.addTarget(self, action: #selector(loginTapped), for: .touchUpInside)
         launchView.signUpButton.addTarget(self, action: #selector(signupTapped), for: .touchUpInside)
+                launchView.tutorialButton.addTarget(self, action: #selector(tutorialTapped), for: .touchUpInside)
         configureNavBar()
         view.backgroundColor = .white
         setupLaunchView()
@@ -41,23 +42,14 @@ class LaunchViewController: UIViewController {
         let signupVC = SignUpViewController()
         self.navigationController?.pushViewController(signupVC, animated: true)
     }
-    
+    @objc func tutorialTapped(_ sender: UIButton!) {
+        print("tutorial tapped")
+        let pageVC = PageViewController()
+        //present(pageVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(pageVC, animated: true)
+    }
     
 }
-
-//    //MARK: - Segmentor Action
-//    @objc func segmentorTapped(_ sender: UISegmentedControl) {
-//        switch sender.selectedSegmentIndex {
-//        case 0:
-//            let loginVc = LoginViewController()
-//            self.navigationController?.pushViewController(loginVc, animated: true)
-//        default:
-//            break
-//            //TODO: Present signin
-////            let signupVc =
-////            present(SignupViewController, animated: true, completion: nil)
-//        }
-//    }
 
 
 

@@ -13,10 +13,9 @@ class LoginViewController: UIViewController {
         super.viewDidLoad()
         self.loginView.passwordTextField.delegate = self
         self.loginView.emailTextField.delegate = self
+        self.loginView.pastelView.startAnimation()
         setupLoginView()
-        view.backgroundColor = Stylesheet.Colors.OrangeMain
         configureNavBar()
-        view.backgroundColor = Stylesheet.Colors.OrangeMain
         loginView.lowerLoginButton.addTarget(self, action: #selector(loginTapped(sender:)), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
@@ -25,7 +24,7 @@ class LoginViewController: UIViewController {
     func setupLoginView() {
         view.addSubview(loginView)
         loginView.snp.makeConstraints { (constraint) in
-            constraint.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+            constraint.edges.equalTo(view.snp.edges)
         }
     }
     
