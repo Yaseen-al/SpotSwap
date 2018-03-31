@@ -16,7 +16,7 @@ class LoginViewController: UIViewController {
         self.loginView.pastelView.startAnimation()
         setupLoginView()
         configureNavBar()
-        loginView.lowerLoginButton.addTarget(self, action: #selector(loginTapped(sender:)), for: .touchUpInside)
+        loginView.loginButton.addTarget(self, action: #selector(loginTapped(sender:)), for: .touchUpInside)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
     }
@@ -61,25 +61,36 @@ class LoginViewController: UIViewController {
     
     //MARK: - Setup Keyboard Handling
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if keyboardHeight == 0 {
-                keyboardHeight = keyboardSize.height
-            }else{
-                return
-            }
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-                self.view.frame.origin.y -= self.keyboardHeight
-            }, completion: nil)
-        }
+        guard let infoDict = notification.userInfo else { return }
+        guard let rectFrame = infoDict[UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let duration = infoDict[UIKeyboardAnimationDurationUserInfoKey] as? Double else { return }
+        loginView.handleKeyBoard(with: rectFrame, and: duration)
+        
+//        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+//            if keyboardHeight == 0 {
+//                keyboardHeight = keyboardSize.height
+//                        self.loginView.handleKeyBoard(keyBoardHeight: keyboardHeight)
+//            }
+//            else{
+//                return
+//            }
+//            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
+//                self.view.frame.origin.y -= self.keyboardHeight
+//            }, completion: nil)
+//        }
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
-            self.view.frame = self.view.bounds
-        }) { (animated) in
-            self.keyboardHeight = 0
-        }
+        guard let infoDict = notification.userInfo else { return }
+        guard let duration = infoDict[UIKeyboardAnimationDurationUserInfoKey] as? Double else { return }
+        loginView.handleKeyBoard(with: CGRect.zero, and: duration)
+
+
+//        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
+//            self.view.frame = self.view.bounds
+//        }) { (animated) in
+//            self.keyboardHeight = 0
+//        }
     }
 }
 

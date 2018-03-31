@@ -9,19 +9,26 @@ class LoginView: UIView {
         // Custom Direction
         pastelView.startPastelPoint = .bottomLeft
         pastelView.endPastelPoint = .topRight
-        
         // Custom Duration
         pastelView.animationDuration = 3.0
-        
         // Custom Color
-        pastelView.setColors([UIColor(red: 156/255, green: 39/255, blue: 176/255, alpha: 1.0),
-                              UIColor(red: 255/255, green: 64/255, blue: 129/255, alpha: 1.0),
-                              UIColor(red: 123/255, green: 31/255, blue: 162/255, alpha: 1.0),
-                              UIColor(red: 32/255, green: 76/255, blue: 255/255, alpha: 1.0),
-                              UIColor(red: 32/255, green: 158/255, blue: 255/255, alpha: 1.0),
-                              UIColor(red: 90/255, green: 120/255, blue: 127/255, alpha: 1.0),
-                              UIColor(red: 58/255, green: 255/255, blue: 217/255, alpha: 1.0)])
+        pastelView.setColors([Stylesheet.Colors.BlueMain,
+                              Stylesheet.Colors.GrayMain,
+                              Stylesheet.Colors.LightGray,
+                              Stylesheet.Colors.OrangeMain,
+                              Stylesheet.Colors.PinkMain,
+                              Stylesheet.Colors.OrangeMain])
         return pastelView
+    }()
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        //        scrollView.backgroundColor = Stylesheet.Colors.PinkMain
+        return scrollView
+    }()
+    lazy var contentView: UIView = {
+        let view = UIView()
+        //                view.backgroundColor = .white
+        return view
     }()
     lazy var logoImage: UIImageView = {
         let logo = UIImageView()
@@ -80,7 +87,7 @@ class LoginView: UIView {
     }()
     
     
-    lazy var lowerLoginButton: UIButton = {
+    lazy var loginButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
         button.backgroundColor = Stylesheet.Colors.GrayMain
         button.setTitle("Login", for: .normal)
@@ -106,13 +113,15 @@ class LoginView: UIView {
     // MARK: - Setup Views
     private func prepareViews() {
         setupPastelView()
-        setupLogoImage()
-        setupLogoSubtitleLabel()
-        setupEmailTextField()
-        setupEmailLogo()
+        setupScrollView()
+        setupContentView()
+        setupLoginButton()
         setupPasswordTextField()
         setupPasswordLogo()
-        setupLowerLoginButton()
+        setupEmailTextField()
+        setupEmailLogo()
+        setupLogoSubtitleLabel()
+        setupLogoImage()
         
     }
     override func layoutSubviews() {
@@ -129,37 +138,73 @@ class LoginView: UIView {
         //button.titleLabel?.font = button.titleLabel?.font.withSize(12)
         
     }
-    
-    private func setupLogoImage() {
-        self.addSubview(logoImage)
-        logoImage.snp.makeConstraints { (make) in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(15)
-            make.centerX.equalTo(snp.centerX)
-            make.width.equalTo(snp.width).multipliedBy(0.80)
-            make.height.equalTo(snp.height).multipliedBy(0.10)
+    private func setupPastelView() {
+        addSubview(pastelView)
+        pastelView.snp.makeConstraints { (make) in
+            make.edges.equalTo(snp.edges)
+        }
+    }
+    private func setupScrollView() {
+        addSubview(scrollView)
+        scrollView.snp.makeConstraints { (make) in
+            make.edges.equalTo(snp.edges)
         }
     }
     
-    private func setupLogoSubtitleLabel() {
-        addSubview(logoSubtitleLabel)
-        logoSubtitleLabel.snp.makeConstraints { (make) in
-            make.centerX.equalTo(snp.centerX)
-            make.top.equalTo(logoImage.snp.bottom).offset(30)
-            make.width.equalTo(snp.width).multipliedBy(0.85)
+    private func setupContentView(){
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { (make) in
+            make.edges.equalTo(scrollView.snp.edges)
+            make.center.equalTo(scrollView.snp.center)
         }
     }
-    
+    private func setupLoginButton(){
+        contentView.addSubview(loginButton)
+        loginButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(snp.centerX)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-UIScreen.main.bounds.height*0.25)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
+        }
+    }
+    private func setupPasswordTextField() {
+        contentView.addSubview(passwordTextField)
+        passwordTextField.snp.makeConstraints { (make) in
+            make.centerX.equalTo(snp.centerX)
+            make.bottom.equalTo(loginButton.snp.top).offset(-10)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
+            make.height.equalTo(30)        }
+    }
+    private func setupPasswordLogo(){
+        contentView.addSubview(passwordLogo)
+        passwordLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(passwordTextField.snp.centerY)
+            make.right.equalTo(passwordTextField.snp.left).offset(-5)
+            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+        }
+    }
     private func setupEmailTextField() {
-        addSubview(emailTextField)
+        contentView.addSubview(emailTextField)
         emailTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.top.equalTo(logoSubtitleLabel.snp.bottom).offset(120)
+            make.bottom.equalTo(passwordTextField.snp.top).offset(-20)
             make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
             make.height.equalTo(30)
         }
     }
+    
+    
+    private func setupLogoSubtitleLabel() {
+        contentView.addSubview(logoSubtitleLabel)
+        logoSubtitleLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(snp.centerX)
+            make.bottom.equalTo(emailTextField.snp.top).offset(-30)
+            make.width.equalTo(snp.width).multipliedBy(0.85)
+        }
+    }
+    
+    
     private func setupEmailLogo(){
-        addSubview(emailLogo)
+        contentView.addSubview(emailLogo)
         emailLogo.snp.makeConstraints { (make) in
             make.centerY.equalTo(emailTextField.snp.centerY)
             make.right.equalTo(emailTextField.snp.left).offset(-5)
@@ -167,39 +212,31 @@ class LoginView: UIView {
         }
     }
     
-    private func setupPasswordTextField() {
-        addSubview(passwordTextField)
-        passwordTextField.snp.makeConstraints { (make) in
-            make.centerX.equalTo(snp.centerX)
-            make.top.equalTo(emailTextField).offset(70)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
-            make.height.equalTo(30)        }
-    }
-    private func setupPasswordLogo(){
-        addSubview(passwordLogo)
-        passwordLogo.snp.makeConstraints { (make) in
-            make.centerY.equalTo(passwordTextField.snp.centerY)
-            make.right.equalTo(passwordTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+    private func setupLogoImage() {
+        contentView.addSubview(logoImage)
+        logoImage.snp.makeConstraints { (make) in
+            make.bottom.equalTo(logoSubtitleLabel.snp.top).offset(-30)
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.width.equalTo(snp.width).multipliedBy(0.80)
+            make.height.equalTo(snp.height).multipliedBy(0.10)
         }
     }
     
-    private func setupLowerLoginButton(){
-        addSubview(lowerLoginButton)
-        lowerLoginButton.snp.makeConstraints { (make) in
-            make.centerX.equalTo(snp.centerX)
-            make.top.equalTo(passwordTextField.snp.bottom).offset(20)
-            make.width.equalTo(passwordTextField.snp.width)
+    func handleKeyBoard(with rect: CGRect, and animationDuration: Double) {
+        guard rect != CGRect.zero else {
+            scrollView.contentInset = UIEdgeInsets.zero
+            scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+            return
         }
-    }
-    private func setupPastelView() {
-        self.addSubview(pastelView)
-        pastelView.snp.makeConstraints { (make) in
-            make.width.equalTo(snp.width)
-            make.height.equalTo(snp.height)
-            make.centerX.equalTo(snp.centerX)
-            make.centerY.equalTo(snp.centerY)
-        }
+        let hiddenAreaRect = rect.intersection(scrollView.bounds)
+        let contentInsets = UIEdgeInsets(top: 0.0, left: 0.0, bottom: hiddenAreaRect.height, right: 0.0)
+        scrollView.contentInset = contentInsets
+        scrollView.scrollIndicatorInsets = contentInsets
+        
+        var buttonRect = loginButton.frame
+        buttonRect = scrollView.convert(buttonRect, from: loginButton.superview)
+        buttonRect = buttonRect.insetBy(dx: 0.0, dy: -10)
+        scrollView.scrollRectToVisible(buttonRect, animated: true)
     }
     
 }
