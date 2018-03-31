@@ -8,15 +8,25 @@
 
 import UIKit
 import SnapKit
-
+import Pastel
 class RegisterCarView: UIView {
-    var height = NSLayoutConstraint()
-    lazy var cameraButton: UIButton = {
-        var button = UIButton()
-        button.contentMode = .scaleAspectFill
-        return button
-    }()
     
+    lazy var pastelView: PastelView = {
+        let pastelView = PastelView()
+        // Custom Direction
+        pastelView.startPastelPoint = .bottomLeft
+        pastelView.endPastelPoint = .topRight
+        // Custom Duration
+        pastelView.animationDuration = 3.0
+        // Custom Color
+        pastelView.setColors([Stylesheet.Colors.BlueMain,
+                              Stylesheet.Colors.GrayMain,
+                              Stylesheet.Colors.LightGray,
+                              Stylesheet.Colors.OrangeMain,
+                              Stylesheet.Colors.PinkMain,
+                              Stylesheet.Colors.OrangeMain])
+        return pastelView
+    }()
     lazy var carImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "defaultVehicleImage")
@@ -25,69 +35,38 @@ class RegisterCarView: UIView {
         return imageView
     }()
     
-    
     lazy var makeLabel: UILabel = {
         let label = UILabel()
         label.text = "Make"
-        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold)
+        label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 25)
         label.textColor = UIColor.white
         label.textAlignment = .center
         return label
     }()
-    
-    lazy var carMakeTextField: SearchTextField = {
-        let textField = SearchTextField()
-        textField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
-        textField.placeholder = " Enter car make"
-        textField.borderStyle = .none
-        textField.backgroundColor = .white
-        textField.autocorrectionType = .no
-        textField.borderStyle = .roundedRect
-        textField.autocapitalizationType = .none
-        return textField
+    lazy var makesPickerView: UIPickerView = {
+        let picker = UIPickerView()
+        picker.tag = 0
+        return picker
     }()
+    
     
     lazy var modelLabel: UILabel = {
         let label = UILabel()
         label.text = "Model"
-        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold)
+        label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 25)
         label.textColor = UIColor.white
         label.textAlignment = .center
         return label
     }()
     
-    lazy var carModelTextField: UITextField = {
-        let textField = UITextField()
-        textField.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
-        textField.placeholder = "Select Model"
-        textField.layer.cornerRadius = 5
-        textField.borderStyle = .roundedRect
-        textField.autocorrectionType = .no
-        textField.autocapitalizationType = .none
-        return textField
+    lazy var modelsPickerView: UIPickerView = {
+        let picker = UIPickerView()
+        picker.tag = 1
+        return picker
     }()
     
-    lazy var dropDownButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .white
-        //        button.layer.cornerRadius = 5
-        button.setTitle("  Select model", for: .normal)
-        button.setTitleColor(Stylesheet.Colors.LightGray, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.medium)
-        return button
-    }()
     
-    lazy var dropDownView: UIView = {
-        let drpDwnVw = UIView()
-        return drpDwnVw
-    }()
     
-    //    TableView
-    lazy var tableView: UITableView = {
-        let tv = UITableView()
-        tv.backgroundColor = Stylesheet.Colors.PinkMain
-        return tv
-    }()
     lazy var addImageButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "plus-button"), for: .normal)
@@ -96,20 +75,13 @@ class RegisterCarView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
-        superview?.bringSubview(toFront: dropDownView)
+        setupViews()
         
     }
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
-        commonInit()
+        
     }
-    
-    private func commonInit() {
-        backgroundColor = Stylesheet.Colors.GrayMain
-        setupViews()
-    }
-    
     
     override func layoutSubviews() {
         // here you get the actual frame size of the elements before getting
@@ -119,108 +91,34 @@ class RegisterCarView: UIView {
         carImageView.layer.masksToBounds = true
         carImageView.layer.borderColor = Stylesheet.Colors.OrangeMain.cgColor
         carImageView.layer.borderWidth = 4
-        dropDownButton.contentHorizontalAlignment = .left
     }
     
     private func setupViews() {
+        setupPastelView()
         setupCarImage()
-        setupCameraButton()
-        setupMakeLabel()
-        setupMakeTF()
-        setupModelLabel()
-        setupDropDownButton()
-        setupDropDownView()
-        setupTableView()
         setupAddImageButton()
+        setupMakeLabel()
+        setupMakePickerView()
+        setupModelLabel()
+        setupModelPickerView()
+        
     }
-    
+    private func setupPastelView() {
+        addSubview(pastelView)
+        pastelView.snp.makeConstraints { (make) in
+            make.edges.equalTo(snp.edges)
+        }
+    }
     private func setupCarImage() {
         addSubview(carImageView)
         carImageView.snp.makeConstraints { (make) in
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(30)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.40)
+            make.centerX.equalTo(snp.centerX)
+            make.width.equalTo(snp.width).multipliedBy(0.40)
             make.height.equalTo(carImageView.snp.width)
         }
     }
     
-    private func setupCameraButton() {
-        addSubview(cameraButton)
-        cameraButton.snp.makeConstraints { (make) in
-            make.top.equalTo(carImageView.snp.top)
-            make.centerX.equalTo(carImageView.snp.centerX)
-            make.width.equalTo(carImageView.snp.width)
-            make.height.equalTo(carImageView.snp.width)
-        }
-        
-    }
-    
-    private func setupMakeLabel() {
-        addSubview(makeLabel)
-        makeLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(carImageView.snp.bottom).offset(20)
-            make.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(40)
-        }
-    }
-    
-    private func setupMakeTF() {
-        addSubview(carMakeTextField)
-        carMakeTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(makeLabel.snp.bottom).offset(5)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
-        }
-    }
-    
-    private func setupDropDownButton() {
-        addSubview(dropDownButton)
-        dropDownButton.snp.makeConstraints { (make) in
-            make.top.equalTo(modelLabel.snp.bottom).offset(5)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
-        }
-    }
-    
-    private func setupModelLabel() {
-        addSubview(modelLabel)
-        modelLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(carMakeTextField.snp.bottom).offset(10)
-            make.leading.equalTo(safeAreaLayoutGuide.snp.leading).offset(40)
-        }
-    }
-    
-    private func setupModelTF() {
-        addSubview(carModelTextField)
-        carModelTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(modelLabel.snp.bottom).offset(5)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
-        }
-    }
-    
-    private func setupDropDownView() {
-        addSubview(dropDownView)
-        dropDownView.snp.makeConstraints { (make) in
-            make.top.equalTo(dropDownButton.snp.bottom)
-            make.width.equalTo(dropDownButton.snp.width)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            height = dropDownView.heightAnchor.constraint(equalToConstant: 0)
-        }
-    }
-    
-    private func setupTableView() {
-        addSubview(tableView)
-        tableView.snp.makeConstraints { (make) -> Void in
-            make.top.equalTo(dropDownView.snp.top)
-            make.leading.equalTo(dropDownView.snp.leading)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.trailing.equalTo(dropDownView.snp.trailing)
-            make.bottom.equalTo(dropDownView.snp.bottom)
-        }
-    }
     private func setupAddImageButton(){
         addSubview(addImageButton)
         addImageButton.snp.makeConstraints { (make) in
@@ -229,6 +127,46 @@ class RegisterCarView: UIView {
             make.width.height.equalTo(carImageView.snp.width).multipliedBy(0.20)
         }
     }
+    
+    private func setupMakeLabel() {
+        addSubview(makeLabel)
+        makeLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(carImageView.snp.bottom).offset(20)
+            make.left.equalTo(snp.left).offset(40)
+        }
+    }
+    private func setupMakePickerView(){
+        addSubview(makesPickerView)
+        makesPickerView.snp.makeConstraints { (make) in
+            make.top.equalTo(makeLabel.snp.bottom).offset(10)
+            make.width.equalTo(snp.width).multipliedBy(0.85)
+            make.height.equalTo(snp.height).multipliedBy(0.15)
+            make.centerX.equalTo(snp.centerX)
+        }
+    }
+    private func setupModelLabel() {
+        addSubview(modelLabel)
+        modelLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(makesPickerView.snp.bottom).offset(20)
+            make.left.equalTo(snp.left).offset(40)
+        }
+    }
+    private func setupModelPickerView(){
+        addSubview(modelsPickerView)
+        modelsPickerView.snp.makeConstraints { (make) in
+            make.centerX.equalTo(snp.centerX)
+            make.top.equalTo(modelLabel.snp.bottom).offset(10)
+            make.width.equalTo(snp.width).multipliedBy(0.85)
+            make.height.equalTo(snp.height).multipliedBy(0.15)
+        }
+    }
+    
+    
+    
+    
+    
+    
+    
     
 }
 

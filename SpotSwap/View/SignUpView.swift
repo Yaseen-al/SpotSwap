@@ -12,6 +12,7 @@ import Pastel
 protocol SignUpViewDelegate: class {
     func dismissKeyBoard()
     func profileImageTapGesture()
+    func nextButton()
 }
 class SignUpView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Properties
@@ -148,6 +149,7 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         button.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
         button.layer.shadowOpacity = 1.0
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(nextButtonClicked), for: .touchUpInside)
         return button
     }()
     
@@ -334,6 +336,9 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
     }
     @objc private func changeProfileImage() {
         signUpViewDelegate?.profileImageTapGesture()
+    }
+    @objc private func nextButtonClicked() {
+        signUpViewDelegate?.nextButton()
     }
     func handleKeyBoard(with rect: CGRect, and animationDuration: Double) {
         guard rect != CGRect.zero else {

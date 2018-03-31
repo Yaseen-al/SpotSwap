@@ -1,7 +1,11 @@
 import UIKit
 import SnapKit
 import Pastel
-class LoginView: UIView {
+protocol SignInViewDelegate: class {
+    func dismissKeyBoard()
+    func loginButtonClicked()
+}
+class LoginView: UIView, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
     lazy var pastelView: PastelView = {
@@ -95,14 +99,17 @@ class LoginView: UIView {
         button.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
         button.layer.shadowOpacity = 1.0
         button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(loginTapped(_:)), for: .touchUpInside)
         return button
     }()
-    
+    // MARK: - Delegates
+    weak var signInViewDelegate: SignInViewDelegate?
     
     // MARK: - Inits
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = Stylesheet.Colors.OrangeMain
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        addGestureRecognizer(tapGesture)
         prepareViews()
     }
     
@@ -222,6 +229,15 @@ class LoginView: UIView {
         }
     }
     
+    
+    // MARK: Actions
+    @objc private func dismissKeyboard() {
+        signInViewDelegate?.dismissKeyBoard()
+    }
+    
+    @objc func loginTapped(_ sender:UIButton){
+        signInViewDelegate?.loginButtonClicked()
+    }
     func handleKeyBoard(with rect: CGRect, and animationDuration: Double) {
         guard rect != CGRect.zero else {
             scrollView.contentInset = UIEdgeInsets.zero

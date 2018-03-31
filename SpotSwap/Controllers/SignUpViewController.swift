@@ -115,6 +115,9 @@ extension SignUpViewController: UIImagePickerControllerDelegate, ImagePickerDele
 
 //MARK: SignUpViewDelegate
 extension SignUpViewController: SignUpViewDelegate{
+    func nextButton() {
+        goToNextView()
+    }
     func profileImageTapGesture() {
         print("ProfileImage gesture fired")
         //        open up camera and photo gallery
