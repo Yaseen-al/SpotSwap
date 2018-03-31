@@ -84,7 +84,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     
     
     @objc private func goToMapViewController() {
-        guard let make = carDict["Honda"]?.first, let model = carDict["Honda"]?.first else {
+        guard selectedCarMake != "", selectedModel != "" else {
             Alert.present(title: "Please enter a valid car make and model", message: nil)
             return
         }
@@ -107,7 +107,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         }
         self.registerCarView.carImageView.image = vehicleImage
         AuthenticationService.manager.createUser(email: email, password: password, completion: { (user) in
-            let newCar = Car(carMake: make, carModel: model, carYear: "2018")
+            let newCar = Car(carMake: self.selectedCarMake, carModel: self.selectedCarMake, carYear: "2018")
             let newVehicleOwner = VehicleOwner(user: user, car: newCar, userName: self.userName)
             DataBaseService.manager.addNewVehicleOwner(vehicleOwner: newVehicleOwner, userID: user.uid)
             StorageService.manager.storeImage(imageType: .vehicleOwner, uid: user.uid, image: toucanProfileImage, errorHandler: { (error) in
