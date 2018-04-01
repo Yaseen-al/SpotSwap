@@ -213,7 +213,7 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         setupProfileImage()
         setupAddImageButton()
         setupLogoSubtitleLabel()
-//        setupLogoImage()
+        setupLogoImage()
     }
     private func setupPastelView() {
         addSubview(pastelView)
@@ -239,7 +239,7 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         contentView.addSubview(lowerNextButton)
         lowerNextButton.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.bottom.equalTo(contentView.snp.bottom).offset(-UIScreen.main.bounds.height*0.10)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-UIScreen.main.bounds.height*0.20)
             make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
         }
     }
@@ -247,7 +247,7 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.bottom.equalTo(lowerNextButton.snp.top).offset(-10)
+            make.bottom.equalTo(lowerNextButton.snp.top).offset(-5)
             make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
             make.height.equalTo(30)
         }
@@ -256,14 +256,14 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         addSubview(passwordLogo)
         passwordLogo.snp.makeConstraints { (make) in
             make.centerY.equalTo(passwordTextField.snp.centerY)
-            make.right.equalTo(passwordTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+            make.right.equalTo(passwordTextField.snp.left).offset(-10)
+            make.width.height.equalTo(passwordTextField.snp.height)
         }
     }
     private func setupEmailTF() {
         addSubview(emailTextField)
         emailTextField.snp.makeConstraints { (make) in
-            make.bottom.equalTo(passwordTextField.snp.top).offset(-30)
+            make.bottom.equalTo(passwordTextField.snp.top).offset(-10)
             make.centerX.equalTo(contentView.snp.centerX)
             make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
             make.height.equalTo(30)
@@ -273,14 +273,14 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         addSubview(emailLogo)
         emailLogo.snp.makeConstraints { (make) in
             make.centerY.equalTo(emailTextField.snp.centerY)
-            make.right.equalTo(emailTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+            make.right.equalTo(emailTextField.snp.left).offset(-10)
+            make.width.height.equalTo(emailTextField.snp.height)
         }
     }
     private func setupUsernameTF() {
         addSubview(usernameTextField)
         usernameTextField.snp.makeConstraints { (make) in
-            make.bottom.equalTo(emailTextField.snp.top).offset(-30)
+            make.bottom.equalTo(emailTextField.snp.top).offset(-10)
             make.centerX.equalTo(contentView.snp.centerX)
             make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
             make.height.equalTo(30)
@@ -290,14 +290,14 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         addSubview(userNameLogo)
         userNameLogo.snp.makeConstraints { (make) in
             make.centerY.equalTo(usernameTextField.snp.centerY)
-            make.right.equalTo(usernameTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+            make.right.equalTo(usernameTextField.snp.left).offset(-10)
+            make.width.height.equalTo(usernameTextField.snp.height)
         }
     }
     private func setupProfileImage(){
         addSubview(profileImage)
         profileImage.snp.makeConstraints { (make) in
-            make.bottom.equalTo(usernameTextField.snp.top).offset(-50)
+            make.bottom.equalTo(usernameTextField.snp.top).offset(-25)
             make.centerX.equalTo(snp.centerX)
             make.width.equalTo(snp.width).multipliedBy(0.40)
             make.height.equalTo(profileImage.snp.width)

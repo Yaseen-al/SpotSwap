@@ -9,7 +9,10 @@
 import UIKit
 import SnapKit
 import Pastel
-class RegisterCarView: UIView {
+protocol RegisterCarViewDelegate: class {
+    func changeCarImage()
+}
+class RegisterCarView: UIView, UIGestureRecognizerDelegate {
     
     lazy var pastelView: PastelView = {
         let pastelView = PastelView()
@@ -32,6 +35,10 @@ class RegisterCarView: UIView {
         imageView.image = #imageLiteral(resourceName: "defaultVehicleImage")
         imageView.backgroundColor = .white
         imageView.contentMode = .scaleAspectFill
+        let tabGesture = UITapGestureRecognizer(target: self, action: #selector(changeCarImage))
+        tabGesture.delegate = self
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(tabGesture)
         return imageView
     }()
     
@@ -70,6 +77,7 @@ class RegisterCarView: UIView {
     lazy var addImageButton: UIButton = {
         let button = UIButton()
         button.setImage(#imageLiteral(resourceName: "plus-button"), for: .normal)
+        button.addTarget(self, action: #selector(changeCarImage), for: .touchUpInside)
         return button
     }()
     
@@ -82,6 +90,9 @@ class RegisterCarView: UIView {
         super.init(coder: aDecoder)
         
     }
+    //MARK: - Delegates
+    weak var delegate: RegisterCarViewDelegate?
+    
     
     override func layoutSubviews() {
         // here you get the actual frame size of the elements before getting
@@ -89,7 +100,7 @@ class RegisterCarView: UIView {
         super.layoutSubviews()
         carImageView.layer.cornerRadius = carImageView.bounds.width/2.0
         carImageView.layer.masksToBounds = true
-        carImageView.layer.borderColor = Stylesheet.Colors.OrangeMain.cgColor
+        carImageView.layer.borderColor = Stylesheet.Colors.White.cgColor
         carImageView.layer.borderWidth = 4
     }
     
@@ -161,11 +172,10 @@ class RegisterCarView: UIView {
         }
     }
     
-    
-    
-    
-    
-    
+    //MARK: - Actions
+    @objc func changeCarImage(){
+        self.delegate?.changeCarImage()
+    }
     
     
 }

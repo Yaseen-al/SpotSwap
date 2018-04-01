@@ -24,8 +24,11 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
     private var selectedModel = ""
     private var carDict = [String:[String]](){
         didSet{
-            self.selectedModel = "Mercedes-Benz"
             self.registerCarView.makesPickerView.reloadAllComponents()
+            guard carDict.count > 0 else{ return }
+            let carDictKeys = Array(carDict.keys)
+            self.registerCarView.makesPickerView.selectRow(carDictKeys.count/2, inComponent: 0, animated: true)
+            self.selectedCarMake = carDictKeys[carDictKeys.count/2]
         }
     }
 
@@ -50,7 +53,9 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         loadCarMakes()
         setupRegisterCarView()
         loadCarMakes()
+        setupImagePicker()
         registerCarView.pastelView.startAnimation()
+        registerCarView.delegate = self
         registerCarView.modelsPickerView.dataSource = self
         registerCarView.makesPickerView.dataSource = self
         registerCarView.modelsPickerView.delegate = self
@@ -68,7 +73,11 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
             make.edges.equalTo(view.snp.edges)
         }
     }
-
+    private func setupImagePicker() {
+        imagePickerController = ImagePickerController()
+        imagePickerController.delegate = self
+        imagePickerController.imageLimit = 1
+    }
     // MARK: - Private functions
     func loadCarMakes(){
         DataBaseService.manager.retrieveAllCarMakes(completion: { (carmakesModelsDict) in
@@ -207,6 +216,14 @@ extension RegisterCarViewController: ImagePickerDelegate {
         return
     }
 
+}
+//MARK: - RegisterCarView Delegate
+extension RegisterCarViewController: RegisterCarViewDelegate{
+    func changeCarImage() {
+        cameraButtonPressed()
+    }
+    
+    
 }
 
 

@@ -64,7 +64,7 @@ class SignUpViewController: UIViewController{
             Alert.present(title: "Please enter a valid email", message: nil)
             return
         }
-        guard let image = signUpView.profileImage.image, signUpView.profileImage.image != #imageLiteral(resourceName: "defaultProfileImage") else{
+        guard let image = signUpView.profileImage.image else{
             Alert.present(title: "Please select a valid picture", message: nil)
             return
         }

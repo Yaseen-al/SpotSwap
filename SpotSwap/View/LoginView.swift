@@ -186,15 +186,15 @@ class LoginView: UIView, UIGestureRecognizerDelegate {
         passwordLogo.snp.makeConstraints { (make) in
             make.centerY.equalTo(passwordTextField.snp.centerY)
             make.right.equalTo(passwordTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+            make.width.height.equalTo(passwordTextField.snp.height)
         }
     }
     private func setupEmailTextField() {
         contentView.addSubview(emailTextField)
         emailTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.bottom.equalTo(passwordTextField.snp.top).offset(-20)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
+            make.bottom.equalTo(passwordTextField.snp.top).offset(-10)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
             make.height.equalTo(30)
         }
     }
@@ -204,7 +204,7 @@ class LoginView: UIView, UIGestureRecognizerDelegate {
         contentView.addSubview(logoSubtitleLabel)
         logoSubtitleLabel.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.bottom.equalTo(emailTextField.snp.top).offset(-30)
+            make.bottom.equalTo(emailTextField.snp.top).offset(-UIScreen.main.bounds.height*0.15)
             make.width.equalTo(snp.width).multipliedBy(0.85)
         }
     }
@@ -215,7 +215,7 @@ class LoginView: UIView, UIGestureRecognizerDelegate {
         emailLogo.snp.makeConstraints { (make) in
             make.centerY.equalTo(emailTextField.snp.centerY)
             make.right.equalTo(emailTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+            make.width.height.equalTo(emailTextField.snp.height)
         }
     }
     
