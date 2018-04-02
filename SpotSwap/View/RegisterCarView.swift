@@ -44,7 +44,7 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
     
     lazy var makeLabel: UILabel = {
         let label = UILabel()
-        label.text = "Make"
+        label.text = "Select Make"
         label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 25)
         label.textColor = UIColor.white
         label.textAlignment = .center
@@ -59,7 +59,7 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
     
     lazy var modelLabel: UILabel = {
         let label = UILabel()
-        label.text = "Model"
+        label.text = "Select Model"
         label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 25)
         label.textColor = UIColor.white
         label.textAlignment = .center
@@ -71,7 +71,19 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
         picker.tag = 1
         return picker
     }()
-    
+    lazy var yearLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Select Year"
+        label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 25)
+        label.textColor = UIColor.white
+        label.textAlignment = .center
+        return label
+    }()
+    lazy var yearPickerView: UIPickerView = {
+        let picker = UIPickerView()
+        picker.tag = 2
+        return picker
+    }()
     
     
     lazy var addImageButton: UIButton = {
@@ -112,6 +124,8 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
         setupMakePickerView()
         setupModelLabel()
         setupModelPickerView()
+        setupYearLabel()
+        setupYearPickerView()
         
     }
     private func setupPastelView() {
@@ -123,7 +137,7 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
     private func setupCarImage() {
         addSubview(carImageView)
         carImageView.snp.makeConstraints { (make) in
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(30)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(20)
             make.centerX.equalTo(snp.centerX)
             make.width.equalTo(snp.width).multipliedBy(0.40)
             make.height.equalTo(carImageView.snp.width)
@@ -142,14 +156,14 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
     private func setupMakeLabel() {
         addSubview(makeLabel)
         makeLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(carImageView.snp.bottom).offset(20)
+            make.top.equalTo(carImageView.snp.bottom).offset(10)
             make.left.equalTo(snp.left).offset(40)
         }
     }
     private func setupMakePickerView(){
         addSubview(makesPickerView)
         makesPickerView.snp.makeConstraints { (make) in
-            make.top.equalTo(makeLabel.snp.bottom).offset(10)
+            make.top.equalTo(makeLabel.snp.bottom)
             make.width.equalTo(snp.width).multipliedBy(0.85)
             make.height.equalTo(snp.height).multipliedBy(0.15)
             make.centerX.equalTo(snp.centerX)
@@ -158,7 +172,7 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
     private func setupModelLabel() {
         addSubview(modelLabel)
         modelLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(makesPickerView.snp.bottom).offset(20)
+            make.top.equalTo(makesPickerView.snp.bottom)
             make.left.equalTo(snp.left).offset(40)
         }
     }
@@ -166,7 +180,23 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
         addSubview(modelsPickerView)
         modelsPickerView.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.top.equalTo(modelLabel.snp.bottom).offset(10)
+            make.top.equalTo(modelLabel.snp.bottom)
+            make.width.equalTo(snp.width).multipliedBy(0.85)
+            make.height.equalTo(snp.height).multipliedBy(0.15)
+        }
+    }
+    private func setupYearLabel() {
+        addSubview(yearLabel)
+        yearLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(modelsPickerView.snp.bottom)
+            make.left.equalTo(snp.left).offset(40)
+        }
+    }
+    private func setupYearPickerView(){
+        addSubview(yearPickerView)
+        yearPickerView.snp.makeConstraints { (make) in
+            make.centerX.equalTo(snp.centerX)
+            make.top.equalTo(yearLabel.snp.bottom)
             make.width.equalTo(snp.width).multipliedBy(0.85)
             make.height.equalTo(snp.height).multipliedBy(0.15)
         }
