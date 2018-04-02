@@ -112,7 +112,7 @@ class RegisterCarView: UIView, UIGestureRecognizerDelegate {
         super.layoutSubviews()
         carImageView.layer.cornerRadius = carImageView.bounds.width/2.0
         carImageView.layer.masksToBounds = true
-        carImageView.layer.borderColor = Stylesheet.Colors.White.cgColor
+        carImageView.layer.borderColor = Stylesheet.Colors.PinkMain.cgColor
         carImageView.layer.borderWidth = 4
     }
     
