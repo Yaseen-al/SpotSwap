@@ -3,12 +3,7 @@ import UIKit
 
 class WalkthroughViewController: UIViewController {
     
-    //TODO: Make dots clickable
-    
-    //view instance
-    let walkthroughView = WalkthroughView()
-    
-    let launchVC = LaunchViewController()
+     let walkthroughView = WalkthroughView()
     
     //MARK - Data model for each walkthrough screen
     var index = 0 //the current page index
@@ -16,9 +11,6 @@ class WalkthroughViewController: UIViewController {
 //    var imageName = ""
 //    var descriptionText = ""
 //    var imageView: UIImageView!
-    
-    //
-    
     
     //just to make sure the status bar is white
     func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -37,6 +29,7 @@ class WalkthroughViewController: UIViewController {
         
         walkthroughView.startButton.addTarget(self, action: #selector(startTapped), for: .touchUpInside)
         walkthroughView.nextButton.addTarget(self, action: #selector(nextTapped), for: .touchUpInside)
+        walkthroughView.exitButton.addTarget(self, action: #selector(startTapped(_:)), for: .touchUpInside)
     }
     
     func setupWalkthroughView(){
@@ -47,11 +40,9 @@ class WalkthroughViewController: UIViewController {
     }
     
     @objc func startTapped(_ sender: UIButton!) {
-
             navigationController?.popViewController(animated: true)
 
     }
-    
     //If the user clicks the next button, we will show the next page view controller
     @objc func nextTapped(sender: AnyObject) {
         let pageViewController = self.parent as! PageViewController //@28:43

@@ -1,13 +1,24 @@
 import UIKit
 import SnapKit
-
+import Pastel
 class LaunchView: UIView {
    // MARK: - Properties
     lazy var backgroundImageView: UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "launchImage ")
+        iv.image = #imageLiteral(resourceName: "trafficLowExposure")
         iv.contentMode = .scaleAspectFill
         return iv
+    }()
+    lazy var layerMask: PastelView = {
+        let pastelView = PastelView(frame: frame)
+        pastelView.layer.opacity = 0.25
+        pastelView.startPastelPoint = .topRight
+        pastelView.endPastelPoint = .bottomLeft
+        pastelView.animationDuration = 2.0
+        pastelView.setColors([Stylesheet.Colors.GrayMain,
+                              UIColor.black,
+                              Stylesheet.Colors.LightGray,])
+        return pastelView
     }()
     
     lazy var logoImage: UIImageView = {
@@ -36,13 +47,16 @@ class LaunchView: UIView {
     
     lazy var tutorialButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = Stylesheet.Colors.PinkMain
-        button.layer.borderWidth = 1
-        button.layer.borderColor = Stylesheet.Colors.GrayMain.cgColor
-        button.setTitle("Take a look inside", for: .normal)
+        button.setImage(#imageLiteral(resourceName: "tutorialButton"), for: .normal)
         return button
     }()
-    
+    lazy var tutorialLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Tutorial"
+        label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 14)
+        label.textColor = Stylesheet.Colors.White
+        return label
+    }()
     lazy var loginButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = Stylesheet.Colors.OrangeMain
@@ -99,10 +113,12 @@ class LaunchView: UIView {
         setupLogoImage()
         //setupLogoSubtitleLabel()
         setupTutorialButton()
+        setupTutorialLabel()
         setupLogoSubtitleLabel()
         setupButtonContainerView()
          setUpLoginButton()
         setUpSignUpButton()
+        setupLayerMask()
     }
     
     
@@ -144,13 +160,19 @@ class LaunchView: UIView {
     private func setupTutorialButton() {
         self.addSubview(tutorialButton)
         tutorialButton.snp.makeConstraints { (make) in
-            make.width.equalTo(snp.width).multipliedBy(0.50)
-            make.height.equalTo(30)
-            make.centerX.equalTo(snp.centerX)
-            make.bottom.equalTo(snp.bottom).offset(-80)
+            make.width.height.equalTo(40)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(10)
+            make.right.equalTo(snp.right).offset(-10)
         }
     }
-    
+    private func setupTutorialLabel(){
+        addSubview(tutorialLabel)
+        tutorialLabel.snp.makeConstraints { (make) in
+            make.right.equalTo(tutorialButton.snp.left).offset(-5)
+            make.width.height.equalTo(50)
+            make.centerY.equalTo(tutorialButton.snp.centerY)
+        }
+    }
     private func setUpLoginButton() {
         self.addSubview(loginButton)
         loginButton.snp.makeConstraints { (make) in
@@ -170,6 +192,14 @@ class LaunchView: UIView {
             make.bottom.equalTo(buttonContainerView.snp.bottom)
         }
     }
+    private func setupLayerMask(){
+        backgroundImageView.addSubview(layerMask)
+        layerMask.snp.makeConstraints { (make) in
+            make.edges.equalTo(backgroundImageView.snp.edges)
+        }
+        layerMask.startAnimation()
+    }
+    
     
 }
 

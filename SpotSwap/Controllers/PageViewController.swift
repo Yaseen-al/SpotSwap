@@ -3,16 +3,16 @@ import UIKit
 
 class PageViewController: UIPageViewController {
     
-    let walkthroughVC = WalkthroughViewController()
+    private let walkthroughVC = WalkthroughViewController()
     
     //some hard coded data for our walkthrough screens
     var pageHeaders = ["Reserve a parking spot", "Offer a parking spot", "Earn points!", "Find a spot!"]
     var pageImages: [UIImage] = [
         #imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone"),#imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone")
     ]
-    var pageDescriptions = ["On the map, tap the space you would like to reserve", "Once you're ready to leave your parking spot, swipe the leaving button", "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", ""]
+    private var pageDescriptions = ["On the map, tap the space you would like to reserve", "Once you're ready to leave your parking spot, swipe the leaving button", "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", ""]
     
-    var colors = [UIColor.red, UIColor.blue, UIColor.orange]
+    private var colors = [UIColor.red, UIColor.blue, UIColor.orange]
     
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -68,19 +68,15 @@ class PageViewController: UIPageViewController {
 extension PageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        
         var index = (viewController as! WalkthroughViewController).index
         index -= 1
-        
         return self.viewControllerAtIndex(index: index)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        
         var index = (viewController as! WalkthroughViewController).index //@14:38
         index += 1
         return viewControllerAtIndex(index: index)//self.viewControllers?.index(of: index)
-        
     }
     
 }
