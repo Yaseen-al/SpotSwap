@@ -2,7 +2,7 @@ import UIKit
 import SnapKit
 import Pastel
 class LaunchView: UIView {
-   // MARK: - Properties
+    // MARK: - Properties
     lazy var backgroundImageView: UIImageView = {
         let iv = UIImageView()
         iv.image = #imageLiteral(resourceName: "trafficLowExposure")
@@ -11,13 +11,15 @@ class LaunchView: UIView {
     }()
     lazy var layerMask: PastelView = {
         let pastelView = PastelView(frame: frame)
-        pastelView.layer.opacity = 0.25
+        pastelView.layer.opacity = 0.50
         pastelView.startPastelPoint = .topRight
         pastelView.endPastelPoint = .bottomLeft
-        pastelView.animationDuration = 2.0
+        pastelView.animationDuration = 3.0
         pastelView.setColors([Stylesheet.Colors.GrayMain,
                               UIColor.black,
-                              Stylesheet.Colors.LightGray,])
+                              Stylesheet.Colors.LightGray,
+                              UIColor.black,
+                              Stylesheet.Colors.GrayMain,])
         return pastelView
     }()
     
@@ -86,14 +88,13 @@ class LaunchView: UIView {
         button.layer.shadowColor = Stylesheet.Colors.GrayMain.cgColor
         button.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
         button.layer.shadowOpacity = 1.0
-
+        
         button.setTitle("SignUp", for: .normal)
         return button
     }()
     
     lazy var buttonContainerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
         return view
     }()
     
@@ -102,27 +103,31 @@ class LaunchView: UIView {
         super.init(frame: frame)
         prepareViews()
     }
-    
+    override func layoutSubviews() {
+        loginButton.layer.cornerRadius = 5
+        signUpButton.layer.cornerRadius = 5
+        
+    }
     required init?(coder aDecoder: NSCoder) {
         fatalError()
     }
     
     // MARK: - Setup Views
     private func prepareViews() {
-        setupImageView()
+        setupBackgroundImageView()
         setupLogoImage()
         //setupLogoSubtitleLabel()
         setupTutorialButton()
         setupTutorialLabel()
-        setupLogoSubtitleLabel()
+        //        setupLogoSubtitleLabel()
         setupButtonContainerView()
-         setUpLoginButton()
+        setUpLoginButton()
         setUpSignUpButton()
         setupLayerMask()
     }
     
     
-    private func setupImageView() {
+    private func setupBackgroundImageView() {
         self.addSubview(backgroundImageView)
         backgroundImageView.snp.makeConstraints { (make) in
             make.edges.equalTo(snp.edges)
@@ -132,17 +137,17 @@ class LaunchView: UIView {
     private func setupLogoImage() {
         self.addSubview(logoImage)
         logoImage.snp.makeConstraints { (make) in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(UIScreen.main.bounds.height*0.20)
             make.centerX.equalTo(snp.centerX)
-            make.centerY.equalTo(snp.centerY)
             make.width.equalTo(snp.width).multipliedBy(0.85)
-            make.height.equalTo(snp.height).multipliedBy(0.25)
+            make.height.equalTo(snp.height).multipliedBy(0.45)
         }
     }
     
     private func setupLogoSubtitleLabel() {
         self.addSubview(logoSubtitleLabel)
         logoSubtitleLabel.snp.makeConstraints { (make) in
-           make.top.equalTo(logoImage.snp.bottom).offset(20)
+            make.top.equalTo(logoImage.snp.bottom).offset(20)
             make.centerX.equalTo(snp.centerX)
             make.width.equalTo(snp.width).multipliedBy(0.90)
         }
@@ -176,20 +181,20 @@ class LaunchView: UIView {
     private func setUpLoginButton() {
         self.addSubview(loginButton)
         loginButton.snp.makeConstraints { (make) in
-            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.50)
-            make.height.equalTo(buttonContainerView.snp.height)
-            make.left.equalTo(buttonContainerView.snp.left)
-            make.bottom.equalTo(buttonContainerView.snp.bottom)
+            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.45)
+            make.height.equalTo(buttonContainerView.snp.height).multipliedBy(0.90)
+            make.right.equalTo(buttonContainerView.snp.centerX).offset(-5)
+            make.centerY.equalTo(buttonContainerView.snp.centerY)
             
         }
     }
     private func setUpSignUpButton() {
         buttonContainerView.addSubview(signUpButton)
         signUpButton.snp.makeConstraints { (make) in
-            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.50)
-            make.height.equalTo(buttonContainerView.snp.height)
-            make.right.equalTo(buttonContainerView.snp.right)
-            make.bottom.equalTo(buttonContainerView.snp.bottom)
+            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.45)
+            make.height.equalTo(buttonContainerView.snp.height).multipliedBy(0.90)
+            make.left.equalTo(buttonContainerView.snp.centerX).offset(5)
+            make.centerY.equalTo(buttonContainerView.snp.centerY)
         }
     }
     private func setupLayerMask(){

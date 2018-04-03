@@ -24,7 +24,6 @@ class PageViewController: UIPageViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = Stylesheet.Colors.GrayMain
-        
         self.dataSource = self
         self.delegate = self
         //create the first walkthrough VC
@@ -44,7 +43,8 @@ class PageViewController: UIPageViewController {
     private func viewControllerAtIndex(index: Int) -> WalkthroughViewController? {
         guard index < walkthroughs.count else {return nil}
         guard index >= 0 else {
-            return WalkthroughViewController(walkthrough: walkthroughs[0])
+            guard let firstWalkthrough = walkthroughs.first else{return nil}
+            return WalkthroughViewController(walkthrough: firstWalkthrough)
         }
         return  WalkthroughViewController(walkthrough: walkthroughs[index])
         
@@ -60,7 +60,6 @@ extension PageViewController: UIPageViewControllerDataSource {
         guard let walkthroughViewController =  viewController as? WalkthroughViewController else{return nil}
         var index = walkthroughViewController.walkthrough.pageControlIndex
         index -= 1
-        
         return self.viewControllerAtIndex(index: index)
     }
     
