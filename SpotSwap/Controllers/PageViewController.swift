@@ -3,16 +3,15 @@ import UIKit
 
 class PageViewController: UIPageViewController {
     
-    private let walkthroughVC = WalkthroughViewController()
-    
     //some hard coded data for our walkthrough screens
-    var pageHeaders = ["Reserve a parking spot", "Offer a parking spot", "Earn points!", "Find a spot!"]
-    var pageImages: [UIImage] = [
-        #imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone"),#imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone")
+    var walkthroughs = [Walkthrough(headerLabelText: "Reserve a parking spot", descriptionText: "On the map, tap the space you would like to reserve", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 0, isLastWalkthrough: false),
+                        Walkthrough(headerLabelText: "Offer a parking spot", descriptionText: "Once you're ready to leave your parking spot, swipe the leaving button", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 1, isLastWalkthrough: false),
+                        Walkthrough(headerLabelText: "Earn points!", descriptionText: "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 2, isLastWalkthrough: false),
+                        Walkthrough(headerLabelText: "Find a spot!", descriptionText: "", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 3, isLastWalkthrough: true)
     ]
-    private var pageDescriptions = ["On the map, tap the space you would like to reserve", "Once you're ready to leave your parking spot, swipe the leaving button", "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", ""]
     
-    private var colors = [UIColor.red, UIColor.blue, UIColor.orange]
+    
+    //    private var colors = [UIColor.red, UIColor.blue, UIColor.orange]
     
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -24,13 +23,10 @@ class PageViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = Stylesheet.Colors.GrayMain
-        //view.backgroundColor = .green// for testing
         
-        //this class is the page view controller's data source itself
         self.dataSource = self
-        
+        self.delegate = self
         //create the first walkthrough VC
         if let startWalkthroughVC = self.viewControllerAtIndex(index: 0) {
             setViewControllers([startWalkthroughVC], direction: .forward, animated: true, completion: nil)
@@ -38,27 +34,20 @@ class PageViewController: UIPageViewController {
     }
     
     //MARK - Navigate
-    func nextPageWithIndex(index: Int) {
+    public func nextPageWithIndex(index: Int) {
         //if we do have the next page ...
         if let nextWalkthroughVC = self.viewControllerAtIndex(index: index + 1) {
             setViewControllers([nextWalkthroughVC], direction: .forward, animated: true, completion: nil)
         }
     }
     
-    func viewControllerAtIndex(index: Int) -> WalkthroughViewController? {
-        if index == NSNotFound || index < 0 || index >= self.pageDescriptions.count {
-            return nil
+    private func viewControllerAtIndex(index: Int) -> WalkthroughViewController? {
+        guard index < walkthroughs.count else {return nil}
+        guard index >= 0 else {
+            return WalkthroughViewController(walkthrough: walkthroughs[0])
         }
+        return  WalkthroughViewController(walkthrough: walkthroughs[index])
         
-        //TODO:Change to dependency injection?
-        let walkthroughVC = WalkthroughViewController()
-        walkthroughVC.walkthroughView.headerLabel.text = pageHeaders[index]
-        walkthroughVC.walkthroughView.descriptionLabel.text = pageDescriptions[index]
-        walkthroughVC.index = index
-        walkthroughVC.walkthroughView.tutorialImageView.image = pageImages[index]
-        //walkthroughVC.view.backgroundColor = colors[index] //for testing
-        
-        return walkthroughVC
     }
     
 }
@@ -68,13 +57,16 @@ class PageViewController: UIPageViewController {
 extension PageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        var index = (viewController as! WalkthroughViewController).index
+        guard let walkthroughViewController =  viewController as? WalkthroughViewController else{return nil}
+        var index = walkthroughViewController.walkthrough.pageControlIndex
         index -= 1
+        
         return self.viewControllerAtIndex(index: index)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        var index = (viewController as! WalkthroughViewController).index //@14:38
+        guard let walkthroughViewController =  viewController as? WalkthroughViewController else{return nil}
+        var index = walkthroughViewController.walkthrough.pageControlIndex
         index += 1
         return viewControllerAtIndex(index: index)//self.viewControllers?.index(of: index)
     }
@@ -86,12 +78,12 @@ extension PageViewController: UIPageViewControllerDelegate {
     
     func tutorialPageViewController(tutorialPageViewController: PageViewController,
                                     didUpdatePageCount count: Int) {
-        walkthroughVC.walkthroughView.pageControl.numberOfPages = count
+        //        walkthroughVC.walkthroughView.pageControl.numberOfPages = count
     }
     
     func tutorialPageViewController(tutorialPageViewController: PageViewController,
                                     didUpdatePageIndex index: Int) {
-        walkthroughVC.walkthroughView.pageControl.currentPage = index
+        //        walkthroughVC.walkthroughView.pageControl.currentPage = index
     }
     
     

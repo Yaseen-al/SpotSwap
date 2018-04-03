@@ -33,6 +33,7 @@
 		1F7A31D320597CB100A25693 /* CarMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D220597CB100A25693 /* CarMake.swift */; };
 		1F9A92D020636D0000A9FEFC /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A92CF20636D0000A9FEFC /* StorageService.swift */; };
 		1F9A92D220636D3D00A9FEFC /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A92D120636D3D00A9FEFC /* ImageHelper.swift */; };
+		1FCB9C6A2073D02A00CB6AAA /* Walkthrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB9C692073D02A00CB6AAA /* Walkthrough.swift */; };
 		1FE59562206A8DE600D4FEB7 /* ContainerStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FE59561206A8DE600D4FEB7 /* ContainerStoryBoard.storyboard */; };
 		1FE59564206A8DFD00D4FEB7 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE59563206A8DFD00D4FEB7 /* ContainerViewController.swift */; };
 		1FE59566206A913A00D4FEB7 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE59565206A913A00D4FEB7 /* MenuViewController.swift */; };
@@ -117,6 +118,7 @@
 		1F7A31D220597CB100A25693 /* CarMake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMake.swift; sourceTree = "<group>"; };
 		1F9A92CF20636D0000A9FEFC /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		1F9A92D120636D3D00A9FEFC /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
+		1FCB9C692073D02A00CB6AAA /* Walkthrough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Walkthrough.swift; sourceTree = "<group>"; };
 		1FE59561206A8DE600D4FEB7 /* ContainerStoryBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ContainerStoryBoard.storyboard; sourceTree = "<group>"; };
 		1FE59563206A8DFD00D4FEB7 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
 		1FE59565206A913A00D4FEB7 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
@@ -350,6 +352,7 @@
 				1F467B1920598D4E00598418 /* Car.swift */,
 				1F467B21205AE02800598418 /* Spot.swift */,
 				C4F8A4AD205C3D85001A746A /* Coord.swift */,
+				1FCB9C692073D02A00CB6AAA /* Walkthrough.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -713,6 +716,7 @@
 				C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */,
 				C4EBA3D42069825B003E0660 /* AlertFactory.swift in Sources */,
 				81AEA975205FBE870081FD81 /* SignUpViewController.swift in Sources */,
+				1FCB9C6A2073D02A00CB6AAA /* Walkthrough.swift in Sources */,
 				C4C29B53205C3C4700C25344 /* UIColor+Hex.swift in Sources */,
 				81AEA977205FFC430081FD81 /* RegisterCarViewController.swift in Sources */,
 				81AEF330206DCDEC002B6F3F /* PageViewController.swift in Sources */,

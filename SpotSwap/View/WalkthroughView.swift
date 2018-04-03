@@ -59,9 +59,7 @@ class WalkthroughView: UIView {
         let button = UIButton()
         button.setTitle("Next", for: .normal)
         button.backgroundColor = nil
-        //button.setTitleColor(UIColor.white, for: UIControlState.highlighted)
         button.setTitleColor(.white, for: .normal)
-//        button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
         button.titleLabel?.textAlignment = .center
         return button
     }()
@@ -97,14 +95,12 @@ class WalkthroughView: UIView {
     
     // MARK: - Setup Views
     private func prepareMainView() {
-        setupNextButton()
         setupExitButton()
         setupImageView()
         setupBottomView()
         setupBottomHeaderLabel()
         setupBottomDescriptionLabel()
         setupPageControl()
-        setupStartButton()
     }
     
     private func setupBottomView() {
@@ -173,11 +169,22 @@ class WalkthroughView: UIView {
     private func setupStartButton() {
         self.addSubview(startButton)
         startButton.snp.makeConstraints { (make) in
-            make.width.equalTo(bottomView.snp.width).multipliedBy(0.80)
-            make.height.equalTo(60)
-            make.centerX.equalTo(bottomView.snp.centerX)
-            make.centerY.equalTo(bottomView.snp.centerY)
+            make.top.equalTo(pageControl.snp.bottom).offset(5)
+            make.centerX.equalTo(snp.centerX)
+            make.width.equalTo(bottomView.snp.width).multipliedBy(0.65)
+            make.height.equalTo(45)
         }
+    }
+    public func setupWalkthrough(walkThrough: Walkthrough){
+        self.headerLabel.text = walkThrough.headerLabelText
+        self.descriptionLabel.text = walkThrough.descriptionText
+        self.tutorialImageView.image = walkThrough.tutorialImage
+        self.pageControl.currentPage = walkThrough.pageControlIndex
+        guard walkThrough.isLastWalkthrough else {
+            setupNextButton()
+            return
+        }
+        setupStartButton()
     }
 
     
