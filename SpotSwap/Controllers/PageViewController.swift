@@ -42,10 +42,7 @@ class PageViewController: UIPageViewController {
     
     private func viewControllerAtIndex(index: Int) -> WalkthroughViewController? {
         guard index < walkthroughs.count else {return nil}
-        guard index >= 0 else {
-            guard let firstWalkthrough = walkthroughs.first else{return nil}
-            return WalkthroughViewController(walkthrough: firstWalkthrough)
-        }
+        guard index >= 0 else {return nil}
         return  WalkthroughViewController(walkthrough: walkthroughs[index])
         
     }

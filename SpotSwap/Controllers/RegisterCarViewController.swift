@@ -28,10 +28,10 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         didSet{
             self.registerCarView.makesPickerView.reloadAllComponents()
             guard carDict.count > 0 else{ return }
-            let carDictKeys = Array(carDict.keys)
+            let carDictKeys = Array(carDict.keys.sorted())
             self.registerCarView.makesPickerView.selectRow(carDictKeys.count/2, inComponent: 0, animated: true)
             self.selectedCarMake = carDictKeys[carDictKeys.count/2]
-            guard let defaultModel = carDict[selectedCarMake]?.first else{return}
+            guard let defaultModel = carDict[selectedCarMake]?.sorted().first else{return}
             self.selectedModel = defaultModel
         }
     }
@@ -171,26 +171,26 @@ extension RegisterCarViewController: UIPickerViewDataSource{
             return yearsSince1919.count
         }
     }
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        switch pickerView.tag {
-        case 0:
-            let arrayOfCarMakesNames = Array(carDict.keys)
-            return arrayOfCarMakesNames[row]
-        case 1:
-            guard let carModels = carDict[selectedCarMake]  else{return "BMX"}
-            return carModels[row]
-        default:
-            return yearsSince1919[row]
-        }
-    }
+//    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+//        switch pickerView.tag {
+//        case 0:
+//            let arrayOfCarMakesNames = Array(carDict.keys)
+//            return arrayOfCarMakesNames[row]
+//        case 1:
+//            guard let carModels = carDict[selectedCarMake]  else{return "BMX"}
+//            return carModels[row]
+//        default:
+//            return yearsSince1919[row]
+//        }
+//    }
     func pickerView(_ pickerView: UIPickerView, attributedTitleForRow row: Int, forComponent component: Int) -> NSAttributedString? {
         switch pickerView.tag {
         case 0:
-            let arrayOfCarMakesNames = Array(carDict.keys)
+            let arrayOfCarMakesNames = Array(carDict.keys.sorted())
             let attributedString = NSAttributedString(string: arrayOfCarMakesNames[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
             return attributedString
         case 1:
-            guard let carModels = carDict[selectedCarMake]  else {return nil}
+            guard let carModels = carDict[selectedCarMake]?.sorted()  else {return nil}
             let attributedString = NSAttributedString(string: carModels[row], attributes: [NSAttributedStringKey.foregroundColor : UIColor.white])
             return attributedString
         case 2:
@@ -205,10 +205,10 @@ extension RegisterCarViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         switch pickerView.tag {
         case 0:
-            self.selectedCarMake = Array(carDict.keys)[row]
+            self.selectedCarMake = Array(carDict.keys.sorted())[row]
             pickerView.view(forRow: row, forComponent: component)?.backgroundColor = .white
         case 1:
-            guard let carModels = carDict[selectedCarMake]  else{return}
+            guard let carModels = carDict[selectedCarMake]?.sorted()  else{return}
             self.selectedModel = carModels[row]
         case 2:
             self.vehicleYear = yearsSince1919[row]

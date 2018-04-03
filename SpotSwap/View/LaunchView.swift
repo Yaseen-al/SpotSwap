@@ -181,7 +181,7 @@ class LaunchView: UIView {
     private func setUpLoginButton() {
         self.addSubview(loginButton)
         loginButton.snp.makeConstraints { (make) in
-            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.45)
+            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.48)
             make.height.equalTo(buttonContainerView.snp.height).multipliedBy(0.90)
             make.right.equalTo(buttonContainerView.snp.centerX).offset(-5)
             make.centerY.equalTo(buttonContainerView.snp.centerY)
@@ -191,7 +191,7 @@ class LaunchView: UIView {
     private func setUpSignUpButton() {
         buttonContainerView.addSubview(signUpButton)
         signUpButton.snp.makeConstraints { (make) in
-            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.45)
+            make.width.equalTo(buttonContainerView.snp.width).multipliedBy(0.48)
             make.height.equalTo(buttonContainerView.snp.height).multipliedBy(0.90)
             make.left.equalTo(buttonContainerView.snp.centerX).offset(5)
             make.centerY.equalTo(buttonContainerView.snp.centerY)
