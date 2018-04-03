@@ -17,17 +17,19 @@ class WalkthroughView: UIView {
     
     lazy var headerLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 40)//boldSystemFont(ofSize: 24)
+        label.numberOfLines = 2
+        label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 20)
+        label.textColor = Stylesheet.Colors.White
         return label
     }()
     
     lazy var descriptionLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
-        label.font = UIFont(name: Stylesheet.Fonts.Regular, size: 15)
+        label.font = UIFont(name: Stylesheet.Fonts.Regular, size: 14)
         label.textAlignment = .center
+        label.textColor = Stylesheet.Colors.White
         return label
     }()
     
