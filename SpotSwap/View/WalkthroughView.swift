@@ -1,7 +1,6 @@
 
 import UIKit
 import SnapKit
-
 class WalkthroughView: UIView {
     // MARK: - Properties
     lazy var mainContentView:UIView = {
