@@ -1,12 +1,12 @@
 import Foundation
 
 class DateProvider {
-//    static let manager = DateProvider()
+    //    static let manager = DateProvider()
     static let dateFormatter = DateFormatter()
     
-//    private init() {
-//        dateFormatter = DateFormatter()
-//    }
+    //    private init() {
+    //        dateFormatter = DateFormatter()
+    //    }
     static let expirationTime: TimeInterval = 120
     static public func currentTime() -> String {
         let date = Date()
@@ -14,14 +14,28 @@ class DateProvider {
         let timeString = dateFormatter.string(from: date)
         return timeString
     }
-
+    static public func yearsSince1919() -> [String]{
+        let date = Date()
+        dateFormatter.dateFormat = "yyyy"
+        let currentYearString = dateFormatter.string(from: date)
+        guard var startingYear = Int(currentYearString) else{
+            return [""]
+        }
+        var yearsSince1919 = [String]()
+        while startingYear != 1919 {
+            yearsSince1919.append(String(startingYear))
+            startingYear -= 1
+        }
+        return yearsSince1919
+    }
+    
     static func currentTimeSince1970()->TimeInterval{
         let date = Date()
         return date.timeIntervalSince1970
     }
-        
+    
     static func randomTimeForSpot(_ upperlimit: Int = 5) -> String {
-
+        
         let seconds = ["05", "15", "30", "45"]
         let randomIndex = Int(arc4random_uniform(4))
         

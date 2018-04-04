@@ -8,12 +8,40 @@
 
 import UIKit
 import SnapKit
+import Pastel
 protocol SignUpViewDelegate: class {
     func dismissKeyBoard()
     func profileImageTapGesture()
+    func nextButton()
 }
 class SignUpView: UIView, UIGestureRecognizerDelegate {
     // MARK: - Properties
+    lazy var pastelView: PastelView = {
+        let pastelView = PastelView(frame: frame)
+        // Custom Direction
+        pastelView.startPastelPoint = .bottomLeft
+        pastelView.endPastelPoint = .topRight
+        // Custom Duration
+        pastelView.animationDuration = 3.0
+        // Custom Color
+        pastelView.setColors([Stylesheet.Colors.BlueMain,
+                              Stylesheet.Colors.GrayMain,
+                              Stylesheet.Colors.LightGray,
+                              Stylesheet.Colors.OrangeMain,
+                              Stylesheet.Colors.PinkMain,
+                              Stylesheet.Colors.OrangeMain])
+        return pastelView
+    }()
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        //        scrollView.backgroundColor = Stylesheet.Colors.PinkMain
+        return scrollView
+    }()
+    lazy var contentView: UIView = {
+        let view = UIView()
+        //                view.backgroundColor = .white
+        return view
+    }()
     lazy var profileImage: UIImageView = {
         let imageView = UIImageView()
         imageView.image = #imageLiteral(resourceName: "defaultProfileImage")
@@ -35,21 +63,27 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         return button
     }()
     
-    lazy var appNameLabel: UILabel = {
-        let label = UILabel()
-        label.text = "SpotSwap"
-        label.font = UIFont.systemFont(ofSize: 30, weight: UIFont.Weight.bold)
-        label.textColor = UIColor.white
-        label.textAlignment = .center
-        return label
+    lazy var logoImage: UIImageView = {
+        let logo = UIImageView()
+        logo.image = UIImage(named: "43iosgroup6logo")
+        logo.contentMode = .scaleAspectFill
+        //style details
+        logo.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        logo.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        logo.layer.shadowOpacity = 1.0
+        logo.layer.shadowRadius = 0.0
+        //        logo.backgroundColor = .yellow
+        logo.clipsToBounds = false
+        logo.layer.masksToBounds = false
+        return logo
     }()
     
-    lazy var appSloganLabel: UILabel = {
+    lazy var logoSubtitleLabel: UILabel = {
         let label = UILabel()
-        label.text = "Share your parking with people nearby"
-        label.font = UIFont.systemFont(ofSize: 15, weight: UIFont.Weight.light)
-        label.textColor = UIColor.white
+        label.textColor = .white
         label.textAlignment = .center
+        label.text = "Share your parking spot with people nearby"
+        label.numberOfLines = 2
         return label
     }()
     
@@ -107,6 +141,18 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         button.addTarget(self, action: #selector(changeProfileImage), for: .touchUpInside)
         return button
     }()
+    lazy var lowerNextButton: UIButton = {
+        let button = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
+        button.backgroundColor = Stylesheet.Colors.GrayMain
+        button.setTitle("Next", for: .normal)
+        button.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
+        button.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
+        button.layer.shadowOpacity = 1.0
+        button.layer.cornerRadius = 5
+        button.addTarget(self, action: #selector(nextButtonClicked), for: .touchUpInside)
+        return button
+    }()
+    
     
     // MARK: - Delegates
     weak var signUpViewDelegate: SignUpViewDelegate?
@@ -130,7 +176,7 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
     }
     
     // MARK: - LayoutSubViews
-
+    
     override func layoutSubviews() {
         // here you get the actual frame size of the elements before getting laid out on screen
         super.layoutSubviews()
@@ -152,41 +198,106 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
         profileImage.layer.borderWidth = 4
     }
     // MARK: - Setup Views
-
+    
     private func setupViews() {
-        setupAppLabel()
-        setupSloganLabel()
-        setupProfileImage()
-        setupAddImageButton()
-        setupUsernameTF()
-        setupUserNameLogo()
-        setupEmailTF()
-        setupEmailLogo()
+        setupPastelView()
+        setupScrollView()
+        setupContentView()
+        setupLowerNextButton()
         setupPasswordTF()
         setupPasswordLogo()
+        setupEmailTF()
+        setupEmailLogo()
+        setupUsernameTF()
+        setupUserNameLogo()
+        setupProfileImage()
+        setupAddImageButton()
+        setupLogoSubtitleLabel()
+        setupLogoImage()
     }
-    
-    private func setupAppLabel() {
-        addSubview(appNameLabel)
-        appNameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.06)
+    private func setupPastelView() {
+        addSubview(pastelView)
+        pastelView.snp.makeConstraints { (make) in
+            make.edges.equalTo(snp.edges)
+        }
+    }
+    private func setupScrollView() {
+        addSubview(scrollView)
+        scrollView.snp.makeConstraints { (make) in
+            make.edges.equalTo(snp.edges)
         }
     }
     
-    private func setupSloganLabel() {
-        addSubview(appSloganLabel)
-        appSloganLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(appNameLabel.snp.bottom).offset(20)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.06)
+    private func setupContentView(){
+        scrollView.addSubview(contentView)
+        contentView.snp.makeConstraints { (make) in
+            make.edges.equalTo(scrollView.snp.edges)
+            make.center.equalTo(scrollView.snp.center)
+        }
+    }
+    private func setupLowerNextButton(){
+        contentView.addSubview(lowerNextButton)
+        lowerNextButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(snp.centerX)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-UIScreen.main.bounds.height*0.20)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
+        }
+    }
+    private func setupPasswordTF() {
+        addSubview(passwordTextField)
+        passwordTextField.snp.makeConstraints { (make) in
+            make.centerX.equalTo(snp.centerX)
+            make.bottom.equalTo(lowerNextButton.snp.top).offset(-5)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
+            make.height.equalTo(30)
+        }
+    }
+    private func setupPasswordLogo(){
+        addSubview(passwordLogo)
+        passwordLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(passwordTextField.snp.centerY)
+            make.right.equalTo(passwordTextField.snp.left).offset(-10)
+            make.width.height.equalTo(passwordTextField.snp.height)
+        }
+    }
+    private func setupEmailTF() {
+        addSubview(emailTextField)
+        emailTextField.snp.makeConstraints { (make) in
+            make.bottom.equalTo(passwordTextField.snp.top).offset(-10)
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
+            make.height.equalTo(30)
+        }
+    }
+    private func setupEmailLogo(){
+        addSubview(emailLogo)
+        emailLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(emailTextField.snp.centerY)
+            make.right.equalTo(emailTextField.snp.left).offset(-10)
+            make.width.height.equalTo(emailTextField.snp.height)
+        }
+    }
+    private func setupUsernameTF() {
+        addSubview(usernameTextField)
+        usernameTextField.snp.makeConstraints { (make) in
+            make.bottom.equalTo(emailTextField.snp.top).offset(-10)
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
+            make.height.equalTo(30)
+        }
+    }
+    private func setupUserNameLogo(){
+        addSubview(userNameLogo)
+        userNameLogo.snp.makeConstraints { (make) in
+            make.centerY.equalTo(usernameTextField.snp.centerY)
+            make.right.equalTo(usernameTextField.snp.left).offset(-10)
+            make.width.height.equalTo(usernameTextField.snp.height)
         }
     }
     private func setupProfileImage(){
         addSubview(profileImage)
         profileImage.snp.makeConstraints { (make) in
-            make.top.equalTo(appSloganLabel.snp.top).offset(50)
+            make.bottom.equalTo(usernameTextField.snp.top).offset(-25)
             make.centerX.equalTo(snp.centerX)
             make.width.equalTo(snp.width).multipliedBy(0.40)
             make.height.equalTo(profileImage.snp.width)
@@ -200,66 +311,63 @@ class SignUpView: UIView, UIGestureRecognizerDelegate {
             make.width.height.equalTo(profileImage.snp.width).multipliedBy(0.20)
         }
     }
-    private func setupUsernameTF() {
-        addSubview(usernameTextField)
-        usernameTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(profileImage.snp.bottom).offset(40)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
-        }
-    }
-    private func setupUserNameLogo(){
-        addSubview(userNameLogo)
-        userNameLogo.snp.makeConstraints { (make) in
-            make.centerY.equalTo(usernameTextField.snp.centerY)
-            make.right.equalTo(usernameTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+    private func setupLogoSubtitleLabel() {
+        contentView.addSubview(logoSubtitleLabel)
+        logoSubtitleLabel.snp.makeConstraints { (make) in
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.bottom.equalTo(profileImage.snp.top).offset(-30)
+            make.width.equalTo(snp.width).multipliedBy(0.85)
         }
     }
     
-    private func setupEmailTF() {
-        addSubview(emailTextField)
-        emailTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(usernameTextField.snp.bottom).offset(30)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
-        }
-    }
-    private func setupEmailLogo(){
-        addSubview(emailLogo)
-        emailLogo.snp.makeConstraints { (make) in
-            make.centerY.equalTo(emailTextField.snp.centerY)
-            make.right.equalTo(emailTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
-        }
-    }
-    private func setupPasswordTF() {
-        addSubview(passwordTextField)
-        passwordTextField.snp.makeConstraints { (make) in
-            make.top.equalTo(emailTextField.snp.bottom).offset(30)
-            make.centerX.equalTo(safeAreaLayoutGuide.snp.centerX)
-            make.width.equalTo(safeAreaLayoutGuide.snp.width).multipliedBy(0.6)
-            make.height.equalTo(safeAreaLayoutGuide.snp.height).multipliedBy(0.05)
-        }
-    }
-    private func setupPasswordLogo(){
-        addSubview(passwordLogo)
-        passwordLogo.snp.makeConstraints { (make) in
-            make.centerY.equalTo(passwordTextField.snp.centerY)
-            make.right.equalTo(passwordTextField.snp.left).offset(-5)
-            make.width.height.equalTo(snp.width).multipliedBy(0.08)
+    private func setupLogoImage() {
+        contentView.addSubview(logoImage)
+        logoImage.snp.makeConstraints { (make) in
+            make.bottom.equalTo(logoSubtitleLabel.snp.top).offset(-10)
+            make.centerX.equalTo(contentView.snp.centerX)
+            make.width.equalTo(snp.width).multipliedBy(0.80)
+            make.height.equalTo(snp.height).multipliedBy(0.10)
         }
     }
     
     //MARK: Actions
     @objc private func dismissKeyboard() {
-       signUpViewDelegate?.dismissKeyBoard()
+        signUpViewDelegate?.dismissKeyBoard()
     }
     @objc private func changeProfileImage() {
         signUpViewDelegate?.profileImageTapGesture()
     }
-
+    @objc private func nextButtonClicked() {
+        signUpViewDelegate?.nextButton()
+    }
+    func handleKeyBoard(with rect: CGRect, and animationDuration: Double) {
+        guard rect != CGRect.zero else {
+            scrollView.contentInset = UIEdgeInsets.zero
+            scrollView.scrollIndicatorInsets = UIEdgeInsets.zero
+            return
+        }
+        // this will get the hidden area by the keyboard which is the intersection of the scroll view and the keyboard
+        let hiddenAreaRec = rect.intersection(scrollView.bounds)
+        // this will make an inset of the scrollView depending on the keyboard hight
+        let contentInset = UIEdgeInsets(top: 0.0, left: 0.0, bottom: hiddenAreaRec.height, right: 0.0)
+        // this will update the content inset of the scroll view to accomodate the keyboard
+        scrollView.contentInset = contentInset
+        scrollView.scrollIndicatorInsets = contentInset
+        // this will move the next button up when the keyboard will come up
+        var buttonRect = lowerNextButton.frame
+        buttonRect = scrollView.convert(buttonRect, from: lowerNextButton.superview)
+        buttonRect = buttonRect.insetBy(dx: 0.0, dy: -10)
+        scrollView.scrollRectToVisible(buttonRect, animated: true)
+        
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
 }
