@@ -13,7 +13,8 @@ target 'SpotSwap' do
   pod 'Firebase/Storage'
   pod 'Toucan'
   pod 'Kingfisher'
-  
+  pod 'ImagePicker'
+  pod 'Pastel'
   target 'SpotSwapTests' do
     inherit! :search_paths
     # Pods for testing
