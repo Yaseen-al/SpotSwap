@@ -18,7 +18,7 @@ class SignUpViewController: UIViewController{
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Stylesheet.Colors.OrangeMain
+        signUpView.pastelView.startAnimation()
         self.signUpView.signUpViewDelegate = self
         setupNavBar()
         setupSignUpView()
@@ -45,7 +45,7 @@ class SignUpViewController: UIViewController{
     private func setupSignUpView(){
         view.addSubview(signUpView)
         signUpView.snp.makeConstraints { (constraint) in
-            constraint.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
+            constraint.edges.equalTo(self.view.snp.edges)
         }
     }
 
@@ -64,7 +64,7 @@ class SignUpViewController: UIViewController{
             Alert.present(title: "Please enter a valid email", message: nil)
             return
         }
-        guard let image = signUpView.profileImage.image, signUpView.profileImage.image != #imageLiteral(resourceName: "defaultProfileImage") else{
+        guard let image = signUpView.profileImage.image else{
             Alert.present(title: "Please select a valid picture", message: nil)
             return
         }
@@ -77,25 +77,16 @@ class SignUpViewController: UIViewController{
     
     //MARK: - Setup Keyboard Handling
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if keyboardHeight == 0 {
-                keyboardHeight = keyboardSize.height
-            }else{
-                return
-            }
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-                self.view.frame.origin.y -= self.keyboardHeight
-            }, completion: nil)
-        }
+        guard let infoDict = notification.userInfo else { return }
+        guard let rectFrame = infoDict[UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let duration = infoDict[UIKeyboardAnimationDurationUserInfoKey] as? Double else { return }
+        signUpView.handleKeyBoard(with: rectFrame, and: duration)
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
-            self.view.frame = self.view.bounds
-        }) { (animated) in
-            self.keyboardHeight = 0
-        }
+        guard let infoDict = notification.userInfo else { return }
+        guard let duration = infoDict[UIKeyboardAnimationDurationUserInfoKey] as? Double else { return }
+        signUpView.handleKeyBoard(with: CGRect.zero, and: duration)
     }
     
 
@@ -124,6 +115,9 @@ extension SignUpViewController: UIImagePickerControllerDelegate, ImagePickerDele
 
 //MARK: SignUpViewDelegate
 extension SignUpViewController: SignUpViewDelegate{
+    func nextButton() {
+        goToNextView()
+    }
     func profileImageTapGesture() {
         print("ProfileImage gesture fired")
         //        open up camera and photo gallery

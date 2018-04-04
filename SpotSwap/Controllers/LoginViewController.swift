@@ -11,12 +11,12 @@ class LoginViewController: UIViewController {
     // MARK: - View Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.loginView.passwordTextField.delegate = self
-        self.loginView.emailTextField.delegate = self
-        self.loginView.pastelView.startAnimation()
         setupLoginView()
         configureNavBar()
-        loginView.lowerLoginButton.addTarget(self, action: #selector(loginTapped(sender:)), for: .touchUpInside)
+        self.loginView.pastelView.startAnimation()
+        self.loginView.signInViewDelegate = self
+        self.loginView.emailTextField.delegate = self
+        self.loginView.passwordTextField.delegate = self
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: .UIKeyboardWillHide, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: .UIKeyboardWillShow, object: nil)
     }
@@ -35,7 +35,7 @@ class LoginViewController: UIViewController {
     }
     
     //MARK: - Setup Button Action
-    @objc func loginTapped(sender:UIButton!) {
+    private func loginTapped() {
         guard let emailText = loginView.emailTextField.text, let passwordText = loginView.passwordTextField.text, loginView.emailTextField.text != "", loginView.passwordTextField.text != "" else{
             Alert.present(from: Alert.AlertType.emptyTextFields)
             return
@@ -43,43 +43,35 @@ class LoginViewController: UIViewController {
         //TODO: Call firebase manager to authenticate the user and login
         AuthenticationService.manager.signIn(email: emailText, password: passwordText, completion: { (user) in
             //present alert
-            let alert = UIAlertController(title: "Login Successful!", message: "Finding nearby parking spots", preferredStyle: .alert)
-            let alertAction = UIAlertAction(title: "ok", style: .default, handler: { (alertAction) in
-                let mapView = ContainerViewController.storyBoardInstance()
-                self.present(mapView, animated: true, completion: nil)
-            })
-            alert.addAction(alertAction)
-            self.present(alert, animated: true)
+            Alert.present(title: "Login Successful!", message: "Finding nearby parking spots")
             
         }) { (error) in
-            let alert = UIAlertController(title: "Login Error!", message: "\(error.localizedDescription)", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            self.present(alert, animated: true)
+            Alert.present(title: "Login Error!", message: "\(error.localizedDescription)")
         }
         
     }
     
     //MARK: - Setup Keyboard Handling
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIKeyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if keyboardHeight == 0 {
-                keyboardHeight = keyboardSize.height
-            }else{
-                return
-            }
-            UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseInOut, animations: {
-                self.view.frame.origin.y -= self.keyboardHeight
-            }, completion: nil)
-        }
+        guard let infoDict = notification.userInfo else { return }
+        guard let rectFrame = infoDict[UIKeyboardFrameEndUserInfoKey] as? CGRect else { return }
+        guard let duration = infoDict[UIKeyboardAnimationDurationUserInfoKey] as? Double else { return }
+        loginView.handleKeyBoard(with: rectFrame, and: duration)
     }
     
     @objc func keyboardWillHide(notification: NSNotification) {
-        
-        UIView.animate(withDuration: 0.5, delay: 0, options: .curveEaseIn, animations: {
-            self.view.frame = self.view.bounds
-        }) { (animated) in
-            self.keyboardHeight = 0
-        }
+        guard let infoDict = notification.userInfo else { return }
+        guard let duration = infoDict[UIKeyboardAnimationDurationUserInfoKey] as? Double else { return }
+        loginView.handleKeyBoard(with: CGRect.zero, and: duration)
+    }
+}
+//MARK: - LoginViewDelegates
+extension LoginViewController: SignInViewDelegate{
+    func dismissKeyBoard() {
+          view.endEditing(true)
+    }
+    func loginButtonClicked() {
+        loginTapped()
     }
 }
 
