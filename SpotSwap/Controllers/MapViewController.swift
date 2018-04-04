@@ -60,18 +60,7 @@ class MapViewController: UIViewController {
         vehicleOwnerService = VehicleOwnerService(self)
     }
 
-//    private func setupReservationView(with vehicleOwner: VehicleOwner, reservation: Reservation) {
-//        //this will make a reservation view with certain data ==> their should be a vehicle owner to get this data from
-//        reservationDetailView = ReservationDetailView(viewController: self, vehicleOwner: vehicleOwner, reservation: reservation)
-//        //        reservationDetailView.tag =
-//        self.reservationDetailView.delegate = self
-//        contentView.addSubview(reservationDetailView)
-//        reservationDetailView.snp.makeConstraints { make in
-//            make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-//            make.width.equalTo(view.snp.width)
-//            make.height.equalTo(view.snp.height)
-//        }
-//    }
+
 
 }
 
