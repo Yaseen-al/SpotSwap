@@ -1,9 +1,7 @@
 
 import UIKit
 import SnapKit
-
 class WalkthroughView: UIView {
-    
     // MARK: - Properties
     lazy var mainContentView:UIView = {
         let view = UIView()
@@ -19,32 +17,30 @@ class WalkthroughView: UIView {
     
     lazy var headerLabel: UILabel = {
         let label = UILabel()
-        label.text = ""
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 40)//boldSystemFont(ofSize: 24)
+        label.numberOfLines = 2
+        label.font = UIFont(name: Stylesheet.Fonts.Bold, size: 20)
+        label.textColor = Stylesheet.Colors.White
         return label
     }()
     
     lazy var descriptionLabel: UILabel = {
         let label = UILabel()
-        //label.text = "This parking app does this and that and that and this"
         label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 25)
+        label.font = UIFont(name: Stylesheet.Fonts.Regular, size: 14)
         label.textAlignment = .center
+        label.textColor = Stylesheet.Colors.White
         return label
     }()
     
     lazy var tutorialImageView: UIImageView = {
         let logo = UIImageView()
-        //logo.image = UIImage(named: "MapShot")
-        logo.contentMode = .scaleAspectFit
+        logo.contentMode = .scaleAspectFill
         //style details
         logo.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         logo.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
         logo.layer.shadowOpacity = 1.0
         logo.layer.shadowRadius = 0.0
-//        logo.clipsToBounds = false
-//        logo.layer.masksToBounds = false
         return logo
     }()
     
@@ -63,10 +59,14 @@ class WalkthroughView: UIView {
         let button = UIButton()
         button.setTitle("Next", for: .normal)
         button.backgroundColor = nil
-        //button.setTitleColor(UIColor.white, for: UIControlState.highlighted)
         button.setTitleColor(.white, for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 25)
         button.titleLabel?.textAlignment = .center
+        return button
+    }()
+    lazy var exitButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Exit", for: .normal)
+        button.setTitleColor(.white, for: .normal)
         return button
     }()
     
@@ -95,16 +95,15 @@ class WalkthroughView: UIView {
     
     // MARK: - Setup Views
     private func prepareMainView() {
-        setupNextButton()
+        setupExitButton()
         setupImageView()
         setupBottomView()
         setupBottomHeaderLabel()
         setupBottomDescriptionLabel()
         setupPageControl()
-        setupStartButton()
     }
     
-    func setupBottomView() {
+    private func setupBottomView() {
         addSubview(bottomView)
         bottomView.snp.makeConstraints { (make) in
             make.width.equalTo(snp.width)
@@ -114,18 +113,17 @@ class WalkthroughView: UIView {
         }
     }
     
-    func setupImageView() {
+    private func setupImageView() {
         addSubview(tutorialImageView)
         tutorialImageView.snp.makeConstraints { (make) in
             make.height.equalTo(snp.height).multipliedBy(0.80)
             make.width.equalTo(snp.width).multipliedBy(0.80)
             make.centerX.equalTo(snp.centerX)
-            //make.centerY.equalTo(snp.centerY)
             make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(30)
         }
     }
     
-    func setupBottomHeaderLabel() {
+    private func setupBottomHeaderLabel() {
         addSubview(headerLabel)
         headerLabel.snp.makeConstraints { (make) in
             make.top.equalTo(bottomView.snp.top).offset(5)
@@ -134,46 +132,61 @@ class WalkthroughView: UIView {
         }
     }
     
-    func setupBottomDescriptionLabel() {
+    private func setupBottomDescriptionLabel() {
         addSubview(descriptionLabel)
         descriptionLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(bottomView.snp.top).offset(70)
-            make.width.equalTo(bottomView.snp.width).offset(-20)
+            make.top.equalTo(headerLabel.snp.bottom).offset(10)
+            make.width.equalTo(bottomView.snp.width).multipliedBy(0.85)
             make.centerX.equalTo(bottomView.snp.centerX)
         }
     }
     
-    func setupPageControl() {
+    private func setupPageControl() {
         addSubview(pageControl) //delete bottomview.
         pageControl.snp.makeConstraints { (make) in
-            make.centerX.equalTo(bottomView.snp.centerX)
-            make.bottom.equalTo(bottomView.snp.bottom).offset(-5)
-            make.width.equalTo(bottomView.snp.width)
+            make.centerX.equalTo(snp.centerX)
+            make.top.equalTo(descriptionLabel.snp.bottom).offset(5)
+            make.width.equalTo(snp.width)
             //make.height.equalTo(bottomView.snp.height).multipliedBy(0.05)
         }
     }
 
-
-    
-    func setupNextButton() {
+    private func setupNextButton() {
         self.addSubview(nextButton)
         nextButton.snp.makeConstraints { (make) in
-            make.height.equalTo(30)
-            make.width.equalTo(snp.width).multipliedBy(0.20)
-            make.right.equalTo(safeAreaLayoutGuide.snp.right)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top)
+            make.right.equalTo(snp.right).offset(-10)
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(10)
+        }
+    }
+    private func setupExitButton(){
+        self.addSubview(exitButton)
+        exitButton.snp.makeConstraints { (make) in
+            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(10)
+            make.left.equalTo(snp.left).offset(10)
         }
     }
     
-    func setupStartButton() {
+    private func setupStartButton() {
         self.addSubview(startButton)
         startButton.snp.makeConstraints { (make) in
-            make.width.equalTo(bottomView.snp.width).multipliedBy(0.80)
-            make.height.equalTo(60)
-            make.centerX.equalTo(bottomView.snp.centerX)
-            make.centerY.equalTo(bottomView.snp.centerY)
+            make.top.equalTo(pageControl.snp.bottom).offset(5)
+            make.centerX.equalTo(snp.centerX)
+            make.width.equalTo(bottomView.snp.width).multipliedBy(0.65)
+            make.height.equalTo(45)
         }
     }
+    public func setupWalkthrough(walkThrough: Walkthrough){
+        self.headerLabel.text = walkThrough.headerLabelText
+        self.descriptionLabel.text = walkThrough.descriptionText
+        self.tutorialImageView.image = walkThrough.tutorialImage
+        self.pageControl.currentPage = walkThrough.pageControlIndex
+        guard walkThrough.isLastWalkthrough else {
+            setupNextButton()
+            return
+        }
+        setupStartButton()
+    }
+
     
 }
 
