@@ -40,10 +40,11 @@ class LoginViewController: UIViewController {
             Alert.present(from: Alert.AlertType.emptyTextFields)
             return
         }
-        //TODO: Call firebase manager to authenticate the user and login
         AuthenticationService.manager.signIn(email: emailText, password: passwordText, completion: { (user) in
             //present alert
             Alert.present(title: "Login Successful!", message: "Finding nearby parking spots")
+            let containerViewController = ContainerViewController.storyBoardInstance()
+            self.present(containerViewController, animated: true, completion: nil)
             
         }) { (error) in
             Alert.present(title: "Login Error!", message: "\(error.localizedDescription)")
