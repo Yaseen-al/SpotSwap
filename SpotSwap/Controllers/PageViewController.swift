@@ -1,18 +1,22 @@
 
 import UIKit
+import SwiftGifOrigin
 
 class PageViewController: UIPageViewController {
     
     let walkthroughVC = WalkthroughViewController()
     
+    let testerGif = UIImage.gif(name: "testGif")
+    
     //some hard coded data for our walkthrough screens
     var pageHeaders = ["Reserve a parking spot", "Offer a parking spot", "Earn points!", "Find a spot!"]
-    var pageImages: [UIImage] = [
-        #imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone"),#imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone")
-    ]
+    var pageImages: [UIImage] = [ #imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone"), #imageLiteral(resourceName: "phone") ]
+
+    
     var pageDescriptions = ["On the map, tap the space you would like to reserve", "Once you're ready to leave your parking spot, swipe the leaving button", "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", ""]
     
     var colors = [UIColor.red, UIColor.blue, UIColor.orange]
+    
     
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
         super.init(transitionStyle: .scroll, navigationOrientation: .horizontal, options: nil)
@@ -35,7 +39,10 @@ class PageViewController: UIPageViewController {
         if let startWalkthroughVC = self.viewControllerAtIndex(index: 0) {
             setViewControllers([startWalkthroughVC], direction: .forward, animated: true, completion: nil)
         }
+        
+        walkthroughVC.walkthroughView.tutorialImageView.loadGif(name: "testGif")
     }
+    
     
     //MARK - Navigate
     func nextPageWithIndex(index: Int) {
@@ -52,11 +59,15 @@ class PageViewController: UIPageViewController {
         
         //TODO:Change to dependency injection?
         let walkthroughVC = WalkthroughViewController()
+        
         walkthroughVC.walkthroughView.headerLabel.text = pageHeaders[index]
         walkthroughVC.walkthroughView.descriptionLabel.text = pageDescriptions[index]
         walkthroughVC.index = index
+        
         walkthroughVC.walkthroughView.tutorialImageView.image = pageImages[index]
+        
         //walkthroughVC.view.backgroundColor = colors[index] //for testing
+        
         
         return walkthroughVC
     }
