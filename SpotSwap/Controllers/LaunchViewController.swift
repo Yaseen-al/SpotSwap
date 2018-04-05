@@ -16,6 +16,9 @@ class LaunchViewController: UIViewController {
         view.backgroundColor = .white
         setupLaunchView()
     }
+    override func viewDidAppear(_ animated: Bool) {
+        launchView.layerMask.startAnimation()
+    }
     
     private func configureNavBar(){
         self.navigationController?.isNavigationBarHidden = true
