@@ -1,7 +1,7 @@
 import UIKit
 import MapKit
 import CoreLocation
-
+import UserNotifications
 protocol MenuContainerDelegate: class {
     func triggerMenu()
 }
@@ -13,10 +13,12 @@ class MapViewController: UIViewController {
     private var initialLaunch = true
     private var contentView = MapView()
     private var addSpotView = AddSpotView()
+    private var pushNotificationService: PushNotificationService!
     var menuContainerDelegate: MenuContainerDelegate?
     private var newSpot: Spot?
     // This is basically an instance of the current vehicle owner in a class that have some functions that helps in controlling the flow of the vehicleOwner operations.
     var vehicleOwnerService: VehicleOwnerService!
+
     private var minutes = ["3","4","5", "6", "7", "8", "9", "10"]
     
     // MARK: - View Life Cycle
@@ -24,19 +26,17 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupContentView()
-        setupDelegates()
         setupServices()
-        self.view.backgroundColor = Stylesheet.Colors.GrayMain
+        setupDelegates()
     }
     
     // MARK: - Setup - View/Data
     private func setupNavigationBar() {
-        navigationItem.title = "SpotSwap"
-//        navigationItem.title.fo
-//        let logoView = UIImageView()
-//        logoView.image = #imageLiteral(resourceName: "SpotSwapLogo")
-//        logoView.contentMode = .scaleToFill
-//        navigationItem.titleView = logoView
+        let labelView = UILabel()
+        labelView.text = "Spot Swap"
+        labelView.font = UIFont(name: Stylesheet.Fonts.Bold, size: 20)
+        labelView.textColor = Stylesheet.Colors.White
+        navigationItem.titleView = labelView
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
         let listNavigationItem = UIBarButtonItem(image: #imageLiteral(resourceName: "listIcon"), style: .plain, target: self, action: #selector(handleMenu(_:)))
         listNavigationItem.tintColor = .white
@@ -55,6 +55,7 @@ class MapViewController: UIViewController {
         self.addSpotView.pickerView.delegate = self
         self.addSpotView.pickerView.dataSource = self
         self.addSpotView.delegate = self
+//        self.pushNotificationService.unNotificationCenter.delegate = self
     }
     
     private func setupContentView() {
@@ -72,8 +73,9 @@ class MapViewController: UIViewController {
     }
     private func setupServices() {
         vehicleOwnerService = VehicleOwnerService(self)
+        pushNotificationService = PushNotificationService(viewControllerConformsToUNUserNotificationCenterDelegate: self)
     }
-    
+
     
     
 }
@@ -191,6 +193,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
             //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
             if reservation.takerId == currentVehicleOwner.userUID {
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
+                
                     let mapView = self.contentView.mapView
                     let userLocation = mapView.userLocation.coordinate
                     self.contentView.showReservationView(with: vehicleOwnerTaker, reservation: reservation)
@@ -202,6 +205,9 @@ extension MapViewController: VehicleOwnerServiceDelegate {
                 })
             } else {
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerId, dataBaseObserveType: .singleEvent, completion: {(spotOwnerVehicleOwner) in
+                    self.pushNotificationService.triggerReservationNotification(vehicleOwner: spotOwnerVehicleOwner, trigerDuration: 0.1, reservation: reservation, errorHandler: { (erro) in
+                        
+                    })
                     self.contentView.showReservationView(with: spotOwnerVehicleOwner, reservation: reservation)
                 }, errorHandler: { (error) in
                     //this will give an alert to the user in case the taker data can't be retrieved
@@ -224,7 +230,10 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     
     func vehiclOwnerHasNoReservation() {
         if contentView.reservationHeaderView.isDescendant(of: contentView){
-            alertWithOkButton(title: "Reservation was canceled or completed", message: nil)
+            self.pushNotificationService.triggerCompletedNotification(trigerDuration: 0.1, errorHandler: { (error) in
+                print(error)
+            })
+//            alertWithOkButton(title: "Reservation was canceled or completed", message: nil)
             contentView.removeReservationDetailsFromMap()
         }
     }
@@ -296,17 +305,30 @@ extension MapViewController: UIPickerViewDataSource, UIPickerViewDelegate{
 
 extension MapViewController: AddSpotDelegate{
 
-    
     func addSpotButtonClicked() {
         let duration = minutes[addSpotView.pickerView.selectedRow(inComponent: 0)]
         guard let newSpot = newSpot else {return}
         newSpot.duration = duration
         //todo add a timer for the duration
+//        self.pushNotificationService.triggerTestNotification(trigerDuration: 20) { (error) in
+//            print(error)
+//        }
         DataBaseService.manager.addSpot(spot: newSpot)
         self.addSpotView.removeFromSuperview()
         print("Dev: duration of the spot is \(newSpot.duration)")
     }
     
+    
+}
+//MARK: - Notification Center delegate and Functions
+
+extension MapViewController: UNUserNotificationCenterDelegate{
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+    }
     
 }
 
