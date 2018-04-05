@@ -67,6 +67,28 @@ class LoginViewController: UIViewController {
 }
 //MARK: - LoginViewDelegates
 extension LoginViewController: SignInViewDelegate{
+    func forgotPasswordButtonClicked() {
+        let alertController = UIAlertController(title: "Please enter your email address", message: "a reset email will be sent to your email", preferredStyle: .alert)
+        alertController.addTextField { (textField) in
+            textField.placeholder = "Please enter your email here ..."
+            textField.layer.cornerRadius = 2
+        }
+        let sendAction = UIAlertAction(title: "Send", style: .default) { (sendAction) in
+            //TODO do the reset password
+            guard let email = alertController.textFields?.first?.text else{return}
+            AuthenticationService.manager.resertPassword(userEmail: email, completionHandler: {completed in
+                Alert.present(title: "Great", message: "Your reset password email is on the way")
+            }, errorHandler: { (error) in
+                Alert.present(title: "there was an error sending the reset email", message: "Please try again")
+            })
+        }
+        alertController.addAction(sendAction)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .default, handler: nil)
+        alertController.addAction(cancelAction)
+        self.present(alertController, animated: true, completion: nil)
+        
+    }
+    
     func dismissKeyBoard() {
           view.endEditing(true)
     }

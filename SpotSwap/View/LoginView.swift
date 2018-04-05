@@ -4,6 +4,7 @@ import Pastel
 protocol SignInViewDelegate: class {
     func dismissKeyBoard()
     func loginButtonClicked()
+    func forgotPasswordButtonClicked()
 }
 class LoginView: UIView, UIGestureRecognizerDelegate {
     
@@ -89,7 +90,13 @@ class LoginView: UIView, UIGestureRecognizerDelegate {
         iView.contentMode = .scaleToFill
         return iView
     }()
-    
+    lazy var forgotPasswordButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("Forgot Password?", for: .normal)
+        button.titleLabel?.textColor = Stylesheet.Colors.BlueMain
+        button.addTarget(self, action: #selector(forgotPassword(_:)), for: .touchUpInside)
+        return button
+    }()
     
     lazy var loginButton: UIButton = {
         let button = UIButton(frame: CGRect(x: 100, y: 100, width: 100, height: 50))
@@ -123,6 +130,7 @@ class LoginView: UIView, UIGestureRecognizerDelegate {
         setupScrollView()
         setupContentView()
         setupLoginButton()
+        setupForgotPasswordButton()
         setupPasswordTextField()
         setupPasswordLogo()
         setupEmailTextField()
@@ -173,11 +181,18 @@ class LoginView: UIView, UIGestureRecognizerDelegate {
             make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
         }
     }
+    private func setupForgotPasswordButton(){
+        contentView.addSubview(forgotPasswordButton)
+        forgotPasswordButton.snp.makeConstraints { (make) in
+            make.centerX.equalTo(snp.centerX)
+            make.bottom.equalTo(loginButton.snp.top).offset(-5)
+        }
+    }
     private func setupPasswordTextField() {
         contentView.addSubview(passwordTextField)
         passwordTextField.snp.makeConstraints { (make) in
             make.centerX.equalTo(snp.centerX)
-            make.bottom.equalTo(loginButton.snp.top).offset(-10)
+            make.bottom.equalTo(forgotPasswordButton.snp.top).offset(-10)
             make.width.equalTo(contentView.snp.width).multipliedBy(0.6)
             make.height.equalTo(30)        }
     }
@@ -218,6 +233,7 @@ class LoginView: UIView, UIGestureRecognizerDelegate {
             make.width.height.equalTo(emailTextField.snp.height)
         }
     }
+
     
     private func setupLogoImage() {
         contentView.addSubview(logoImage)
@@ -237,6 +253,9 @@ class LoginView: UIView, UIGestureRecognizerDelegate {
     
     @objc func loginTapped(_ sender:UIButton){
         signInViewDelegate?.loginButtonClicked()
+    }
+    @objc func forgotPassword(_ sender:UIButton){
+        signInViewDelegate?.forgotPasswordButtonClicked()
     }
     func handleKeyBoard(with rect: CGRect, and animationDuration: Double) {
         guard rect != CGRect.zero else {
