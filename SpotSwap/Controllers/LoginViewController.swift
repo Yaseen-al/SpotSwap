@@ -42,7 +42,6 @@ class LoginViewController: UIViewController {
         }
         AuthenticationService.manager.signIn(email: emailText, password: passwordText, completion: { (user) in
             //present alert
-            Alert.present(title: "Login Successful!", message: "Finding nearby parking spots")
             let containerViewController = ContainerViewController.storyBoardInstance()
             self.present(containerViewController, animated: true, completion: nil)
             

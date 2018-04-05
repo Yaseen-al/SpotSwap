@@ -16,7 +16,7 @@ class ContainerViewController: UIViewController, MenuContainerDelegate {
     
     @IBOutlet weak var menuLeadingConstraint: NSLayoutConstraint!
     private var menuStatus = MenuStatus.hidden
-    private let menuWidth: CGFloat = 160
+    private let menuWidth: CGFloat = 200
     private let menuPopHideConstant: CGFloat = 10
     override func viewDidLoad() {
         super.viewDidLoad()

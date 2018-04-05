@@ -10,7 +10,7 @@ class Spot: NSObject, Codable {
     let latitude: Double
     let timeStamp: String
     let timeStamp1970: Double
-    let duration: String
+    var duration: String
     func toJSON() -> Any {
         do {
             let jsonData = try JSONEncoder().encode(self)
