@@ -12,7 +12,7 @@ class MapViewController: UIViewController {
     // MARK: - Properties
     private var initialLaunch = true
     private var contentView = MapView()
-    private var addSoptView = AddSpotView()
+    private var addSpotView = AddSpotView()
     var menuContainerDelegate: MenuContainerDelegate?
     private var newSpot: Spot?
     // This is basically an instance of the current vehicle owner in a class that have some functions that helps in controlling the flow of the vehicleOwner operations.
@@ -52,9 +52,9 @@ class MapViewController: UIViewController {
     private func setupDelegates() {
         LocationService.manager.setDelegate(viewController: self)
         self.contentView.reservationViewDelegate = self
-        self.addSoptView.pickerView.delegate = self
-        self.addSoptView.pickerView.dataSource = self
-        self.addSoptView.delegate = self
+        self.addSpotView.pickerView.delegate = self
+        self.addSpotView.pickerView.dataSource = self
+        self.addSpotView.delegate = self
     }
     
     private func setupContentView() {
@@ -65,8 +65,8 @@ class MapViewController: UIViewController {
         }
     }
     private func setupAddSpotView(){
-        view.addSubview(addSoptView)
-        addSoptView.snp.makeConstraints { (make) in
+        view.addSubview(addSpotView)
+        addSpotView.snp.makeConstraints { (make) in
             make.edges.equalTo(self.view.safeAreaLayoutGuide.snp.edges)
         }
     }
@@ -215,50 +215,7 @@ extension MapViewController: VehicleOwnerServiceDelegate {
             print(error)
         }
     }
-    //    func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner) {
-    //        DataBaseService.manager.retrieveReservation(reservationId: reservationId, dataBaseObserveType: .singleEvent, completion: { reservation in
-    //            //Adding annotaion for the reservation
-    //            let reservationAnnotation = Spot(location: reservation.coordinate)
-    //            reservationAnnotation.reservationId = reservationId
-    ////            reservationAnnotation.coordinate = CLLocationCoordinate2D(latitude: reservation.latitude, longitude: reservation.longitude)
-    //
-    //            self.contentView.mapView.removeAnnotations(self.contentView.mapView.annotations)
-    //            self.contentView.mapView.camera.altitude = 5
-    //            self.contentView.mapView.addAnnotation(reservationAnnotation)
-    ////            self.contentView.mapView.showAnnotations([reservationAnnotation, self.contentView.mapView.userLocation], animated: true)
-    //
-    //            //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
-    //            if reservation.takerId == currentVehicleOwner.userUID {
-    //                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: { [weak self] (vehicleOwnerTaker) in
-    //                    guard let strongSelf = self else { return }
-    //                    strongSelf.setupReservationView(with: vehicleOwnerTaker, reservation: reservation)
-    //                    strongSelf.addRoute(mapView: strongSelf.contentView.mapView, spotLocation: reservation.coordinate, userLocation: strongSelf.contentView.mapView.userLocation.coordinate)
-    //
-    //=======
-    //                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
-    //                    self.contentView.showReservationView(with: vehicleOwnerTaker, reservation: reservation)
-    //>>>>>>> qa
-    //                }, errorHandler: { (error) in
-    //                    //this will give an alert to the user in case the taker data can't be retrieved
-    //                    self.alertWithOkButton(title: "there was an error retrieving your matched spot taker", message: nil)
-    //                    return
-    //                })
-    //            } else {
-    //                DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerId, dataBaseObserveType: .singleEvent, completion: {(spotOwnerVehicleOwner) in
-    //                    self.contentView.showReservationView(with: spotOwnerVehicleOwner, reservation: reservation)
-    //                }, errorHandler: { (error) in
-    //                    //this will give an alert to the user in case the taker data can't be retrieved
-    //                    self.alertWithOkButton(title: "there was an error retrieving your matched spot owner", message: nil)
-    //                    return
-    //                })
-    //            }
-    //            // Here we need to a. setup the reservationView for the reserver and for the spot owner b. clear all the map from anotation c. have a cancel button to cancel the whole reservation and retrieve back the normal map
-    //
-    //        }) { (error) in
-    //            print(error)
-    //        }
-    //    }
-    
+
     private func alertWithOkButton(title: String, message: String?){
         let alerViewController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -310,7 +267,7 @@ extension MapViewController: ReservationViewDelegate {
 //MARK: - Menu ContainerDelegate Delegate
 extension MapViewController {
     @objc private func handleMenu(_ sender: UIBarButtonItem){
-        addSoptView.removeFromSuperview()
+        addSpotView.removeFromSuperview()
         menuContainerDelegate?.triggerMenu()
     }
 }
@@ -342,12 +299,12 @@ extension MapViewController: AddSpotDelegate{
 
     
     func addSoptButtonClicked() {
-        let duration = minutes[addSoptView.pickerView.selectedRow(inComponent: 0)]
+        let duration = minutes[addSpotView.pickerView.selectedRow(inComponent: 0)]
         guard let newSpot = newSpot else {return}
         newSpot.duration = duration
         //todo add a timer for the duration
         DataBaseService.manager.addSpot(spot: newSpot)
-        self.addSoptView.removeFromSuperview()
+        self.addSpotView.removeFromSuperview()
         print("Dev: duration of the spot is \(newSpot.duration)")
     }
     
