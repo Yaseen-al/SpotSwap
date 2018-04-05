@@ -31,6 +31,7 @@
 		1F7A31CF2059706400A25693 /* AuthenticationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31CE2059706400A25693 /* AuthenticationService.swift */; };
 		1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D02059747900A25693 /* VehicleOwner.swift */; };
 		1F7A31D320597CB100A25693 /* CarMake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31D220597CB100A25693 /* CarMake.swift */; };
+		1F804854207559740048A8D6 /* AddSpotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F804853207559740048A8D6 /* AddSpotView.swift */; };
 		1F9A92D020636D0000A9FEFC /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A92CF20636D0000A9FEFC /* StorageService.swift */; };
 		1F9A92D220636D3D00A9FEFC /* ImageHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9A92D120636D3D00A9FEFC /* ImageHelper.swift */; };
 		1FCB9C6A2073D02A00CB6AAA /* Walkthrough.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FCB9C692073D02A00CB6AAA /* Walkthrough.swift */; };
@@ -116,6 +117,7 @@
 		1F7A31CE2059706400A25693 /* AuthenticationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationService.swift; sourceTree = "<group>"; };
 		1F7A31D02059747900A25693 /* VehicleOwner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleOwner.swift; sourceTree = "<group>"; };
 		1F7A31D220597CB100A25693 /* CarMake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMake.swift; sourceTree = "<group>"; };
+		1F804853207559740048A8D6 /* AddSpotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddSpotView.swift; sourceTree = "<group>"; };
 		1F9A92CF20636D0000A9FEFC /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
 		1F9A92D120636D3D00A9FEFC /* ImageHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageHelper.swift; sourceTree = "<group>"; };
 		1FCB9C692073D02A00CB6AAA /* Walkthrough.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Walkthrough.swift; sourceTree = "<group>"; };
@@ -310,6 +312,7 @@
 			isa = PBXGroup;
 			children = (
 				81BFAE78205F6C1700E27389 /* LaunchView.swift */,
+				1F804853207559740048A8D6 /* AddSpotView.swift */,
 				81AEF32D206DCDD7002B6F3F /* WalkthroughView.swift */,
 				81BFAE76205F6B2200E27389 /* LoginView.swift */,
 				81AEA972205C72A60081FD81 /* SignUpView.swift */,
@@ -721,6 +724,7 @@
 				81AEA977205FFC430081FD81 /* RegisterCarViewController.swift in Sources */,
 				81AEF330206DCDEC002B6F3F /* PageViewController.swift in Sources */,
 				1F674F6920615EFA00E16D0A /* DataBaseService+Reservations.swift in Sources */,
+				1F804854207559740048A8D6 /* AddSpotView.swift in Sources */,
 				C4DCE40F206A928E00F44698 /* CalloutView.swift in Sources */,
 				81AEF32E206DCDD7002B6F3F /* WalkthroughView.swift in Sources */,
 				1F467B1C20599BA900598418 /* DataBaseService.swift in Sources */,
@@ -911,11 +915,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J9A6F8G6MR;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = AlphaBits.SpotSwap;
+				PRODUCT_BUNDLE_IDENTIFIER = Dallash22AlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -928,11 +932,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = J9A6F8G6MR;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = AlphaBits.SpotSwap;
+				PRODUCT_BUNDLE_IDENTIFIER = Dallash22AlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

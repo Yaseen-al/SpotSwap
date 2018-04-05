@@ -9,8 +9,7 @@ class PageViewController: UIPageViewController {
                         Walkthrough(headerLabelText: "Earn points!", descriptionText: "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 2, isLastWalkthrough: false),
                         Walkthrough(headerLabelText: "Find a spot!", descriptionText: "", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 3, isLastWalkthrough: true)
     ]
-    
-    
+
     //    private var colors = [UIColor.red, UIColor.blue, UIColor.orange]
     
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {

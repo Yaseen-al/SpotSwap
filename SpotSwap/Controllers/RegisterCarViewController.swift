@@ -117,7 +117,7 @@ class RegisterCarViewController: UIViewController, UIImagePickerControllerDelega
         }
         self.registerCarView.carImageView.image = vehicleImage
         AuthenticationService.manager.createUser(email: email, password: password, completion: { (user) in
-            let newCar = Car(carMake: self.selectedCarMake, carModel: self.selectedCarMake, carYear: self.vehicleYear)
+            let newCar = Car(carMake: self.selectedCarMake, carModel: self.selectedModel, carYear: self.vehicleYear)
             let newVehicleOwner = VehicleOwner(user: user, car: newCar, userName: self.userName)
             DataBaseService.manager.addNewVehicleOwner(vehicleOwner: newVehicleOwner, userID: user.uid)
             StorageService.manager.storeImage(imageType: .vehicleOwner, uid: user.uid, image: toucanProfileImage, errorHandler: { (error) in

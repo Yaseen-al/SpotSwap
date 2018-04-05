@@ -17,8 +17,9 @@ protocol VehicleOwnerServiceDelegate: class {
 class VehicleOwnerService {
     //MARK: - Properties
     private weak var delegate: VehicleOwnerServiceDelegate!
-    private var vehicleOwner: VehicleOwner! {
+    private var vehicleOwner: VehicleOwner? {
         didSet {
+            guard let vehicleOwner = vehicleOwner else {return}
             delegate.vehicleOwnerRetrieved()
             LocationService.manager.addSpotsFromFirebaseToMap()
 
@@ -49,17 +50,19 @@ class VehicleOwnerService {
         }
     }
     
-    public func getVehicleOwner() -> VehicleOwner {
-        return vehicleOwner // app should crash if we dont have a vehicle owner
+    public func getVehicleOwner() -> VehicleOwner? {
+        return vehicleOwner  // app shouldn't crash if we dont have a vehicle owner
     }
     
     //This function checks if the vehicle owner has a reservation or not
-    public func hasReservation() -> Bool {
+    public func hasReservation() -> Bool? {
+        guard let vehicleOwner = vehicleOwner else {return nil}
         return vehicleOwner.reservationId != nil
     }
     
     public func reserveSpot(_ spot: Spot) {
-        let currentUserReservingASpot = getVehicleOwner()
+        guard let vehicleOwner = vehicleOwner else {return}
+        let currentUserReservingASpot = vehicleOwner
         let reservation = Reservation(makeFrom: spot, reservedBy: currentUserReservingASpot)
         //        contentView.mapView.removeAnnotation(spot)
         DataBaseService.manager.addReservation(reservation: reservation, to: currentUserReservingASpot)
@@ -77,6 +80,7 @@ class VehicleOwnerService {
     }
     
     public func removeReservation(completion: @escaping(Reservation)-> Void){
+        guard let vehicleOwner = vehicleOwner else {return}
         guard let reservationId = vehicleOwner.reservationId else{
             //TODO Handle the error
             return
