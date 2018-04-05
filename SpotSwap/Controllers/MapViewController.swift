@@ -215,7 +215,6 @@ extension MapViewController: VehicleOwnerServiceDelegate {
             print(error)
         }
     }
-
     private func alertWithOkButton(title: String, message: String?){
         let alerViewController = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let okAction = UIAlertAction(title: "Ok", style: .default, handler: nil)
@@ -298,7 +297,7 @@ extension MapViewController: UIPickerViewDataSource, UIPickerViewDelegate{
 extension MapViewController: AddSpotDelegate{
 
     
-    func addSoptButtonClicked() {
+    func addSpotButtonClicked() {
         let duration = minutes[addSpotView.pickerView.selectedRow(inComponent: 0)]
         guard let newSpot = newSpot else {return}
         newSpot.duration = duration

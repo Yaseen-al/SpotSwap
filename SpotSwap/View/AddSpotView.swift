@@ -9,7 +9,7 @@
 import UIKit
 import Pastel
 protocol AddSpotDelegate: class{
-    func addSoptButtonClicked()
+    func addSpotButtonClicked()
 //    func dismisAddSpotView()
 }
 class AddSpotView: UIView,UIGestureRecognizerDelegate {
@@ -144,7 +144,7 @@ class AddSpotView: UIView,UIGestureRecognizerDelegate {
     
     //MARK: - Actions
     @objc func addSpotAction(_ sender: UIButton){
-        self.delegate?.addSoptButtonClicked()
+        self.delegate?.addSpotButtonClicked()
     }
     @objc func dismissView(_ sender: UIButton){
         print("It is workingggggggggg")
