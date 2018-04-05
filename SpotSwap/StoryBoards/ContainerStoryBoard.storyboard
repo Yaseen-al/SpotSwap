@@ -18,9 +18,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="NAO-Nx-eXN" userLabel="Menu Container View">
-                                <rect key="frame" x="-160" y="0.0" width="160" height="667"/>
+                                <rect key="frame" x="-200" y="0.0" width="200" height="667"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="160" id="n7z-0t-DsW"/>
+                                    <constraint firstAttribute="width" constant="200" id="n7z-0t-DsW"/>
                                 </constraints>
                                 <connections>
                                     <segue destination="LUo-kE-sbE" kind="embed" identifier="menuSegue" id="mZg-aB-vgh"/>
@@ -40,7 +40,7 @@
                             <constraint firstItem="ZRo-Z4-5xB" firstAttribute="top" secondItem="hc7-lE-GCq" secondAttribute="top" id="UsM-f3-RdH"/>
                             <constraint firstItem="NAO-Nx-eXN" firstAttribute="height" secondItem="hc7-lE-GCq" secondAttribute="height" id="X8B-nU-2Yh"/>
                             <constraint firstItem="ZRo-Z4-5xB" firstAttribute="leading" secondItem="NAO-Nx-eXN" secondAttribute="trailing" id="e8L-uT-G7p"/>
-                            <constraint firstItem="NAO-Nx-eXN" firstAttribute="leading" secondItem="guB-7X-w28" secondAttribute="leading" constant="-160" id="fPL-Hp-BiM"/>
+                            <constraint firstItem="NAO-Nx-eXN" firstAttribute="leading" secondItem="guB-7X-w28" secondAttribute="leading" constant="-200" id="fPL-Hp-BiM"/>
                             <constraint firstItem="NAO-Nx-eXN" firstAttribute="top" secondItem="hc7-lE-GCq" secondAttribute="top" id="fy5-dI-uMT"/>
                             <constraint firstItem="guB-7X-w28" firstAttribute="bottom" secondItem="ZRo-Z4-5xB" secondAttribute="bottom" id="s4g-eb-sVW"/>
                             <constraint firstItem="ZRo-Z4-5xB" firstAttribute="width" secondItem="hc7-lE-GCq" secondAttribute="width" id="uUw-Sr-KZP"/>
@@ -60,7 +60,7 @@
             <objects>
                 <viewController id="LUo-kE-sbE" customClass="MenuViewController" customModule="SpotSwap" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="GFf-uq-Aun">
-                        <rect key="frame" x="0.0" y="0.0" width="160" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="200" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="7Mx-WZ-gsK"/>

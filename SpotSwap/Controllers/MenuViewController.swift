@@ -17,11 +17,13 @@ class MenuViewController: UIViewController {
         view.backgroundColor = Stylesheet.Colors.OrangeMain
     }
     func setupMenuView() {
-        menuView = MenuView(vehicleOwnerService.getVehicleOwner())
+        guard let vehicleOwner = vehicleOwnerService.getVehicleOwner() else {return}
+
+        menuView = MenuView(vehicleOwner)
         self.menuView.delegate = self
         view.addSubview(menuView)
         menuView.snp.makeConstraints { (constraint) in
-            constraint.edges.equalTo(view.safeAreaLayoutGuide.snp.edges)
+            constraint.edges.equalTo(view.snp.edges)
         }
     }
 }
