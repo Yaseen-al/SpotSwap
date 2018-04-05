@@ -70,8 +70,7 @@ class VehicleOwnerService {
             let spotOwnerVehicleOwner = vehicleOwner
             spotOwnerVehicleOwner.reservationId = reservation.reservationId
             DataBaseService.manager.updateVehicleOwner(vehicleOwner: spotOwnerVehicleOwner, errorHandler: { (error) in
-                print("dev:\(error)", #function )
-               
+                print("dev:\(error)", #function ) 
             })
         }) { (error) in
             print("dev:\(error)", #function )

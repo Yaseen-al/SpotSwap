@@ -73,8 +73,7 @@ class PushNotificationService {
         let content = UNMutableNotificationContent()
         content.title = "Hey there, you have got a swap !!"
         content.body = "\(vehicleOwner.userName) is swapping with you"
-        //configure trige
-        
+        //configure triger
         //adding an image to our notification message ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
         //we need to write to disk, so we are writing to the documents folder
         let documentrDirecotry = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
