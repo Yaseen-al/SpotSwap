@@ -258,7 +258,7 @@ class MapCalloutView: CalloutView {
         }
         
         LocationService.manager.lookUpAddress(location: locationOfSpot) { [weak self] placemark in
-            self?.addressLabel.text = placemark?.thoroughfare
+            self?.addressLabel.text = placemark?.name
         }
     }
     
