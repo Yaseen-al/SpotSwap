@@ -103,9 +103,8 @@ class PushNotificationService {
                 guard let error = error else {return}
                 errorHandler(error)
             }
-            
         }, errorHandler: { (error) in
-            print(error)
+            errorHandler(error)
         })
         }
 
