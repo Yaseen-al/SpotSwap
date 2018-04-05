@@ -147,7 +147,6 @@ class AddSpotView: UIView,UIGestureRecognizerDelegate {
         self.delegate?.addSpotButtonClicked()
     }
     @objc func dismissView(_ sender: UIButton){
-        print("It is workingggggggggg")
         removeFromSuperview()
     }
     
