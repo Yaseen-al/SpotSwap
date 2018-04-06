@@ -47,15 +47,10 @@ class DateProvider {
     }
     
     static func parseIntoSeconds(duration: String) -> TimeInterval {
-        let components = duration.components(separatedBy: ":")
-        if let minutes = components.first, let seconds = components.last {
-            if let minutes = Int(minutes), let seconds = Int(seconds) {
-                let minutesInSeconds = minutes * 60
-                let totalDurationInSeconds = minutesInSeconds + seconds
-                return TimeInterval(totalDurationInSeconds)
-            }
-        }
-        return 0.0
+        guard let numericDurationInMinutes = Double(duration) else { return 0.0 }
+        let secondsInAMinute = 60.0
+        let secondsInDuration = numericDurationInMinutes * secondsInAMinute
+        return secondsInDuration
     }
     
     static func parseIntoFormattedString(time: TimeInterval) -> String {

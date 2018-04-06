@@ -20,9 +20,9 @@ class AddSpotView: UIView,UIGestureRecognizerDelegate {
         pastelView.endPastelPoint = .bottomLeft
         pastelView.animationDuration = 3.0
         pastelView.setColors([Stylesheet.Colors.GrayMain,
-                              UIColor.black,
+                              UIColor.white,
                               Stylesheet.Colors.LightGray,
-                              UIColor.black,
+                              UIColor.white,
                               Stylesheet.Colors.GrayMain,])
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissView(_:)))
         tapGesture.delegate = self
@@ -56,7 +56,7 @@ class AddSpotView: UIView,UIGestureRecognizerDelegate {
         button.layer.cornerRadius = 17
         button.layer.masksToBounds = true
         button.setTitle("Offer Spot", for: .normal)
-        button.layer.backgroundColor = Stylesheet.Colors.GrayMain.cgColor
+        button.layer.backgroundColor = Stylesheet.Colors.BlueMain.cgColor
         button.addTarget(self, action: #selector(addSpotAction(_:)), for: .touchUpInside)
         return button
     }()
