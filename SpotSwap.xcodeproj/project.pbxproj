@@ -53,6 +53,8 @@
 		81F9369B20645E8000BF5DA0 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81F9369A20645E8000BF5DA0 /* SearchTextField.swift */; };
 		AFD22630B5F3FC1365C1952A /* Pods_SpotSwapTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E25FC7A56F7BE78F688A0528 /* Pods_SpotSwapTests.framework */; };
 		B8D36D34BB4BF91D17C40F17 /* Pods_SpotSwap.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */; };
+		C40DE32620767993000F62EE /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40DE32520767993000F62EE /* ProfileViewController.swift */; };
+		C40DE32820767CC6000F62EE /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C40DE32720767CC6000F62EE /* ProfileView.swift */; };
 		C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B4F205C3C4600C25344 /* Stylesheet.swift */; };
 		C4C29B53205C3C4700C25344 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */; };
 		C4C29B54205C3C4700C25344 /* UIViewController+Nav.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */; };
@@ -144,6 +146,8 @@
 		847BA2E3D4CE21406DD492B4 /* Pods_SpotSwap.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwap.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		932881718AB9CF961F1DB7E9 /* Pods-SpotSwapUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.release.xcconfig"; sourceTree = "<group>"; };
 		B3E83A19C74BF6B852D22407 /* Pods_SpotSwapUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SpotSwapUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C40DE32520767993000F62EE /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		C40DE32720767CC6000F62EE /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
 		C4C29B4F205C3C4600C25344 /* Stylesheet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stylesheet.swift; sourceTree = "<group>"; };
 		C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		C4C29B51205C3C4700C25344 /* UIViewController+Nav.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIViewController+Nav.swift"; sourceTree = "<group>"; };
@@ -274,6 +278,7 @@
 			isa = PBXGroup;
 			children = (
 				81AEF32F206DCDEC002B6F3F /* PageViewController.swift */,
+				C40DE32520767993000F62EE /* ProfileViewController.swift */,
 				81AEF331206DCDF2002B6F3F /* WalkthroughViewController.swift */,
 				81BFAE7A205F6C6200E27389 /* LaunchViewController.swift */,
 				81BFAE7C205F6C8200E27389 /* LoginViewController.swift */,
@@ -316,6 +321,7 @@
 				81BFAE78205F6C1700E27389 /* LaunchView.swift */,
 				1F804853207559740048A8D6 /* AddSpotView.swift */,
 				81AEF32D206DCDD7002B6F3F /* WalkthroughView.swift */,
+				C40DE32720767CC6000F62EE /* ProfileView.swift */,
 				81BFAE76205F6B2200E27389 /* LoginView.swift */,
 				81AEA972205C72A60081FD81 /* SignUpView.swift */,
 				81AEA970205C724E0081FD81 /* RegisterCarView.swift */,
@@ -718,6 +724,8 @@
 				C4F8A4B0205C4C3B001A746A /* DateProvider.swift in Sources */,
 				81AEF332206DCDF2002B6F3F /* WalkthroughViewController.swift in Sources */,
 				1F9A92D220636D3D00A9FEFC /* ImageHelper.swift in Sources */,
+				C40DE32820767CC6000F62EE /* ProfileView.swift in Sources */,
+				C40DE32620767993000F62EE /* ProfileViewController.swift in Sources */,
 				1F7A31972059665D00A25693 /* ViewController.swift in Sources */,
 				C4C29B56205C3C4F00C25344 /* MapViewController.swift in Sources */,
 				C4EBA3D42069825B003E0660 /* AlertFactory.swift in Sources */,
@@ -919,11 +927,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J9A6F8G6MR;
+				DEVELOPMENT_TEAM = RBE99A2Y96;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dallash222AlphaBits.SpotSwap;
+				PRODUCT_BUNDLE_IDENTIFIER = AlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -936,11 +944,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = J9A6F8G6MR;
+				DEVELOPMENT_TEAM = RBE99A2Y96;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = dallash222AlphaBits.SpotSwap;
+				PRODUCT_BUNDLE_IDENTIFIER = AlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

@@ -11,7 +11,10 @@ protocol ReservationViewDelegate: class {
 }
 
 class MapView: UIView {
-    
+    var parentViewController: MapViewController?
+////        return gestureDelegate as? MapViewController
+//        return gestureDelegate as? MapViewController
+//    }
     weak var gestureDelegate: MapViewGestureDelegate!
     weak var calloutDelegate: MapCalloutViewDelegate!
     weak var reservationViewDelegate: ReservationViewDelegate?
@@ -84,9 +87,13 @@ class MapView: UIView {
         let timer = Timer()
         return timer
     }()
+    
     // MARK: - Inits
     init(viewController: UIViewController) {
         self.init()
+        if let mapViewController = viewController as? MapViewController {
+            self.parentViewController = mapViewController
+        }
         if let mapViewDelegate = viewController as? MKMapViewDelegate,
             let mapViewGestureDelegate = viewController as? MapViewGestureDelegate,
             let mapViewCalloutDelegate = viewController as? MapCalloutViewDelegate {
@@ -217,6 +224,7 @@ class MapView: UIView {
         reservationHeaderView.removeFromSuperview()
         reservationFooterView.removeFromSuperview()
     }
+    
     //ReservationView Actions
     @objc func cancelReservation(_ sender: UIButton){
         reservationViewDelegate?.cancelReservation()
@@ -242,6 +250,7 @@ private extension MapView {
     }
     
 }
+
 // Timer functions
 extension MapView {
     func runTimer(for duration: String) {

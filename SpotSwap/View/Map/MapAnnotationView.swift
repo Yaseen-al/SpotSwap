@@ -33,7 +33,7 @@ class MapAnnotationView: MKMarkerAnnotationView {
         if spot.reservationId != nil {
             markerTintColor = Stylesheet.Colors.PinkMain
         } else {
-            markerTintColor = Stylesheet.Colors.OrangeMain
+            markerTintColor = Stylesheet.Colors.PinkMain
         }
     }
     
