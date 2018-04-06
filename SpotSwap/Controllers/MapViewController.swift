@@ -166,6 +166,11 @@ extension MapViewController: LocationServiceDelegate {
 // MARK: - MapViewGestureDelegate
 extension MapViewController: MapViewGestureDelegate {
     func mapViewWasLongPressed(at location: CLLocationCoordinate2D) {
+        guard userHasNoSpots() else {
+            print(#function, "Error: User has a spot already.")
+            Alert.present(from: .userHasSpot)
+            return
+        }
         setupAddSpotView()
         self.newSpot = Spot(location: location)
     }
@@ -278,6 +283,10 @@ extension MapViewController {
 
 //MARK: - ExampleCalloutView Delegate
 extension MapViewController: MapCalloutViewDelegate {
+    func cancelButtonPressed(spot: Spot) {
+        DataBaseService.manager.removeSpot(spotId: spot.spotUID)
+    }
+    
     func reserveButtonPressed(spot: Spot) {
         print("Reserved")
         vehicleOwnerService.reserveSpot(spot)
@@ -297,9 +306,9 @@ extension MapViewController: UIPickerViewDataSource, UIPickerViewDelegate{
         return minutes[row]
     }
 }
-//MARK: - AddSpotView Delegate
 
-extension MapViewController: AddSpotDelegate{
+//MARK: - AddSpotView Delegate
+extension MapViewController: AddSpotDelegate {
 
     func addSpotButtonClicked() {
         let duration = minutes[addSpotView.pickerView.selectedRow(inComponent: 0)]
@@ -310,6 +319,19 @@ extension MapViewController: AddSpotDelegate{
         print("Dev: duration of the spot is \(newSpot.duration)")
     }
     
+    func userHasNoSpots() -> Bool {
+        let spotsCreatedByCurrentUser = contentView.mapView.annotations.filter({ annotation -> Bool in
+            if let spot = annotation as? Spot {
+                if spot.userUID == vehicleOwnerService.getVehicleOwner()?.userUID {
+                    return true
+                }
+                return false
+            }
+            return false
+        })
+        
+        return spotsCreatedByCurrentUser.isEmpty
+    }
     
 }
 //MARK: - Notification Center delegate and Functions
