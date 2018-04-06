@@ -166,11 +166,11 @@ extension MapViewController: LocationServiceDelegate {
 // MARK: - MapViewGestureDelegate
 extension MapViewController: MapViewGestureDelegate {
     func mapViewWasLongPressed(at location: CLLocationCoordinate2D) {
-//        guard userHasNoSpots() else {
-//            print(#function, "Error: User has a spot already.")
-//            Alert.present(from: .userHasSpot)
-//            return
-//        }
+        guard userHasNoSpots() else {
+            print(#function, "Error: User has a spot already.")
+            Alert.present(from: .userHasSpot)
+            return
+        }
         setupAddSpotView()
         self.newSpot = Spot(location: location)
     }

@@ -31,9 +31,9 @@ class MapAnnotationView: MKMarkerAnnotationView {
     private func preparePin(_ annotation: MKAnnotation?) {
         guard let spot = annotation as? Spot else { return }
         if spot.reservationId != nil {
-            markerTintColor = Stylesheet.Colors.PinkMain
+            markerTintColor = Stylesheet.Colors.BlueMain
         } else {
-            markerTintColor = Stylesheet.Colors.PinkMain
+            markerTintColor = Stylesheet.Colors.OrangeMain
         }
     }
     
