@@ -20,6 +20,7 @@
 		1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F467B23205AE11900598418 /* DataBaseService+Spots.swift */; };
 		1F674F6920615EFA00E16D0A /* DataBaseService+Reservations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F674F6820615EFA00E16D0A /* DataBaseService+Reservations.swift */; };
 		1F674F6B206176E700E16D0A /* MenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F674F6A206176E700E16D0A /* MenuView.swift */; };
+		1F6F2EFE20767FED008C8272 /* PushNotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F6F2EFD20767FED008C8272 /* PushNotificationService.swift */; };
 		1F7A31952059665D00A25693 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31942059665D00A25693 /* AppDelegate.swift */; };
 		1F7A31972059665D00A25693 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A31962059665D00A25693 /* ViewController.swift */; };
 		1F7A319D2059665D00A25693 /* SpotSwap.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1F7A319B2059665D00A25693 /* SpotSwap.xcdatamodeld */; };
@@ -102,6 +103,7 @@
 		1F467B23205AE11900598418 /* DataBaseService+Spots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+Spots.swift"; sourceTree = "<group>"; };
 		1F674F6820615EFA00E16D0A /* DataBaseService+Reservations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DataBaseService+Reservations.swift"; sourceTree = "<group>"; };
 		1F674F6A206176E700E16D0A /* MenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuView.swift; sourceTree = "<group>"; };
+		1F6F2EFD20767FED008C8272 /* PushNotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushNotificationService.swift; sourceTree = "<group>"; };
 		1F7A31912059665D00A25693 /* SpotSwap.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpotSwap.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1F7A31942059665D00A25693 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1F7A31962059665D00A25693 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -346,6 +348,7 @@
 				1F467B132059831000598418 /* CarMakeAPIClient.swift */,
 				C4F30A8920600459008B0156 /* VehicleOwnerServices.swift */,
 				1F467B172059896F00598418 /* CareModelsAPIClient.swift */,
+				1F6F2EFD20767FED008C8272 /* PushNotificationService.swift */,
 				1F467B0D20597F3900598418 /* FireBase Services */,
 			);
 			path = Services;
@@ -757,6 +760,7 @@
 				1F467B1A20598D4E00598418 /* Car.swift in Sources */,
 				C4F8A4AE205C3D85001A746A /* Coord.swift in Sources */,
 				1F7A31D12059747900A25693 /* VehicleOwner.swift in Sources */,
+				1F6F2EFE20767FED008C8272 /* PushNotificationService.swift in Sources */,
 				81AEA971205C724E0081FD81 /* RegisterCarView.swift in Sources */,
 				C4DCE412206A95E600F44698 /* MapAnnotationView.swift in Sources */,
 				C4C29B52205C3C4700C25344 /* Stylesheet.swift in Sources */,

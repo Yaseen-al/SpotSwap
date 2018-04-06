@@ -64,11 +64,16 @@ class AuthenticationService {
             }
             if let user = user{
                 completion(user)
+                user.sendEmailVerification(completion: { (error) in
+                    if let error = error{
+                        errorHandler(error)
+                    }
+                })
             }
         }
     }
     //This function will let you sign in
-   public func signIn(email: String, password: String, completion: @escaping (User) -> Void, errorHandler: @escaping(Error)->Void) {
+    public func signIn(email: String, password: String, completion: @escaping (User) -> Void, errorHandler: @escaping(Error)->Void) {
         Auth.auth().signIn(withEmail: email, password: password) { (user, error) in
             if let error = error {
                 print(#function, AuthenticationServiceErrors.signInError)
@@ -87,5 +92,43 @@ class AuthenticationService {
             print(#function, AuthenticationServiceErrors.signOutError)
             errorHandler(error)
         }
+    }
+    //This function will send the password reset email to the user
+    public func resertPassword(userEmail: String,completionHandler: @escaping(Bool)->Void, errorHandler: @escaping(Error)->Void){
+        Auth.auth().sendPasswordReset(withEmail: userEmail) { (error) in
+            guard let error  = error else{return}
+            errorHandler(error)
+        }
+        Auth.auth().sendPasswordReset(withEmail: userEmail, actionCodeSettings: ActionCodeSettings.init()) { (error) in
+            guard let error  = error else{
+                completionHandler(true)
+                return
+            }
+            errorHandler(error)
+        }
+    }
+    //This function will update the user email you should prompt another sign in before updating user credentials
+    public func updateUserEmail(newEmail: String, errorHandler: @escaping(Error)->Void){
+        let currentUser = self.getCurrentUser()
+        guard let safeUser = currentUser else{
+            errorHandler(AuthenticationServiceErrors.noSignedInUser)
+            return
+        }
+        safeUser.updateEmail(to: newEmail, completion: { (error) in
+            guard let error  = error else{return}
+            errorHandler(error)
+        })
+    }
+    //This function will update the user Password you should prompt another sign in before updating user credentials
+    public func updateUserPassword(email: String, oldPassword: String, newPassword: String, errorHandler: @escaping(Error)->Void){
+        let currentUser = self.getCurrentUser()
+        guard let safeUser = currentUser else{
+            errorHandler(AuthenticationServiceErrors.noSignedInUser)
+            return
+        }
+        safeUser.updatePassword(to: newPassword, completion: { (error) in
+            guard let error  = error else{return}
+            errorHandler(error)
+        })
     }
 }
