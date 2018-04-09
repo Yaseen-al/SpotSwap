@@ -33,8 +33,8 @@ class WalkthroughViewController: UIViewController {
         walkthroughView.setupWalkthrough(walkThrough: self.walkthrough)
     }
     
-    @objc func startTapped(_ sender: UIButton) {
-            navigationController?.popViewController(animated: true)
+    @objc func startTapped(_ sender: UIButton!) {
+        navigationController?.popViewController(animated: true)
     }
     //If the user clicks the next button, we will show the next page view controller
     @objc func nextTapped(sender: AnyObject) {

@@ -53,6 +53,7 @@ PODS:
   - nanopb/encode (0.3.8)
   - Pastel (0.3.0)
   - SnapKit (4.0.0)
+  - SwiftGifOrigin (1.6.1)
   - Toucan (1.0.0)
 
 DEPENDENCIES:
@@ -64,6 +65,7 @@ DEPENDENCIES:
   - Kingfisher
   - Pastel
   - SnapKit
+  - SwiftGifOrigin
   - Toucan
 
 SPEC CHECKSUMS:
@@ -82,8 +84,9 @@ SPEC CHECKSUMS:
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
   Pastel: 738740c84f2b15bbcd96ebe99c4e6c2f5dd42262
   SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SwiftGifOrigin: d6679d3ebe9df2e049a84bc52582635107b581f6
   Toucan: 61867fb10948c02e9804280a95eb183e98eac97a
 
-PODFILE CHECKSUM: 7458f197f4e3dd492285cd99bad74ff2bfe8609e
+PODFILE CHECKSUM: 586542ecb2f9a25d098e9abd2fd2145d137f21ab
 
 COCOAPODS: 1.4.0
