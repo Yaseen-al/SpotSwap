@@ -281,9 +281,13 @@ class MapCalloutView: CalloutView {
     }
     
     private func vehicleOwnerMadeThisSpot(_ spot: Spot) -> Bool {
-        let mapViewController = (UIApplication.shared.keyWindow?.rootViewController as! ContainerViewController).mapViewController
-        let vehicleOwner = mapViewController?.vehicleOwnerService.getVehicleOwner()
-        return spot.userUID == vehicleOwner?.userUID
+        if let containerViewController = (UIApplication.shared.keyWindow?.rootViewController as? ContainerViewController){
+            if let mapViewController = containerViewController.mapViewController{
+                let vehicleOwner = mapViewController.vehicleOwnerService.getVehicleOwner()
+            return spot.userUID == vehicleOwner?.userUID
+            }
+        }
+        return false
     }
     
     // This is an example method, defined by `CalloutView`, which is called when you tap on the callout

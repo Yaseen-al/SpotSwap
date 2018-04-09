@@ -91,6 +91,7 @@
 
 /* Begin PBXFileReference section */
 		14EAC68485269372D3FDFB01 /* Pods-SpotSwap.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwap.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwap/Pods-SpotSwap.release.xcconfig"; sourceTree = "<group>"; };
+		1F1DF2DE207BBFD700997349 /* SpotSwap.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SpotSwap.entitlements; sourceTree = "<group>"; };
 		1F467B0B20597E6000598418 /* CarModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarModel.swift; sourceTree = "<group>"; };
 		1F467B0F20597F6C00598418 /* NetworkHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHelper.swift; sourceTree = "<group>"; };
 		1F467B132059831000598418 /* CarMakeAPIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CarMakeAPIClient.swift; sourceTree = "<group>"; };
@@ -243,6 +244,7 @@
 		1F7A31932059665D00A25693 /* SpotSwap */ = {
 			isa = PBXGroup;
 			children = (
+				1F1DF2DE207BBFD700997349 /* SpotSwap.entitlements */,
 				1F7A31CA2059669D00A25693 /* Services */,
 				1F7A31C82059669100A25693 /* View */,
 				1F7A31CB2059670F00A25693 /* Models */,
@@ -482,6 +484,14 @@
 					1F7A31902059665D00A25693 = {
 						CreatedOnToolsVersion = 9.2;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					1F7A31A72059665D00A25693 = {
 						CreatedOnToolsVersion = 9.2;
@@ -926,12 +936,13 @@
 			baseConfigurationReference = DDEF2630DEE7DF0F6896641B /* Pods-SpotSwap.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SpotSwap/SpotSwap.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RBE99A2Y96;
+				DEVELOPMENT_TEAM = J9A6F8G6MR;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = AlphaBits.SpotSwap;
+				PRODUCT_BUNDLE_IDENTIFIER = Dallash22AlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -943,12 +954,13 @@
 			baseConfigurationReference = 14EAC68485269372D3FDFB01 /* Pods-SpotSwap.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SpotSwap/SpotSwap.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = RBE99A2Y96;
+				DEVELOPMENT_TEAM = J9A6F8G6MR;
 				INFOPLIST_FILE = SpotSwap/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = AlphaBits.SpotSwap;
+				PRODUCT_BUNDLE_IDENTIFIER = Dallash22AlphaBits.SpotSwap;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
