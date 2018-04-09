@@ -84,6 +84,7 @@ class ReservationDetailView: UIView {
         fetchVehicleOwnerImage(vehicleOwner: vehicleOwner)
         userNameLabel.text = vehicleOwner.userName
         runTimer(for: reservation.duration)
+        spotDuration = Double(reservation.duration) ?? 5.0
 //        timerButton.setTitle(time, for: .normal)
         prepareViews()
         self.backgroundColor = .clear

@@ -5,6 +5,7 @@ import SnapKit
 protocol MapCalloutViewDelegate: class {
     func reserveButtonPressed(spot: Spot)
     func cancelButtonPressed(spot:Spot)
+    func calloutReservationExpired()
 }
 
 class MapCalloutView: CalloutView {
@@ -129,7 +130,11 @@ class MapCalloutView: CalloutView {
         guard let timer = timer, timer.isValid else { return }
         if spotDuration < 1.0 {
             timer.invalidate()
-            Alert.present(from: .reserveSpotConfirmation)
+//            Alert.present(from: .reserveSpotConfirmation)
+            if let mapView = mapView{
+                mapView.calloutDelegate.calloutReservationExpired()
+            }
+            
         } else {
             spotDuration -= 1.0
             timerLabel.text = DateProvider.parseIntoFormattedString(time: spotDuration)
@@ -281,9 +286,15 @@ class MapCalloutView: CalloutView {
     }
     
     private func vehicleOwnerMadeThisSpot(_ spot: Spot) -> Bool {
-        let mapViewController = (UIApplication.shared.keyWindow?.rootViewController as! ContainerViewController).mapViewController
-        let vehicleOwner = mapViewController?.vehicleOwnerService.getVehicleOwner()
-        return spot.userUID == vehicleOwner?.userUID
+        if let containerViewController = (UIApplication.shared.keyWindow?.rootViewController as? ContainerViewController){
+            if let mapViewController = containerViewController.mapViewController{
+                let vehicleOwner = mapViewController.vehicleOwnerService.getVehicleOwner()
+            return spot.userUID == vehicleOwner?.userUID
+            }
+        } else if spot.userUID == AuthenticationService.manager.getCurrentUser()?.uid{
+            return true
+        }
+        return false
     }
     
     // This is an example method, defined by `CalloutView`, which is called when you tap on the callout
