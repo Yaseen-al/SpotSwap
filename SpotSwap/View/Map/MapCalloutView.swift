@@ -286,6 +286,8 @@ class MapCalloutView: CalloutView {
                 let vehicleOwner = mapViewController.vehicleOwnerService.getVehicleOwner()
             return spot.userUID == vehicleOwner?.userUID
             }
+        } else if spot.userUID == AuthenticationService.manager.getCurrentUser()?.uid{
+            return true
         }
         return false
     }
