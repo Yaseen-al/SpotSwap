@@ -8,6 +8,7 @@ protocol MapViewGestureDelegate: class {
 protocol ReservationViewDelegate: class {
     func completeReservation()
     func cancelReservation()
+    func reservationExpired()
 }
 
 class MapView: UIView {
@@ -262,7 +263,7 @@ extension MapView {
         guard let timer = timer, timer.isValid else { return }
         if spotDuration < 1.0 {
             timer.invalidate()
-            //            Alert.present(from: .reserveSpotConfirmation)
+            reservationViewDelegate?.reservationExpired()
         } else {
             spotDuration -= 1.0
             let timeStr = DateProvider.parseIntoFormattedString(time: spotDuration)
