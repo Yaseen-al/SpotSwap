@@ -38,6 +38,7 @@
 		1FE59562206A8DE600D4FEB7 /* ContainerStoryBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 1FE59561206A8DE600D4FEB7 /* ContainerStoryBoard.storyboard */; };
 		1FE59564206A8DFD00D4FEB7 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE59563206A8DFD00D4FEB7 /* ContainerViewController.swift */; };
 		1FE59566206A913A00D4FEB7 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1FE59565206A913A00D4FEB7 /* MenuViewController.swift */; };
+		814EE6872076E3F300A52754 /* Swift+Gif.swift in Sources */ = {isa = PBXBuildFile; fileRef = 814EE6862076E3F200A52754 /* Swift+Gif.swift */; };
 		81AEA971205C724E0081FD81 /* RegisterCarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA970205C724E0081FD81 /* RegisterCarView.swift */; };
 		81AEA973205C72A60081FD81 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA972205C72A60081FD81 /* SignUpView.swift */; };
 		81AEA975205FBE870081FD81 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81AEA974205FBE870081FD81 /* SignUpViewController.swift */; };
@@ -127,6 +128,7 @@
 		373747897C07028A9FFDE640 /* Pods-SpotSwapTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapTests/Pods-SpotSwapTests.debug.xcconfig"; sourceTree = "<group>"; };
 		3A4CF3009A658F8DCB5DD695 /* Pods-SpotSwapTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapTests/Pods-SpotSwapTests.release.xcconfig"; sourceTree = "<group>"; };
 		6DE1AB7B687F8DBB5BC9F18E /* Pods-SpotSwapUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SpotSwapUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SpotSwapUITests/Pods-SpotSwapUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		814EE6862076E3F200A52754 /* Swift+Gif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Swift+Gif.swift"; sourceTree = "<group>"; };
 		81AEA970205C724E0081FD81 /* RegisterCarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterCarView.swift; sourceTree = "<group>"; };
 		81AEA972205C72A60081FD81 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
 		81AEA974205FBE870081FD81 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
@@ -288,6 +290,7 @@
 		1F7A31C62059667900A25693 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				814EE6862076E3F200A52754 /* Swift+Gif.swift */,
 				81F9369A20645E8000BF5DA0 /* SearchTextField.swift */,
 				C4C29B4F205C3C4600C25344 /* Stylesheet.swift */,
 				C4C29B50205C3C4700C25344 /* UIColor+Hex.swift */,
@@ -711,6 +714,7 @@
 				C4F8A4AC205C3D6C001A746A /* LocationServices.swift in Sources */,
 				1F467B24205AE11900598418 /* DataBaseService+Spots.swift in Sources */,
 				1F467B1020597F6C00598418 /* NetworkHelper.swift in Sources */,
+				814EE6872076E3F300A52754 /* Swift+Gif.swift in Sources */,
 				81BFAE79205F6C1700E27389 /* LaunchView.swift in Sources */,
 				1F9A92D020636D0000A9FEFC /* StorageService.swift in Sources */,
 				1F674F6B206176E700E16D0A /* MenuView.swift in Sources */,
