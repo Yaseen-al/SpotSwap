@@ -76,8 +76,6 @@ class MapViewController: UIViewController {
         pushNotificationService = PushNotificationService(viewControllerConformsToUNUserNotificationCenterDelegate: self)
     }
 
-    
-    
 }
 
 // MARK: - Map Helper Functions
@@ -239,6 +237,11 @@ extension MapViewController: VehicleOwnerServiceDelegate {
 
 //MARK: - DetailReservation Delegate
 extension MapViewController: ReservationViewDelegate {
+    func reservationExpired() {
+        alertWithOkButton(title: "Your Reservation is expired", message: nil)
+        completeReservation()
+    }
+    
     func cancelReservation() {
         reservationCancelationHelper()
     }
@@ -280,6 +283,10 @@ extension MapViewController {
 
 //MARK: - ExampleCalloutView Delegate
 extension MapViewController: MapCalloutViewDelegate {
+    func calloutReservationExpired() {
+        reservationExpired()
+    }
+    
     func cancelButtonPressed(spot: Spot) {
         DataBaseService.manager.removeSpot(spotId: spot.spotUID)
     }

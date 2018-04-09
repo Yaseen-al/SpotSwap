@@ -5,6 +5,7 @@ import SnapKit
 protocol MapCalloutViewDelegate: class {
     func reserveButtonPressed(spot: Spot)
     func cancelButtonPressed(spot:Spot)
+    func calloutReservationExpired()
 }
 
 class MapCalloutView: CalloutView {
@@ -129,7 +130,11 @@ class MapCalloutView: CalloutView {
         guard let timer = timer, timer.isValid else { return }
         if spotDuration < 1.0 {
             timer.invalidate()
-            Alert.present(from: .reserveSpotConfirmation)
+//            Alert.present(from: .reserveSpotConfirmation)
+            if let mapView = mapView{
+                mapView.calloutDelegate.calloutReservationExpired()
+            }
+            
         } else {
             spotDuration -= 1.0
             timerLabel.text = DateProvider.parseIntoFormattedString(time: spotDuration)
