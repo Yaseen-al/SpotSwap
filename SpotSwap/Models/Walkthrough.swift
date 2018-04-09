@@ -14,11 +14,14 @@ class Walkthrough {
     let tutorialImage: UIImage?
     let pageControlIndex: Int
     let isLastWalkthrough: Bool
-    init(headerLabelText: String, descriptionText: String, tutorialImage: UIImage?, pageControlIndex: Int, isLastWalkthrough: Bool) {
+    let gifName: String?
+    init(headerLabelText: String, descriptionText: String, tutorialImage: UIImage?, pageControlIndex: Int, isLastWalkthrough: Bool, gifName: String?) {
         self.headerLabelText = headerLabelText
         self.tutorialImage = tutorialImage
         self.descriptionText = descriptionText
         self.isLastWalkthrough = isLastWalkthrough
         self.pageControlIndex = pageControlIndex
+        self.gifName = gifName
     }
 }
+

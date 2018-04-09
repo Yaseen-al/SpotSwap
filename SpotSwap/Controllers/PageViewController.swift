@@ -1,15 +1,21 @@
 
 import UIKit
-
+private var testGifLink = "https://media.giphy.com/media/KY3VnTOONvgxllVac0/giphy.gif"
+private var reserveSpot = "ReserveSpot"
+private var offerSpotGif = "OfferSpot"
 class PageViewController: UIPageViewController {
-    
     //some hard coded data for our walkthrough screens
-    var walkthroughs = [Walkthrough(headerLabelText: "Reserve a parking spot", descriptionText: "On the map, tap the space you would like to reserve", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 0, isLastWalkthrough: false),
-                        Walkthrough(headerLabelText: "Offer a parking spot", descriptionText: "Once you're ready to leave your parking spot, swipe the leaving button", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 1, isLastWalkthrough: false),
-                        Walkthrough(headerLabelText: "Earn points!", descriptionText: "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 2, isLastWalkthrough: false),
-                        Walkthrough(headerLabelText: "Find a spot!", descriptionText: "", tutorialImage: #imageLiteral(resourceName: "phone"), pageControlIndex: 3, isLastWalkthrough: true)
-    ]
+    var walkthroughs = [Walkthrough(headerLabelText: "Reserve a parking spot", descriptionText: "On the map, tap the space you would like to reserve", tutorialImage: nil, pageControlIndex: 0, isLastWalkthrough: false, gifName: reserveSpot),
+                        Walkthrough(headerLabelText: "Offer a parking spot", descriptionText: "Once you're ready to leave your parking spot, swipe the leaving button", tutorialImage: nil, pageControlIndex: 1, isLastWalkthrough: false, gifName: offerSpotGif),
+                        Walkthrough(headerLabelText: "Earn points!", descriptionText: "Offer more spots gain more points! At 100 points you'll get access to parking spots before anyone else", tutorialImage: #imageLiteral(resourceName: "Points"), pageControlIndex: 2, isLastWalkthrough: false, gifName: nil),
+                        Walkthrough(headerLabelText: "Find a spot!", descriptionText: "", tutorialImage: #imageLiteral(resourceName: "SpotsAvailable"), pageControlIndex: 3, isLastWalkthrough: false, gifName: nil),
+                        Walkthrough(headerLabelText: "Community Guidelines", descriptionText: "Here at SpotSwap, we want to create a positive parking experience.", tutorialImage: #imageLiteral(resourceName: "Guidelines"), pageControlIndex: 4, isLastWalkthrough: false, gifName: nil),
+                        Walkthrough(headerLabelText: "Community Guidelines", descriptionText: "Here at SpotSwap, we want to create a positive parking experience.", tutorialImage: #imageLiteral(resourceName: "Top2"), pageControlIndex: 5, isLastWalkthrough: true, gifName: nil)
 
+                        
+    ]
+    
+    
     //    private var colors = [UIColor.red, UIColor.blue, UIColor.orange]
     
     override init(transitionStyle style: UIPageViewControllerTransitionStyle, navigationOrientation: UIPageViewControllerNavigationOrientation, options: [String : Any]? = nil) {
