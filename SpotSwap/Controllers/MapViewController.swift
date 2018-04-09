@@ -179,13 +179,10 @@ extension MapViewController: MapViewGestureDelegate {
 // MARK: - VehicleOwnerServiceDelegate
 extension MapViewController: VehicleOwnerServiceDelegate {
     func vehicleOwnerRetrieved() {
-        
     }
-    
     func vehiclOwnerRemoveReservation(_ reservationId: Reservation) {
         //To Do remove the reservationView if it is on the mainView and load all the spots back
     }
-    
     func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner) {
         DataBaseService.manager.retrieveReservation(reservationId: reservationId, dataBaseObserveType: .singleEvent, completion: { reservation in
             //Adding annotaion for the reservation
@@ -316,7 +313,12 @@ extension MapViewController: AddSpotDelegate {
         newSpot.duration = duration
         DataBaseService.manager.addSpot(spot: newSpot)
         self.addSpotView.removeFromSuperview()
-        print("Dev: duration of the spot is \(newSpot.duration)")
+        guard let durationTimeInterval = TimeInterval(duration) else {
+            return
+        }
+        pushNotificationService.triggerExpiredSpotNotification(trigerDuration: durationTimeInterval*60, errorHandler: { (error) in
+            print(error.localizedDescription)
+        }, spot: newSpot)
     }
     
     func userHasNoSpots() -> Bool {
@@ -332,6 +334,7 @@ extension MapViewController: AddSpotDelegate {
         
         return spotsCreatedByCurrentUser.isEmpty
     }
+
     
 }
 //MARK: - Notification Center delegate and Functions
@@ -341,7 +344,6 @@ extension MapViewController: UNUserNotificationCenterDelegate{
         completionHandler([.alert, .sound, .badge])
     }
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
-        
     }
     
 }
