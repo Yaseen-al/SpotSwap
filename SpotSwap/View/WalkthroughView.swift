@@ -47,7 +47,7 @@ class WalkthroughView: UIView {
     lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.currentPage = 0
-        pc.numberOfPages = 4
+        pc.numberOfPages = 6 //TODO This should be fixed to an input for setup not a constant
         pc.pageIndicatorTintColor = Stylesheet.Colors.PinkMain
         pc.currentPageIndicatorTintColor = Stylesheet.Colors.OrangeMain
         pc.transform = CGAffineTransform(scaleX: 2, y: 2) //1.3// set dot scale of pageControl
@@ -180,12 +180,8 @@ class WalkthroughView: UIView {
         self.tutorialImageView.image = walkThrough.tutorialImage
         self.pageControl.currentPage = walkThrough.pageControlIndex
         if let safeGifName = walkThrough.gifName {
-            //as if your have a double and an int and you want to assign them to each other
             self.tutorialImageView.loadGif(asset: safeGifName)
-            //            self.tutorialImageView.image =  UIImage.gif(url: safeGifName)
-            
         }
-        
         guard walkThrough.isLastWalkthrough else {
             setupNextButton()
             return
