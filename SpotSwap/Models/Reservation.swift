@@ -31,7 +31,12 @@ class Reservation: NSObject, Codable {
         self.latitude = availableSpot.latitude
         self.timeStamp = availableSpot.timeStamp
         self.timeStamp1970 = DateProvider.currentTimeSince1970()
-        self.duration = availableSpot.duration
+        guard let spotDurationInMinutes = Double(availableSpot.duration)else{
+            self.duration = availableSpot.duration
+            return
+        }
+        let duration = spotDurationInMinutes*60 - (DateProvider.currentTimeSince1970() - availableSpot.timeStamp1970)
+            self.duration = (duration/60).description
     }
 
 }

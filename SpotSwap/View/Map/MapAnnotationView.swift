@@ -63,12 +63,12 @@ class MapAnnotationView: MKMarkerAnnotationView {
                     calloutView.alpha = 0
                 }, completion: { finished in
                     calloutView.removeFromSuperview()
-                    self.calloutView?.timer = nil
+                    self.calloutView?.calloutTimer = nil
                     self.calloutView = nil
                 })
             } else {
                 calloutView.removeFromSuperview()
-                self.calloutView?.timer = nil
+                self.calloutView?.calloutTimer = nil
                 self.calloutView = nil
             }
         }

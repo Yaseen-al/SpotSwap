@@ -7,7 +7,7 @@ class DateProvider {
     //    private init() {
     //        dateFormatter = DateFormatter()
     //    }
-    static let expirationTime: TimeInterval = 120
+    static let expirationTime: TimeInterval = 600
     static public func currentTime() -> String {
         let date = Date()
         dateFormatter.dateFormat = "h:mm a"
