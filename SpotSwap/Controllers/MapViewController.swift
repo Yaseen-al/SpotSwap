@@ -283,8 +283,9 @@ extension MapViewController {
 
 //MARK: - ExampleCalloutView Delegate
 extension MapViewController: MapCalloutViewDelegate {
-    func calloutReservationExpired() {
-        reservationExpired()
+    func calloutSpotExpired() {
+        alertWithOkButton(title: "Current Spot has Expired", message: nil)
+        LocationService.manager.addSpotsFromFirebaseToMap()
     }
     
     func cancelButtonPressed(spot: Spot) {
