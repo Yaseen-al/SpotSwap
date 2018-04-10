@@ -31,8 +31,8 @@ extension DataBaseService{
             
             // return regular user spots or spot
             let fileteredSpots = allSpots.filter({ (spot) -> Bool in
-                guard let spotDuration = Double(spot.duration) else{return false}
-                if DateProvider.currentTimeSince1970() - spot.timeStamp1970 < spotDuration{
+                guard let spotDurationInMinutes = Double(spot.duration) else{return false}
+                if DateProvider.currentTimeSince1970() - spot.timeStamp1970 < spotDurationInMinutes * 60{
                     return true
                 }else{
                     self.removeSpot(spotId: spot.spotUID)
