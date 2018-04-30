@@ -21,7 +21,7 @@ Forget the road rage and stress, it's time to live your best life.
 - User can reserve a spot to swap.
 - Users can see each other profile images during  a reservation.
 - App uses local notifications to notify users when some one reserved their spot.
-<img src="https://github.com/Yaseen-al/SpotSwap/blob/devkaniz/SpotSwap/Supporting%20Files/Assets.xcassets/ReserveSpot.imageset/ReserveSpot.gif" width="40" height="60" />
+<img src="https://github.com/Yaseen-al/SpotSwap/blob/devkaniz/SpotSwap/Supporting%20Files/Assets.xcassets/ReserveSpot.imageset/ReserveSpot.gif" width="100" height="200" />
 
 
 ## Requirements
