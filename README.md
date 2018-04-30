@@ -16,9 +16,9 @@
 
 ## Collaborators
 - **Project Manager**: [Caroline Cruz](https://github.com/caroline608)
-- **Tech Lead**: [Yaseen Alladeesh](https://github.com/lynksdomain)
-- **Design Lead**: [Masai Young](https://github.com/ashleealyse)
-- **Demo Lead**: [Kaniz Ali](https://github.com/adjNoun)
+- **Tech Lead**: [Yaseen Alladeesh](https://github.com/Yaseen-al)
+- **Design Lead**: [Masai Young](https://github.com/SaiKhal)
+- **Demo Lead**: [Kaniz Ali](https://github.com/knzknz)
 
 ## Request Demo
 [SpotSwap App](https://spotswap.gr8.com)
