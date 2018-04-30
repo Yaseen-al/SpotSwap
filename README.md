@@ -1,7 +1,14 @@
 # SpotSwap
 
 ## Overview
- 
+ Parking is painful! Circling around NYC streets in search of a parking spot is a long, tedious, process. New Yorkers will spend on average 107 hours and $2,243 in wasted time, fuel, and emissions a year according to an analysis by INRIX, a leading specialist in connected car services and transportation analytics. The at-times maddening searches may also lead to unforeseen personal and emotional problems. According to the report, nearly two-thirds of the U.S. drivers reported they felt stressed while trying to find a parking spot.
+
+## Solution
+Now think about it with the amount of time and money spent searching for a spot you can go on relaxing vacation, see a therapist, learn a new skill, basically just about anything. But it’s nearly impossible to be at the right place at the right time, when it comes to these parking situations…or is it?
+
+With SpotSwap we want to increase the users odds of finding a parking spot in the busiest areas in less than 10 minutes. How it works, a user who has a parking spot will send out an annotation of a spot opening and the time they will be at their car. If a user searching for a spot is within the time frame distance they will be able to see the ping and secure the spot before the driver gets to their car. The spot will only be available until the user with the parking spot reaches their car and time expires. To attract user there will be point incentive to use SpotSwap. Each time user completes a successful swap user will gain points. When user reaches frequent successful swapper level user will be rewarded by being able to see all parking spots first, for a limited time before they are offered to other users.
+
+Forget the road rage and stress, it's time to live your best life. 
 
 
 
