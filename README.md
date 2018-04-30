@@ -23,7 +23,7 @@ Forget the road rage and stress, it's time to live your best life.
 
 ## Collaborators
 - **Project Manager**: [Caroline Cruz](https://github.com/caroline608)
-- **Tech Lead**: [Yaseen Alladeesh](https://github.com/Yaseen-al)
+- **Tech Lead**: [Yaseen AlDallash](https://github.com/Yaseen-al)
 - **Design Lead**: [Masai Young](https://github.com/SaiKhal)
 - **Demo Lead**: [Kaniz Ali](https://github.com/knzknz)
 
