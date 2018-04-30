@@ -10,9 +10,17 @@ With SpotSwap we want to increase the users odds of finding a parking spot in th
 
 Forget the road rage and stress, it's time to live your best life. 
 
-
-
 ## Features
+- User can sign up using firebase Authentications.
+- User can register their car to their account.
+- User can upload profile image and car image.
+- User can put a spot to be available for reservation for different durations 3-10 minutes.
+- App handles expired spots and delete expired ones from the data base.
+- User can only add one spot.
+- User can delete his spot.
+- User can reserve a spot to swap.
+- Users can see each other profile images during  a reservation.
+- App uses local notifications to notify users when some one reserved their spot.
 
 
 
