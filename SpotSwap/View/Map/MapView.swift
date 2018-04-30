@@ -8,10 +8,14 @@ protocol MapViewGestureDelegate: class {
 protocol ReservationViewDelegate: class {
     func completeReservation()
     func cancelReservation()
+    func reservationExpired()
 }
 
 class MapView: UIView {
-    
+    var parentViewController: MapViewController?
+////        return gestureDelegate as? MapViewController
+//        return gestureDelegate as? MapViewController
+//    }
     weak var gestureDelegate: MapViewGestureDelegate!
     weak var calloutDelegate: MapCalloutViewDelegate!
     weak var reservationViewDelegate: ReservationViewDelegate?
@@ -84,9 +88,13 @@ class MapView: UIView {
         let timer = Timer()
         return timer
     }()
+    
     // MARK: - Inits
     init(viewController: UIViewController) {
         self.init()
+        if let mapViewController = viewController as? MapViewController {
+            self.parentViewController = mapViewController
+        }
         if let mapViewDelegate = viewController as? MKMapViewDelegate,
             let mapViewGestureDelegate = viewController as? MapViewGestureDelegate,
             let mapViewCalloutDelegate = viewController as? MapCalloutViewDelegate {
@@ -192,7 +200,7 @@ class MapView: UIView {
     public func showReservationView(with vehicleOwner: VehicleOwner, reservation: Reservation){
         userNameLabel.text = vehicleOwner.userName
 //        timerButton.setTitle(reservation.duration, for: .normal)
-        runTimer(for: reservation.duration)
+        runTimer(for: reservation.duration, reservation: reservation)
         prepareReservationHeaderView()
         prepareReservationFooterView()
         prepareProfileImageView()
@@ -217,6 +225,7 @@ class MapView: UIView {
         reservationHeaderView.removeFromSuperview()
         reservationFooterView.removeFromSuperview()
     }
+    
     //ReservationView Actions
     @objc func cancelReservation(_ sender: UIButton){
         reservationViewDelegate?.cancelReservation()
@@ -242,10 +251,14 @@ private extension MapView {
     }
     
 }
+
 // Timer functions
 extension MapView {
-    func runTimer(for duration: String) {
-        spotDuration = DateProvider.parseIntoSeconds(duration: duration)
+    func runTimer(for duration: String, reservation: Reservation) {
+        guard let spotDurationInMinutes = Double(reservation.duration)else{return}
+        let duration = spotDurationInMinutes*60 - (DateProvider.currentTimeSince1970() - reservation.timeStamp1970)
+        print(duration)
+        spotDuration = duration
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
@@ -253,8 +266,9 @@ extension MapView {
         guard let timer = timer, timer.isValid else { return }
         if spotDuration < 1.0 {
             timer.invalidate()
-            //            Alert.present(from: .reserveSpotConfirmation)
+            reservationViewDelegate?.reservationExpired()
         } else {
+            print(spotDuration)
             spotDuration -= 1.0
             let timeStr = DateProvider.parseIntoFormattedString(time: spotDuration)
             timerButton.setTitle(timeStr, for: .normal)

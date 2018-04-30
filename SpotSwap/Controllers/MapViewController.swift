@@ -1,7 +1,7 @@
 import UIKit
 import MapKit
 import CoreLocation
-
+import UserNotifications
 protocol MenuContainerDelegate: class {
     func triggerMenu()
 }
@@ -13,10 +13,12 @@ class MapViewController: UIViewController {
     private var initialLaunch = true
     private var contentView = MapView()
     private var addSpotView = AddSpotView()
+    private var pushNotificationService: PushNotificationService!
     var menuContainerDelegate: MenuContainerDelegate?
     private var newSpot: Spot?
     // This is basically an instance of the current vehicle owner in a class that have some functions that helps in controlling the flow of the vehicleOwner operations.
     var vehicleOwnerService: VehicleOwnerService!
+
     private var minutes = ["3","4","5", "6", "7", "8", "9", "10"]
     
     // MARK: - View Life Cycle
@@ -24,19 +26,17 @@ class MapViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupContentView()
-        setupDelegates()
         setupServices()
-        self.view.backgroundColor = Stylesheet.Colors.GrayMain
+        setupDelegates()
     }
     
     // MARK: - Setup - View/Data
     private func setupNavigationBar() {
-        navigationItem.title = "SpotSwap"
-//        navigationItem.title.fo
-//        let logoView = UIImageView()
-//        logoView.image = #imageLiteral(resourceName: "SpotSwapLogo")
-//        logoView.contentMode = .scaleToFill
-//        navigationItem.titleView = logoView
+        let labelView = UILabel()
+        labelView.text = "Spot Swap"
+        labelView.font = UIFont(name: Stylesheet.Fonts.Bold, size: 20)
+        labelView.textColor = Stylesheet.Colors.White
+        navigationItem.titleView = labelView
         navigationController?.navigationBar.barTintColor = Stylesheet.Contexts.NavigationController.BarColor
         let listNavigationItem = UIBarButtonItem(image: #imageLiteral(resourceName: "listIcon"), style: .plain, target: self, action: #selector(handleMenu(_:)))
         listNavigationItem.tintColor = .white
@@ -55,6 +55,7 @@ class MapViewController: UIViewController {
         self.addSpotView.pickerView.delegate = self
         self.addSpotView.pickerView.dataSource = self
         self.addSpotView.delegate = self
+//        self.pushNotificationService.unNotificationCenter.delegate = self
     }
     
     private func setupContentView() {
@@ -72,10 +73,9 @@ class MapViewController: UIViewController {
     }
     private func setupServices() {
         vehicleOwnerService = VehicleOwnerService(self)
+        pushNotificationService = PushNotificationService(viewControllerConformsToUNUserNotificationCenterDelegate: self)
     }
-    
-    
-    
+
 }
 
 // MARK: - Map Helper Functions
@@ -164,6 +164,11 @@ extension MapViewController: LocationServiceDelegate {
 // MARK: - MapViewGestureDelegate
 extension MapViewController: MapViewGestureDelegate {
     func mapViewWasLongPressed(at location: CLLocationCoordinate2D) {
+        guard userHasNoSpots() else {
+            print(#function, "Error: User has a spot already.")
+            Alert.present(from: .userHasSpot)
+            return
+        }
         setupAddSpotView()
         self.newSpot = Spot(location: location)
     }
@@ -172,22 +177,17 @@ extension MapViewController: MapViewGestureDelegate {
 // MARK: - VehicleOwnerServiceDelegate
 extension MapViewController: VehicleOwnerServiceDelegate {
     func vehicleOwnerRetrieved() {
-        
     }
-    
     func vehiclOwnerRemoveReservation(_ reservationId: Reservation) {
         //To Do remove the reservationView if it is on the mainView and load all the spots back
     }
-    
     func vehicleOwnerSpotReserved(reservationId: String, currentVehicleOwner: VehicleOwner) {
         DataBaseService.manager.retrieveReservation(reservationId: reservationId, dataBaseObserveType: .singleEvent, completion: { reservation in
             //Adding annotaion for the reservation
             let reservationAnnotation = MKPointAnnotation()
             reservationAnnotation.coordinate = CLLocationCoordinate2D(latitude: reservation.latitude, longitude: reservation.longitude)
-            
             self.contentView.mapView.removeAnnotations(self.contentView.mapView.annotations)
             self.contentView.mapView.addAnnotation(reservationAnnotation)
-            
             //This will check to setup the reservationDetailView a. if the current user is the spot owner or b. if the current user is the reserver
             if reservation.takerId == currentVehicleOwner.userUID {
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.spotOwnerId, dataBaseObserveType: .singleEvent, completion: {(vehicleOwnerTaker) in
@@ -202,6 +202,8 @@ extension MapViewController: VehicleOwnerServiceDelegate {
                 })
             } else {
                 DataBaseService.manager.retrieveVehicleOwner(vehicleOwnerId: reservation.takerId, dataBaseObserveType: .singleEvent, completion: {(spotOwnerVehicleOwner) in
+                    self.pushNotificationService.triggerReservationNotification(vehicleOwner: spotOwnerVehicleOwner, trigerDuration: 0.1, reservation: reservation, errorHandler: { (error) in
+                    })
                     self.contentView.showReservationView(with: spotOwnerVehicleOwner, reservation: reservation)
                 }, errorHandler: { (error) in
                     //this will give an alert to the user in case the taker data can't be retrieved
@@ -224,7 +226,10 @@ extension MapViewController: VehicleOwnerServiceDelegate {
     
     func vehiclOwnerHasNoReservation() {
         if contentView.reservationHeaderView.isDescendant(of: contentView){
-            alertWithOkButton(title: "Reservation was canceled or completed", message: nil)
+            self.pushNotificationService.triggerCompletedNotification(trigerDuration: 0.1, errorHandler: { (error) in
+                print(error)
+            })
+//            alertWithOkButton(title: "Reservation was canceled or completed", message: nil)
             contentView.removeReservationDetailsFromMap()
         }
     }
@@ -232,6 +237,11 @@ extension MapViewController: VehicleOwnerServiceDelegate {
 
 //MARK: - DetailReservation Delegate
 extension MapViewController: ReservationViewDelegate {
+    func reservationExpired() {
+        alertWithOkButton(title: "Your Reservation is expired", message: nil)
+        completeReservation()
+    }
+    
     func cancelReservation() {
         reservationCancelationHelper()
     }
@@ -273,6 +283,15 @@ extension MapViewController {
 
 //MARK: - ExampleCalloutView Delegate
 extension MapViewController: MapCalloutViewDelegate {
+    func calloutSpotExpired() {
+        alertWithOkButton(title: "Current Spot has Expired", message: nil)
+        LocationService.manager.addSpotsFromFirebaseToMap()
+    }
+    
+    func cancelButtonPressed(spot: Spot) {
+        DataBaseService.manager.removeSpot(spotId: spot.spotUID)
+    }
+    
     func reserveButtonPressed(spot: Spot) {
         print("Reserved")
         vehicleOwnerService.reserveSpot(spot)
@@ -292,21 +311,48 @@ extension MapViewController: UIPickerViewDataSource, UIPickerViewDelegate{
         return minutes[row]
     }
 }
+
 //MARK: - AddSpotView Delegate
+extension MapViewController: AddSpotDelegate {
 
-extension MapViewController: AddSpotDelegate{
-
-    
     func addSpotButtonClicked() {
         let duration = minutes[addSpotView.pickerView.selectedRow(inComponent: 0)]
         guard let newSpot = newSpot else {return}
         newSpot.duration = duration
-        //todo add a timer for the duration
         DataBaseService.manager.addSpot(spot: newSpot)
         self.addSpotView.removeFromSuperview()
-        print("Dev: duration of the spot is \(newSpot.duration)")
+        guard let durationTimeInterval = TimeInterval(duration) else {
+            return
+        }
+        pushNotificationService.triggerExpiredSpotNotification(trigerDuration: durationTimeInterval*60, errorHandler: { (error) in
+            print(error.localizedDescription)
+        }, spot: newSpot)
     }
     
+    func userHasNoSpots() -> Bool {
+        let spotsCreatedByCurrentUser = contentView.mapView.annotations.filter({ annotation -> Bool in
+            if let spot = annotation as? Spot {
+                if spot.userUID == vehicleOwnerService.getVehicleOwner()?.userUID {
+                    return true
+                }
+                return false
+            }
+            return false
+        })
+        
+        return spotsCreatedByCurrentUser.isEmpty
+    }
+
+    
+}
+//MARK: - Notification Center delegate and Functions
+
+extension MapViewController: UNUserNotificationCenterDelegate{
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .sound, .badge])
+    }
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+    }
     
 }
 

@@ -10,6 +10,7 @@ import UIKit
 //MARK: - Delegate protocols
 protocol MenuDelegate {
     func signOutButtonClicked(_ sender: MenuView)
+    func profileButtonClicked(_ sender: MenuView)
 }
 
 class MenuView: UIView {
@@ -98,6 +99,7 @@ class MenuView: UIView {
         button.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
         button.layer.shadowOpacity = 1.0
         button.setTitle("Profile", for: .normal)
+        button.addTarget(self, action: #selector(profileButtonAction(_:)), for: .touchUpInside)
         return button
     }()
     lazy var tutorialLogo: UIImageView = {
@@ -265,5 +267,13 @@ class MenuView: UIView {
         delegate?.signOutButtonClicked(self)
     }
     
+    @objc func profileButtonAction(_ sender: UIButton) {
+        delegate?.profileButtonClicked(self)
+    }
+    
 
+}
+
+extension MenuView {
+    
 }

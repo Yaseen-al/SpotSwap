@@ -14,6 +14,7 @@ struct Alert {
     enum AlertType {
         case reserveSpotConfirmation
         case emptyTextFields
+        case userHasSpot
     }
     
     let title: String
@@ -35,7 +36,11 @@ struct Alert {
         case .emptyTextFields:
             title = "Please have a valid entry in the input fields"
             message = nil
-            actions = ["Ok"]
+            actions = ["OK"]
+        case .userHasSpot:
+            title = "You already have a spot on the map."
+            message = "Please cancel first spot before making more."
+            actions = ["OK"]
         }
     }
     

@@ -35,7 +35,7 @@ class WalkthroughView: UIView {
     
     lazy var tutorialImageView: UIImageView = {
         let logo = UIImageView()
-        logo.contentMode = .scaleAspectFill
+        logo.contentMode = .scaleAspectFit
         //style details
         logo.layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 0.25).cgColor
         logo.layer.shadowOffset = CGSize(width: 0.0, height: 4.0)
@@ -47,7 +47,7 @@ class WalkthroughView: UIView {
     lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.currentPage = 0
-        pc.numberOfPages = 4
+        pc.numberOfPages = 6 //TODO This should be fixed to an input for setup not a constant
         pc.pageIndicatorTintColor = Stylesheet.Colors.PinkMain
         pc.currentPageIndicatorTintColor = Stylesheet.Colors.OrangeMain
         pc.transform = CGAffineTransform(scaleX: 2, y: 2) //1.3// set dot scale of pageControl
@@ -116,10 +116,9 @@ class WalkthroughView: UIView {
     private func setupImageView() {
         addSubview(tutorialImageView)
         tutorialImageView.snp.makeConstraints { (make) in
-            make.height.equalTo(snp.height).multipliedBy(0.80)
+            make.height.equalTo(snp.height).multipliedBy(0.85)
             make.width.equalTo(snp.width).multipliedBy(0.80)
-            make.centerX.equalTo(snp.centerX)
-            make.top.equalTo(safeAreaLayoutGuide.snp.top).offset(30)
+            make.center.equalTo(snp.center)
         }
     }
     
@@ -150,7 +149,7 @@ class WalkthroughView: UIView {
             //make.height.equalTo(bottomView.snp.height).multipliedBy(0.05)
         }
     }
-
+    
     private func setupNextButton() {
         self.addSubview(nextButton)
         nextButton.snp.makeConstraints { (make) in
@@ -180,13 +179,17 @@ class WalkthroughView: UIView {
         self.descriptionLabel.text = walkThrough.descriptionText
         self.tutorialImageView.image = walkThrough.tutorialImage
         self.pageControl.currentPage = walkThrough.pageControlIndex
+        if let safeGifName = walkThrough.gifName {
+            self.tutorialImageView.loadGif(asset: safeGifName)
+        }
         guard walkThrough.isLastWalkthrough else {
             setupNextButton()
             return
         }
         setupStartButton()
+        
     }
-
+    
     
 }
 

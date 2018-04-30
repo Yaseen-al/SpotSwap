@@ -15,6 +15,7 @@ enum MenuStatus{
 class ContainerViewController: UIViewController, MenuContainerDelegate {
     
     @IBOutlet weak var menuLeadingConstraint: NSLayoutConstraint!
+    weak var mapViewController: MapViewController?
     private var menuStatus = MenuStatus.hidden
     private let menuWidth: CGFloat = 200
     private let menuPopHideConstant: CGFloat = 10
@@ -29,7 +30,7 @@ class ContainerViewController: UIViewController, MenuContainerDelegate {
             if  let destination = segue.destination as? UINavigationController {
                 if let root = destination.viewControllers.first as? MapViewController {
                     root.menuContainerDelegate = self
-
+                    mapViewController = root
                 }
 
             }

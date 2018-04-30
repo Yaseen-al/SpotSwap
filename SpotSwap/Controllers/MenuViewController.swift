@@ -18,7 +18,6 @@ class MenuViewController: UIViewController {
     }
     func setupMenuView() {
         guard let vehicleOwner = vehicleOwnerService.getVehicleOwner() else {return}
-
         menuView = MenuView(vehicleOwner)
         self.menuView.delegate = self
         view.addSubview(menuView)
@@ -27,7 +26,7 @@ class MenuViewController: UIViewController {
         }
     }
 }
-extension MenuViewController: MenuDelegate{
+extension MenuViewController: MenuDelegate {
     // This will handle the signout from the menu
     func signOutButtonClicked(_ sender: MenuView) {
         AuthenticationService.manager.signOut { (error) in
@@ -37,6 +36,11 @@ extension MenuViewController: MenuDelegate{
         }
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         appDelegate.loadLaunchViewController()
+    }
+    
+    func profileButtonClicked(_ sender: MenuView) {
+//        Alert.present(from: .reserveSpotConfirmation)
+        present(ProfileViewControleller(), animated: true, completion: nil)
     }
     
 }
