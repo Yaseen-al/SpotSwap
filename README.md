@@ -2,6 +2,13 @@
 
 ## Overview
  Parking is painful! Circling around NYC streets in search of a parking spot is a long, tedious, process. New Yorkers will spend on average 107 hours and $2,243 in wasted time, fuel, and emissions a year according to an analysis by INRIX, a leading specialist in connected car services and transportation analytics. The at-times maddening searches may also lead to unforeseen personal and emotional problems. According to the report, nearly two-thirds of the U.S. drivers reported they felt stressed while trying to find a parking spot.
+ 
+ <a href="https://imgflip.com/gif/2exiwg"><img src="https://i.imgflip.com/2exiwg.gif" title="Login"/></a>
+<a href="https://imgflip.com/gif/2exk6b"><img src="https://i.imgflip.com/2exk6b.gif" title="made at imgflip.com"/></a>
+<a href="https://imgflip.com/gif/2exkmr"><img src="https://i.imgflip.com/2exkmr.gif" title="made at imgflip.com"/></a>
+<a href="https://imgflip.com/gif/2exkns"><img src="https://i.imgflip.com/2exkns.gif" title="made at imgflip.com"/></a>
+<a href="https://imgflip.com/gif/2exo10"><img src="https://i.imgflip.com/2exo10.gif" title="made at imgflip.com"/></a>
+<a href="https://imgflip.com/gif/2exo8t"><img src="https://i.imgflip.com/2exo8t.gif" title="made at imgflip.com"/></a>
 
 ## Solution
 Now think about it with the amount of time and money spent searching for a spot you can go on relaxing vacation, see a therapist, learn a new skill, basically just about anything. But it’s nearly impossible to be at the right place at the right time, when it comes to these parking situations…or is it?
